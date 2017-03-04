@@ -44,6 +44,9 @@
 /*for active the nav button*/
 
 /*drop down section*/
+.dropdown{
+    z-index: 2;
+}
 .dropdown-content {
     display: none;
     position: absolute;
@@ -75,5 +78,18 @@
 
 /*drop down section*/
 
+@media only screen and (max-width: 500px) {
+    .nav{
+        -webkit-flex-direction: column;
+        padding-bottom: 20px;
+        padding-top: 20px;
+    }
+
+    .nav li {
+        width: 100%;
+    }
+
+
+}
 
 /*/////////////////////////////////////////navigation bar end/////////////////////////////////////////////////*/
