@@ -1,3 +1,7 @@
+#mainLogo{
+    width:30%;
+    height:40%;
+}
 /*/////////////////////////////////////////////////navigation bar start/////////////////////////////////////////////////*/
 .nav {
     border: none;
@@ -90,6 +94,10 @@
 
     .nav li {
         width: 100%;
+    }
+    #mainLogo{
+        width: 60%;
+        height: 40%;
     }
 }
 

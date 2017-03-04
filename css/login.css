@@ -6,6 +6,7 @@
     margin: auto;
     margin-top: 50px;
     box-shadow: 0 0 10px gray;
+    min-width: 300px;
 }
 
 /* wrapping rectangle */
@@ -56,3 +57,14 @@ input[type="submit"]:hover {
 }
 
 /* avatar */
+
+@media only screen and (max-width: 500px) {
+    .container{
+        width: 300px;
+
+    }
+    #avatar{
+        height: 15%;
+        width: 25%;
+    }
+}
