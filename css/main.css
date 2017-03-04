@@ -78,6 +78,7 @@
 
 /*drop down section*/
 
+/*mobile responsive section*/
 @media only screen and (max-width: 500px) {
     .nav{
         -webkit-flex-direction: column;
@@ -88,8 +89,7 @@
     .nav li {
         width: 100%;
     }
-
-
 }
+/*mobile responsive section*/
 
 /*/////////////////////////////////////////navigation bar end/////////////////////////////////////////////////*/
