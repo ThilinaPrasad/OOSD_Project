@@ -1,13 +1,16 @@
-.container{
+/* wrapping rectangle */
+.container {
     padding: 16px;
     background-color: #e3e6ea;
     width: 25%;
     margin: auto;
     margin-top: 50px;
     box-shadow: 0 0 10px gray;
-
 }
 
+/* wrapping rectangle */
+
+/* for log in fields */
 input[type=text], input[type=password] {
     width: 100%;
     padding: 12px 20px;
@@ -17,7 +20,10 @@ input[type=text], input[type=password] {
     box-sizing: border-box;
 }
 
-input[type="submit"]{
+/* for log in fields */
+
+/* Log In button  */
+input[type="submit"] {
     color: white;
     width: 100%;
     text-align: center;
@@ -29,16 +35,24 @@ input[type="submit"]{
     background-color: #4CAF50;
 }
 
-input[type="submit"]:hover{
+input[type="submit"]:hover {
     background-color: #0FAF42;
 }
 
-.forgetpsw{
+/* Log In button  */
+
+/* Forget password link*/
+.forgetpsw {
     position: relative;
     float: right;
 }
 
-#avatar{
+/* Forget password link*/
+
+/* avatar */
+#avatar {
     border-radius: 50%;
     margin: auto;
 }
+
+/* avatar */
