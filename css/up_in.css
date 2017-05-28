@@ -1,5 +1,5 @@
 /* wrapping rectangle */
-.container {
+.container , .signup_container{
     padding: 16px;
     background-color: #e3e6ea;
     width: 25%;
@@ -9,16 +9,30 @@
     min-width: 300px;
 }
 
+.signup_container{
+    width: 35%;
+}
+
+#signup{
+    margin: 8%;
+}
 /* wrapping rectangle */
 
 /* for log in fields */
-input[type=text], input[type=password] {
+input[type=text], input[type=password] , input[type=date],input[type=email],input[type=tel] , #address,#gender {
     width: 100%;
     padding: 12px 20px;
     margin: 8px 0;
     display: inline-block;
     border: 1px solid #ccc;
     box-sizing: border-box;
+    font-family: "Times New Roman";
+    font-weight: 300;
+    font-size: medium;
+}
+
+#firstName,#lastName{
+    width: 49.4%;
 }
 
 /* for log in fields */
@@ -28,7 +42,7 @@ input[type="submit"] {
     color: white;
     width: 100%;
     text-align: center;
-    font-weight: 500;
+    font-weight: 600;
     padding: 12px 20px;
     margin: 8px 0;
     display: inline-block;
@@ -57,6 +71,7 @@ input[type="submit"]:hover {
 }
 
 /* avatar */
+
 
 @media only screen and (max-width: 500px) {
     .container{

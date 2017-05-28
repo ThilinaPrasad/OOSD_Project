@@ -1,7 +1,8 @@
-#mainLogo{
-    width:30%;
-    height:40%;
+#mainLogo {
+    width: 30%;
+    height: 40%;
 }
+
 /*/////////////////////////////////////////////////navigation bar start/////////////////////////////////////////////////*/
 .nav {
     border: none;
@@ -12,6 +13,7 @@
     -webkit-justify-content: space-between;
     -webkit-flex-wrap: wrap;
     padding-right: 38px;
+
 }
 
 .nav li {
@@ -95,7 +97,8 @@
     .nav li {
         width: 100%;
     }
-    #mainLogo{
+
+    #mainLogo {
         width: 60%;
         height: 40%;
     }

@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <title>Yurekha Higher Educaion</title>
     <link href="../css/main.css" rel="stylesheet">
+    <link href="../css/up_in.css" rel="stylesheet">
     <link rel="icon" href="../img/favicon.png">
 </head>
 <body bgcolor="#e3e6ea">
@@ -35,7 +36,52 @@
 </header>
 
 <!--body content section-->
-<section></section>
+<section>
+    <!--Log In forum -->
+    <div class="signup_container">
+    <form id="signup">
+            <h1 align="center">Sign Up</h1>
+            <Lable>Name</Lable><br>
+            <input type="text" id="firstName" required placeholder="First Name">
+            <input type="text" id="lastName" required placeholder="Last Name"><br>
+        <Lable>Address</Lable><br>
+        <textarea rows="4" columns="40" id="address"></textarea>
+        <br>
+        <Lable>Birthday</Lable><br>
+        <input type="date" id="bDay" required>
+
+        <br>
+        <Lable>Gender</Lable><br>
+        <select id="gender">
+            <option hidden>Select</option>
+            <option>Male</option>
+            <option>Female</option>
+        </select>
+
+        <br>
+        <Lable>Email</Lable><br>
+        <input type="email" id="email" required>
+
+        <br>
+        <Lable>Telephone</Lable><br>
+        <input type="tel" id="telephoneNo" required>
+
+
+        <br>
+        <Lable>Create a Password</Lable><br>
+        <input type="password" id="password" required>
+
+        <br>
+        <Lable>Confirm Password</Lable><br>
+        <input type="password" id="confirmPassword" required>
+
+        <input type="checkbox" id="agreement"><label for="agreement"> I agree with the conditions of Yureka Institute.</label>
+        <br>
+        <input type="submit" value="Submit">
+    </form>
+    </div>
+    <!--Log In forum -->
+</section>
 
 <!--footer section-->
 <footer></footer>
