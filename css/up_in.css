@@ -48,6 +48,7 @@ input[type="submit"] {
     display: inline-block;
     border: none;
     background-color: #4CAF50;
+    cursor: hand;
 }
 
 input[type="submit"]:hover {
@@ -81,5 +82,9 @@ input[type="submit"]:hover {
     #avatar{
         height: 30%;
         width: 50%;
+    }
+
+    #firstName,#lastName{
+        width: 100%;
     }
 }
