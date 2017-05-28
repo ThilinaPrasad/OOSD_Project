@@ -41,7 +41,8 @@
 
 <!--body content section-->
 <section>
-    <!--Log In forum -->
+
+    <!--sign up forum -->
     <div class="signup_container">
     <form id="signup">
             <h1 align="center">Sign Up</h1>
@@ -81,18 +82,29 @@
 
         <input type="checkbox" id="agreement"><label for="agreement" required> I agree with the conditions of Yureka Institute.</label>
         <br>
-        <input type="submit" value="Submit">
+        <input type="submit" value="Submit" onclick="submitOnclick()">
     </form>
     </div>
-    <div id="indexContainer" hidden>
-        <br>
-        <Lable>Enter Index Number</Lable><br>
-        <input type="text" id="index" required>
+    <!--sign up forum -->
 
-        <br>
-        <input type="submit" value="Okay">
+    <!--Index container -->
+    <div id="id01" class="modal">
+
+        <form class="modal-content animate" action="">
+            <div class="imgcontainer">
+                <span onclick="document.getElementById('id01').style.display='none'" class="close" title="Close Modal">&times;</span>
+            </div>
+            <div class="container">
+                <label><b>Enter Index Number</b></label>
+                <input type="text" placeholder="Index Number" name="uname" required>
+        <button type="submit">Done</button>
+                <center><a href="../index.html" style="font-size: small" title="click if you don't have an Index number from Institute">I don't have an Index Number</a></center>
+
+            </div>
+        </form>
     </div>
-    <!--Log In forum -->
+
+    <!--Index container -->
 </section>
 
 <!--footer section-->
@@ -108,5 +120,6 @@
 <script src="../javascript/backgroundCanvas/EasePack.min.js"></script>
 <script src="../javascript/backgroundCanvas/particles.js"></script>
 <script src="../javascript/backgroundCanvas/rAF.js"></script>
+<script src="../javascript/Validations.js"></script>
 </body>
 </html>
