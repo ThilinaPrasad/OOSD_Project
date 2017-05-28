@@ -1,3 +1,40 @@
+header,section,footer{
+    z-index: 1000;
+    position: relative;
+    top:-100%;
+}
+body{
+    background-image: url("../img/background.png");
+    background-repeat: repeat;
+}
+a {
+    text-decoration: none;
+    color: black;
+}
+
+a:hover{
+    color: #0FAF42;
+}
+
+input[type=text], input[type=password] , input[type=date],input[type=email],input[type=tel] , textarea,select {
+    width: 100%;
+    padding: 12px 20px;
+    margin: 8px 0;
+    display: inline-block;
+    border: 1px solid #ccc;
+    box-sizing: border-box;
+    font-family: "Times New Roman";
+    font-weight: 300;
+    font-size: medium;
+}
+
+input:hover,textarea:hover,select:hover,input:focus , textarea:focus,select:focus{
+    border-color: #0FAF42;
+    box-shadow: 0 0 2px rgba(15, 175, 66, 1);
+    outline: 0 none;
+}
+
+
 #mainLogo {
     width: 30%;
     height: 40%;
@@ -103,6 +140,18 @@
         height: 40%;
     }
 }
+
+/*footer hr lines*/
+#hr1{
+    border-top: 2px solid gray;
+}
+
+#hr2{
+    border-top: 10px solid gray;
+    margin-top: -3px;
+}
+
+/*footer hr lines*/
 
 /*mobile responsive section*/
 
