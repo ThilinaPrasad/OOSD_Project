@@ -1,0 +1,79 @@
+
+.overlay {
+    height: 100%;
+    width: 0;
+    position: fixed;
+    z-index: 1;
+    top: 0;
+    left: 0;
+    background-color: rgba(84, 84, 84,0.9);
+    overflow-x: hidden;
+    transition: 0.5s;
+}
+
+.overlay-content{
+    overflow: auto;
+}
+
+.overlay a {
+    padding: 8px;
+    text-decoration: none;
+    font-size: 36px;
+    color: #818181;
+    display: block;
+    transition: 0.3s;
+}
+
+.overlay a:hover, .overlay a:focus {
+    color: #f1f1f1;
+}
+
+.overlay .closebtn {
+    position: absolute;
+    top: 20px;
+    right: 45px;
+    font-size: 60px;
+}
+
+#topic{
+    color: #f1f1f1;
+    padding:10px;
+    margin:30px auto;
+}
+
+.notification{
+    border:0.5px solid gray;
+    height:auto;
+    margin: 4px 20px auto 20px;
+    border-radius: 20px;
+    padding: 10px 20px 10px 20px;
+    color: white;
+
+}
+
+.notifiClose{
+    font-size:12px;
+    width: auto;
+    padding: 2px 3px;
+    background-color: transparent;
+    color: darkgray;
+
+}
+
+.notifiClose:hover{
+    cursor: hand;
+    background-color: transparent;
+    color: white;
+}
+
+
+
+
+@media screen and (max-height: 450px) {
+    .overlay a {font-size: 20px}
+    .overlay .closebtn {
+        font-size: 40px;
+        top: 15px;
+        right: 35px;
+    }
+}

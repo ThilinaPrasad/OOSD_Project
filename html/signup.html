@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Yurekha Higher Educaion</title>
+    <title>Yurekha | Signup</title>
     <link href="../css/main.css" rel="stylesheet">
     <link href="../css/up_in.css" rel="stylesheet">
     <link rel="icon" href="../img/favicon.png">
@@ -41,13 +41,13 @@
     <form id="signup">
             <h1 align="center">Sign Up</h1>
             <Lable>Name</Lable><br>
-            <input type="text" id="firstName" required placeholder="First Name">
-            <input type="text" id="lastName" required placeholder="Last Name"><br>
+            <input type="text" id="firstName"  placeholder="First Name">
+            <input type="text" id="lastName"  placeholder="Last Name"><br>
         <Lable>Address</Lable><br>
         <textarea rows="4" columns="40" id="address"></textarea>
         <br>
         <Lable>Birthday</Lable><br>
-        <input type="date" id="bDay" required>
+        <input type="date" id="bDay" >
 
         <br>
         <Lable>Gender</Lable><br>
@@ -59,52 +59,36 @@
 
         <br>
         <Lable>Email</Lable><br>
-        <input type="email" id="email" required>
+        <input type="email" id="email" >
 
         <br>
         <Lable>Telephone</Lable><br>
-        <input type="tel" id="telephoneNo" required>
+        <input type="tel" id="telephoneNo" >
 
 
         <br>
         <Lable>Create a Password</Lable><br>
-        <input type="password" id="password" required>
+        <input type="password" id="password">
 
         <br>
         <Lable>Confirm Password</Lable><br>
-        <input type="password" id="confirmPassword" required>
+        <input type="password" id="confirmPassword" >
 
-        <input type="checkbox" id="agreement"><label for="agreement" required> I agree with the conditions of Yureka Institute.</label>
+        <Lable>Index Number</Lable><br>
+        <input type="text" id="index"  placeholder="Index Number">
+
+        <input type="checkbox" id="agreement" checked><label for="agreement"> I agree with the conditions of Yureka Institute.</label>
         <br>
-        <input type="submit" value="Submit" onclick="submitOnclick()">
+        <button onclick="submitOnclick()">Submit</button>
     </form>
     </div>
     <!--sign up forum -->
-
-    <!--Index container -->
-    <div id="id01" class="modal">
-
-        <form class="modal-content animate" action="">
-            <div class="imgcontainer">
-                <span onclick="document.getElementById('id01').style.display='none'" class="close" title="Close Modal">&times;</span>
-            </div>
-            <div class="container">
-                <label><b>Enter Index Number</b></label>
-                <input type="text" placeholder="Index Number" name="uname" required>
-        <button type="submit">Done</button>
-                <center><a href="../index.html" style="font-size: small" title="click if you don't have an Index number from Institute">I don't have an Index Number</a></center>
-
-            </div>
-        </form>
-    </div>
-
-    <!---->
 </section>
 
 <!--footer section-->
 <footer>
-    <hr id="hr1">
-    <hr id="hr2">
+    <hr class="hr1">
+    <hr class="hr2">
     <p align="center" style="font-size: small;" title="Yureka Higher Education Institute"><a href="../index.html" >Yureka Higher Education Institute</a> All Rights Reserved.</p>
 </footer>
     </div>

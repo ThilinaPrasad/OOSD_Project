@@ -24,6 +24,14 @@ a:hover{
     color: #0FAF42;
 }
 
+ul{
+    list-style-type: none;
+}
+
+ul li{
+    float:left;
+}
+
 input[type=text], input[type=password] , input[type=date],input[type=email],input[type=tel] , textarea,select {
     width: 100%;
     padding: 12px 20px;
@@ -43,9 +51,42 @@ input:hover,textarea:hover,select:hover,input:focus , textarea:focus,select:focu
 }
 
 
+/* buttons  */
+input[type="submit"] , button{
+    color: white;
+    width: 100%;
+    text-align: center;
+    font-weight: 600;
+    padding: 12px 20px;
+    margin: 8px 0;
+    display: inline-block;
+    border: none;
+    background-color: #4CAF50;
+    font-family: "Times New Roman";
+    font-size: large;
+
+}
+
+input[type="submit"]:hover ,button:hover{
+    background-color: #0FAF42;
+    cursor: pointer;
+}
+
+.clr{
+    background-color:#ff3a28;
+}
+
+.clr:hover{
+    background-color: #db1a08;
+}
+
+/*buttons */
+
+
 #mainLogo {
     width: 30%;
     height: 40%;
+
 }
 
 /*/////////////////////////////////////////////////navigation bar start/////////////////////////////////////////////////*/
@@ -97,9 +138,6 @@ input:hover,textarea:hover,select:hover,input:focus , textarea:focus,select:focu
 
 
 
-
-
-
 /*mobile responsive section*/
 @media only screen and (max-width: 500px) {
     .nav {
@@ -119,11 +157,11 @@ input:hover,textarea:hover,select:hover,input:focus , textarea:focus,select:focu
 }
 
 /*footer hr lines*/
-#hr1{
+.hr1{
     border-top: 2px solid gray;
 }
 
-#hr2{
+.hr2{
     border-top: 10px solid gray;
     margin-top: -3px;
 }

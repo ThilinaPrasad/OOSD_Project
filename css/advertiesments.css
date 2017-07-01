@@ -8,6 +8,8 @@
     display: block;
     width: 45vw;
     height: 250px;
+    border-radius: 80px 15px;
+    box-shadow: gray 7px 7px 6px;
 }
 
 .overlay {
@@ -21,11 +23,13 @@
     opacity: 0;
     transition: .5s ease;
     background-color: #0FAF42;
+    border-radius: 80px 15px;
 }
 
 .advContainer:hover .overlay {
     opacity: 0.7;
 }
+
 
 .text {
     text-align:center;
