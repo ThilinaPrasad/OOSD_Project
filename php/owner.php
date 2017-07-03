@@ -1,3 +1,41 @@
+<?php require_once("connection/dbConnection.php");
+
+function indexGenerate()
+{
+    $query = "SELECT * FROM student ORDER BY id DESC LIMIT 1";
+    $result_set = runQuery($query);
+    if ($result_set) {
+        $result_set = mysqli_fetch_assoc($result_set);
+        $raw = $result_set['id']+1;
+        $raw = strval($raw);
+        $year = substr(strval(date("Y")),-2);
+        if(strlen($raw)==1){
+            return $year."000".$raw."S";
+        }else if(strlen($raw)==2){
+            return $year."00".$raw."S";
+        }else if(strlen($raw)==3){
+            return $year."0".$raw."S";
+        }else if(strlen($raw)==4){
+            return $year.$raw."S";
+        }else{
+            return "System reached the maximum number of users !";
+        }
+
+    }
+}
+
+
+function issueIndex(){
+        global $indexNo;
+        $query = "INSERT INTO student (indexNumber) VALUE ('$indexNo')";
+        if (runQuery($query)) {
+            return $indexNo;
+
+    }
+}
+
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -9,6 +47,8 @@
     <link href="../css/courses.css" rel="stylesheet">
     <link href="../css/owner.css" rel="stylesheet">
 
+
+
 </head>
 <body bgcolor="#e3e6ea"  class="container demo-1">
 <div class="content">
@@ -19,8 +59,8 @@
             <center><img src="../img/Yureka%20logo.png" id="mainLogo"></center>
             <!--navigation bar start-->
             <ul class="nav">
-                <li><a href="../index.html"><img src="../img/nav/nav_yureka_logo.png"></a></li>
-                <li><a href="courses.html">Courses</a></li>
+                <li><a href="../index.php"><img src="../img/nav/nav_yureka_logo.png"></a></li>
+                <li><a href="courses.php">Courses</a></li>
                 <li><a href="#">Site 3</a></li>
                 <li><a href="#">Site 2</a></li>
                 </li>
@@ -54,10 +94,13 @@
                         <a href="#" id="advertisement" onclick="ownerLayers(); changeLayer(advertisement_btn,advertisement_layer);">Add Advertisement</a>
                         <a href="#" id="addTeacher" onclick="ownerLayers(); changeLayer(addTeacher_btn,addTeacher_layer);">Add Teacher</a>
                         <a href="#" id="updateCourses" onclick="ownerLayers(); changeLayer(updateCourses_btn,updateCourses_layer);">Update Courses</a>
+                        <a href="#" id="newStudent" onclick="ownerLayers(); changeLayer(newStudent_btn,newStudent_layer);">New Student</a>
                     </div>
                 </div>
 
                 <div id="right_container">
+
+
                     <div class="notification_panel" style="display: block;">
                         <select>
                             <option>All</option>
@@ -72,14 +115,14 @@
                     </div>
 
                     <div class="advertisement_panel" style="display: none;">
-                    <textarea rows="10" columns="40" class="message" placeholder="Add Description Here"></textarea>
+                        <textarea rows="10" columns="40" class="message" placeholder="Add Description Here"></textarea>
                         <textarea rows="10" columns="40" class="message" placeholder="Add Description Here for Image"></textarea>
                         <input type="file" id="fileSelect" name="fileSelect" class="fileSelect">
-                    <ul>
-                        <li><button class="clr">Clear</button></li>
-                        <li><button class="">Send</button></li>
-                    </ul>
-                </div>
+                        <ul>
+                            <li><button class="clr">Clear</button></li>
+                            <li><button class="">Send</button></li>
+                        </ul>
+                    </div>
 
                     <div class="addTeacher_panel" style="display: none;">
                         <div class="formContainer">
@@ -241,6 +284,12 @@
                         </div>
                     </div>
 
+                    <div class="newStudent_panel" style="display: none;">
+                            <button type="submit" id="generateIndex"  onclick="generateOnclick();">Generate Index</button>
+                            <div id ="displayIndex" style="display: none;"></div>
+                            <button style="display: none;" id="issuedIndex" >Issued</button>
+                    </div>
+
                 </div>
             </div >
 
@@ -249,16 +298,48 @@
         <footer>
             <hr class="hr1">
             <hr class="hr2">
-            <p align="center" style="font-size: small;" title="Yureka Higher Education Institute"><a href="../index.html" >Yureka Higher Education Institute</a> All Rights Reserved.</p>
+            <p align="center" style="font-size: small;" title="Yureka Higher Education Institute"><a href="../index.php" >Yureka Higher Education Institute</a> All Rights Reserved.</p>
         </footer>
     </div>
 </div>
 
+<script>
+   var generate_btn = document.getElementById("generateIndex");
+    var display = document.getElementById("displayIndex");
+    var issuedBtn  = document.getElementById("issuedIndex");
+
+
+    function generateOnclick() {
+        var index =  '<?php
+            $indexNo = indexGenerate();
+            echo $indexNo?>';
+        display.innerHTML = index;
+        generate_btn.style.display = "none";
+        display.style.display = "block";
+        issuedBtn.style.display = "block";
+    }
+
+    issuedBtn.onclick = function () {
+            var a = "<?php echo issueIndex();?>";
+            alert(a + " Index Successfully Issued!");
+            display.style.display = "none";
+            issuedBtn.style.display = "none";
+            generate_btn.style.display = "block";
+            window.location.href = "owner.php";
+    }
+
+
+
+</script>
 <script src="../javascript/dayTimeSelector.js"></script>
 <script src="../javascript/Layers.js"></script>
 <script src="../javascript/backgroundCanvas/TweenLite.min.js"></script>
 <script src="../javascript/backgroundCanvas/EasePack.min.js"></script>
 <script src="../javascript/backgroundCanvas/particles.js"></script>
 <script src="../javascript/backgroundCanvas/rAF.js"></script>
+
+
+
+
 </body>
 </html>

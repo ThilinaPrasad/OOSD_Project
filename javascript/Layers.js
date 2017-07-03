@@ -13,6 +13,9 @@ var addTeacher_layer = document.getElementsByClassName("addTeacher_panel")[0];
 var updateCourses_btn = document.getElementById("updateCourses");
 var updateCourses_layer = document.getElementsByClassName("updateCourses_panel")[0];
 
+var newStudent_btn = document.getElementById("newStudent");
+var newStudent_layer = document.getElementsByClassName("newStudent_panel")[0];
+
 var updateDetails_layer = document.getElementsByClassName("updateDetails_panel")[0];
 
 var tutorials_btn = document.getElementById("tutorials");
@@ -27,12 +30,14 @@ function ownerLayers(){
     advertisement_layer.style.display = "none";
     addTeacher_layer.style.display = "none";
     updateCourses_layer.style.display = "none";
+    newStudent_layer.style.display = "none";
     updateDetails_layer.style.display = "none";
 
     sendNotifi_btn.className = "";
     advertisement_btn.className ="";
     addTeacher_btn.className = "";
     updateCourses_btn.className ="";
+    newStudent_btn.className ="";
 }
 
 function studentLayers(){

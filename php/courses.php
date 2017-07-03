@@ -16,16 +16,16 @@
             <center><img src="../img/Yureka%20logo.png" id="mainLogo"></center>
             <!--navigation bar start-->
             <ul class="nav">
-                <li><a href="../index.html"><img src="../img/nav/nav_yureka_logo.png"></a></li>
-                <li class="active"><a href="courses.html">Courses</a></li>
+                <li><a href="../index.php"><img src="../img/nav/nav_yureka_logo.png"></a></li>
+                <li class="active"><a href="courses.php">Courses</a></li>
 
                 <li class="dropdown"><a href="#">Site 3</a></li>
 
                 <li><a href="#">Site 2</a></li>
-                <li><a href="signup.html"><img src="../img/nav/nav_signup.png" style="vertical-align: bottom">&nbsp;Sign Up</a>
+                <li><a href="signup.php"><img src="../img/nav/nav_signup.png" style="vertical-align: bottom">&nbsp;Sign Up</a>
                 </li>
-                <li ><a href="#"><img src="../img/nav/nav_login.png" style="vertical-align: bottom">&nbsp;Log
-                    In</a></li>
+                <li ><a href="login.php"><img src="../img/nav/nav_login.png" style="vertical-align: bottom">&nbsp;Log
+                        In</a></li>
             </ul>
             <!--navigation bar end-->
         </header>
@@ -111,7 +111,7 @@
         <footer>
             <hr class="hr1">
             <hr class="hr2">
-            <p align="center" style="font-size: small;" title="Yureka Higher Education Institute"><a href="../index.html" >Yureka Higher Education Institute</a> All Rights Reserved.</p>
+            <p align="center" style="font-size: small;" title="Yureka Higher Education Institute"><a href="../index.php" >Yureka Higher Education Institute</a> All Rights Reserved.</p>
         </footer>
     </div>
 </div>
@@ -122,3 +122,4 @@
 <script src="../javascript/backgroundCanvas/rAF.js"></script>
 </body>
 </html>
+

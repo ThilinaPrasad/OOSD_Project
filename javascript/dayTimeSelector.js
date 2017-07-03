@@ -7,8 +7,6 @@ var hour = date.getHours();
 var dayText = document.getElementById("dayTime");
 var dayImage = document.getElementsByClassName("dayTimeImage");
 
-console.log(hour);
-
 if(hour>4 && hour<12){
     dayText.innerText = "Good Morning!"
     dayImage[0].style.display = "block";

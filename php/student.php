@@ -20,8 +20,8 @@
             <center><img src="../img/Yureka%20logo.png" id="mainLogo"></center>
             <!--navigation bar start-->
             <ul class="nav">
-                <li><a href="../index.html"><img src="../img/nav/nav_yureka_logo.png"></a></li>
-                <li><a href="courses.html">Courses</a></li>
+                <li><a href="../index.php"><img src="../img/nav/nav_yureka_logo.png"></a></li>
+                <li><a href="courses.php">Courses</a></li>
                 <li class="dropdown"><a href="#">Site 3</a></li>
                 <li class="dropdown"><a href="#">Site 3</a></li>
                 <li id="nav_noti"><a href="#" onclick="openNav()" style="color: white;">&#128276;</a></li>
@@ -112,12 +112,12 @@
                     <!--Day Timer and User Info-->
                     <div id="userData">
                         <ul>
-                        <li><img src="../img/dayTime/morning.png"  class="dayTimeImage">
-                        <img src="../img/dayTime/afternoon.png" class="dayTimeImage" style="display: none;">
-                        <img src="../img/dayTime/evening.png" class="dayTimeImage" style="display: none;" >
-                        <img src="../img/dayTime/night.png" class="dayTimeImage" style="display: none;">
-                        </li>
-                        <ul><div id="dayTime">Good Evening!</div></ul>
+                            <li><img src="../img/dayTime/morning.png"  class="dayTimeImage">
+                                <img src="../img/dayTime/afternoon.png" class="dayTimeImage" style="display: none;">
+                                <img src="../img/dayTime/evening.png" class="dayTimeImage" style="display: none;" >
+                                <img src="../img/dayTime/night.png" class="dayTimeImage" style="display: none;">
+                            </li>
+                            <ul><div id="dayTime">Good Evening!</div></ul>
                         </ul>
                         <a href="#" id="loggedName" title="Update Information" onclick="studentLayers(); updateDetails_layer.style.display='block';">First Name</a>
                     </div>
@@ -192,7 +192,7 @@
         <footer>
             <hr class="hr1">
             <hr class="hr2">
-            <p align="center" style="font-size: small;" title="Yureka Higher Education Institute"><a href="../index.html" >Yureka Higher Education Institute</a> All Rights Reserved.</p>
+            <p align="center" style="font-size: small;" title="Yureka Higher Education Institute"><a href="../index.php" >Yureka Higher Education Institute</a> All Rights Reserved.</p>
         </footer>
     </div>
 </div>

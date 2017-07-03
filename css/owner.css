@@ -17,7 +17,7 @@
     overflow: hidden;
     background-color: #eee;
     border-radius: 30px;
-    min-height: 50vh;
+    min-height: 70vh;
     margin-bottom: 30px;
 }
 
@@ -81,8 +81,6 @@ ul li{
 
 
 
-
-
 select{
     width: 200px;
 }
@@ -110,3 +108,34 @@ ul{
 #update{
     margin: auto auto auto 60px;
 }
+
+/*Index*/
+
+
+
+#generateIndex{
+    width: 50%;
+    height: 100px;
+    font-size: 50px;
+    border-radius: 50px;
+    margin-left: 25%;
+    margin-top: 100px;
+}
+
+#displayIndex{
+    width: 80%;
+    background-color: white;
+    font-size: 150px;
+    text-align: center;
+    border-radius: 150px;
+    margin-bottom: 50px;
+    margin-left: 10%;
+    margin-top: 80px;
+}
+
+#issuedIndex{
+    width: 20%;
+    border-radius: 30px;
+    margin-left: 40%;
+}
+
