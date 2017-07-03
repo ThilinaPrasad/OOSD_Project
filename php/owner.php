@@ -24,14 +24,10 @@ function indexGenerate()
     }
 }
 
-
-function issueIndex(){
-        global $indexNo;
-        $query = "INSERT INTO student (indexNumber) VALUE ('$indexNo')";
-        if (runQuery($query)) {
-            return $indexNo;
-
-    }
+if(isset($_POST['issue'])) {
+    $indexNo = $_POST['index'];
+    $query = "INSERT INTO student (indexNumber) VALUE ('$indexNo')";
+    runQuery($query);
 }
 
 ?>
@@ -46,8 +42,6 @@ function issueIndex(){
     <link href="../css/up_in.css" rel="stylesheet">
     <link href="../css/courses.css" rel="stylesheet">
     <link href="../css/owner.css" rel="stylesheet">
-
-
 
 </head>
 <body bgcolor="#e3e6ea"  class="container demo-1">
@@ -285,9 +279,12 @@ function issueIndex(){
                     </div>
 
                     <div class="newStudent_panel" style="display: none;">
-                            <button type="submit" id="generateIndex"  onclick="generateOnclick();">Generate Index</button>
-                            <div id ="displayIndex" style="display: none;"></div>
-                            <button style="display: none;" id="issuedIndex" >Issued</button>
+                            <button id="generateIndex">Generate Index</button>
+                            <form method="post" action="owner.php" style="display: none;" id="indexForm">
+                            <input type="text" name="index" id ="displayIndex"  readonly>
+                            <input type="submit"  id="issuedIndex" name="issue" value="Issued">
+                        </form>
+
                     </div>
 
                 </div>
@@ -307,25 +304,22 @@ function issueIndex(){
    var generate_btn = document.getElementById("generateIndex");
     var display = document.getElementById("displayIndex");
     var issuedBtn  = document.getElementById("issuedIndex");
+    var formLayer = document.getElementById("indexForm");
 
+   var index =  '<?php
+       $indexNo = indexGenerate();
+       echo $indexNo?>';
 
-    function generateOnclick() {
-        var index =  '<?php
-            $indexNo = indexGenerate();
-            echo $indexNo?>';
-        display.innerHTML = index;
+   generate_btn.onclick = function () {
+        display.value = index;
         generate_btn.style.display = "none";
-        display.style.display = "block";
-        issuedBtn.style.display = "block";
+        formLayer.style.display = "block";
     }
 
     issuedBtn.onclick = function () {
-            var a = "<?php echo issueIndex();?>";
-            alert(a + " Index Successfully Issued!");
-            display.style.display = "none";
-            issuedBtn.style.display = "none";
+            alert(index+" Index Successfully Issued!");
+            formLayer.style.display = "none";
             generate_btn.style.display = "block";
-            window.location.href = "owner.php";
     }
 
 
