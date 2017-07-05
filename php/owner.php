@@ -1,3 +1,4 @@
+<!--php code here-->
 <?php require_once("connection/dbConnection.php");
 
 function indexGenerate()
@@ -28,9 +29,13 @@ if(isset($_POST['issue'])) {
     $indexNo = $_POST['index'];
     $query = "INSERT INTO student (indexNumber) VALUE ('$indexNo')";
     runQuery($query);
+    echo '<script>window.location.href = "owner.php";</script>';
+    exit();
 }
 
 ?>
+
+<!--php code here-->
 
 <!DOCTYPE html>
 <html lang="en">
@@ -42,6 +47,8 @@ if(isset($_POST['issue'])) {
     <link href="../css/up_in.css" rel="stylesheet">
     <link href="../css/courses.css" rel="stylesheet">
     <link href="../css/owner.css" rel="stylesheet">
+
+
 
 </head>
 <body bgcolor="#e3e6ea"  class="container demo-1">
@@ -306,9 +313,8 @@ if(isset($_POST['issue'])) {
     var issuedBtn  = document.getElementById("issuedIndex");
     var formLayer = document.getElementById("indexForm");
 
-   var index =  '<?php
-       $indexNo = indexGenerate();
-       echo $indexNo?>';
+   var index =  '<?php $indexNo = indexGenerate();
+                  echo $indexNo?>';
 
    generate_btn.onclick = function () {
         display.value = index;
@@ -331,9 +337,6 @@ if(isset($_POST['issue'])) {
 <script src="../javascript/backgroundCanvas/EasePack.min.js"></script>
 <script src="../javascript/backgroundCanvas/particles.js"></script>
 <script src="../javascript/backgroundCanvas/rAF.js"></script>
-
-
-
 
 </body>
 </html>

@@ -35,51 +35,77 @@
 
         <!--body content section-->
         <section class="bodyInner">
-
             <!--sign up forum -->
             <div class="signup_container">
-                <form id="signup">
+                <form id="signup" action="signup.php" method="post">
                     <h1 align="center">Sign Up</h1>
-                    <Lable>Name</Lable><br>
-                    <input type="text" id="firstName"  placeholder="First Name">
-                    <input type="text" id="lastName"  placeholder="Last Name"><br>
+                    <Lable>Name</Lable>
+                    <font size="2" class="warning" color="red"></font>          <!--name warning 0-->
+                    <br>
+                    <input type="text" id="firstName"  placeholder="First Name" name="firstName">
+                    <input type="text" id="lastName"  placeholder="Last Name" name="lastName"><br>
+
+
+                    <br>
                     <Lable>Address</Lable><br>
-                    <textarea rows="4" columns="40" id="address"></textarea>
+                    <textarea rows="4" columns="40" id="address" name="address"></textarea>
                     <br>
                     <Lable>Birthday</Lable><br>
-                    <input type="date" id="bDay" >
+                    <input type="date" id="bDay" name="bday">
 
                     <br>
                     <Lable>Gender</Lable><br>
-                    <select id="gender">
+                    <select id="gender" name="gender">
                         <option hidden>Select</option>
                         <option>Male</option>
                         <option>Female</option>
                     </select>
 
                     <br>
-                    <Lable>Email</Lable><br>
-                    <input type="email" id="email" >
+                    <Lable>Email</Lable>
+                    <font size="2" class="warning" color="red"></font>  <!--email warning 1-->
+                    <br>
+                    <input type="email" id="email" name="email">
 
                     <br>
-                    <Lable>Telephone</Lable><br>
-                    <input type="tel" id="telephoneNo" >
+                    <Lable>Telephone</Lable>
+                    <font size="2" class="warning">(*Must contain 10 digits)</font><br> <!--tel warning 2-->
+                    <font size="2" class="warning" color="red"></font><br> <!--tel warning 3-->
+                    <input type="tel" id="telephoneNo" name="telephone">
 
 
                     <br>
-                    <Lable>Create a Password</Lable><br>
-                    <input type="password" id="password">
-
+                    <Lable>Create a Password</Lable>
+                    <font size="2">(*must have 8-16 digits)</font><br>
+                    <input type="password" id="password" name="password">
+                    <font size="2" class="warning" color="red"></font><br>              <!--password warning 4-->
                     <br>
-                    <Lable>Confirm Password</Lable><br>
-                    <input type="password" id="confirmPassword" >
-
-                    <Lable>Index Number</Lable><br>
-                    <input type="text" id="index"  placeholder="Index Number">
-
-                    <input type="checkbox" id="agreement" checked><label for="agreement"> I agree with the conditions of Yureka Institute.</label>
+                    <Lable>Confirm Password</Lable>
                     <br>
-                    <button onclick="submitOnclick()">Submit</button>
+                    <input type="password" id="confirmPassword" name="cmfPassword">
+
+
+                    <input type="checkbox" id="agreement"><label for="agreement" id="agreementStatement"> I agree with the conditions of Yureka Institute.</label>
+                    <br>
+                    <input type="submit" value="Submit" onclick="submitOnclick();" >
+                    <!--onclick="submitOnclick();" for validations"-->
+
+                    <!--Index container -->
+                       <div id="id01" class="modal">
+                              <div class="modal-content animate">
+                                        <div class="imgcontainer">
+                                                <span onclick="document.getElementById('id01').style.display='none'" class="close" title="Close Modal">&times;</span>
+                                            </div>
+                                        <div class="container">
+                                               <label><b>Enter Index Number</b></label>
+                                               <input type="text" placeholder="Index Number" name="indexNum" required>
+                                       <input type="submit" name="finalSubmit" value="Done">
+                                               <center><a href="signup.php" style="font-size: small" title="click if you don't have an Index number from Institute">I don't have an Index Number</a></center>
+                                           </div>
+                                   </div>
+                          </div>
+                       <!---->
+
                 </form>
             </div>
             <!--sign up forum -->
@@ -99,5 +125,53 @@
 <script src="../javascript/backgroundCanvas/particles.js"></script>
 <script src="../javascript/backgroundCanvas/rAF.js"></script>
 <script src="../javascript/Validations.js"></script>
+
+<!--php code here-->
+<?php
+require_once("connection/dbConnection.php");
+
+if(isset($_POST['finalSubmit'])) {
+    $index = $_POST['indexNum'];
+    if($index!=null) {
+        $query_check = "SELECT * FROM student WHERE indexNumber ='$index' ";
+        $result = runQuery($query_check);
+
+        $firstName = $_POST['firstName'];
+        $lastName = $_POST['lastName'];
+        $address = $_POST['address'];
+        $bday = $_POST['bday'];
+        $gender = $_POST['gender'];
+        $email = $_POST['email'];
+        $telephone = $_POST['telephone'];
+        $password = $_POST['password'];
+        $cmfPass = $_POST['cmfPassword'];
+
+        $encriptedPass = sha1($cmfPass);
+
+        //check for valid index number
+        if (mysqli_num_rows($result) == 1) {
+            $result = mysqli_fetch_assoc($result);
+            //already registered check
+            if ($result['firstName'] == null && $result['lastName'] == null) {
+                $query_store = "UPDATE student SET firstName='$firstName',lastName='$lastName',address='$address',birthDay='$bday',gender='$gender',email='$email',telephone='$telephone',password='$encriptedPass' WHERE indexNumber='$index'";
+
+                $filledCheck = strlen($firstName) != 0 && strlen($lastName) != 0 && strlen($address) != 0 && strlen($bday) != 0 && strlen($gender) != 0 && strlen($email) != 0 && strlen($telephone) != 0 && strlen($password) != 0 && strlen($cmfPass) != 0;
+                //save data when validation is success
+                if ($filledCheck) {
+                    $save = runQuery($query_store);
+                    echo "<script>alert('Successfully registered!'); </script>";
+                }
+            } else {
+                echo "<script>alert('You already registered!');</script>";
+            }
+        } else {
+            echo "<script>alert('Invalid Index Number!');</script>";
+
+        }
+    }
+}
+?>
+<!--php code here-->
+
 </body>
 </html>

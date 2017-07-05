@@ -34,15 +34,15 @@
         <section class="bodyInner">
             <!--Log In forum -->
             <div class="wrapper">
-                <form>
+                <form action="login.php" method="post">
                     <h1 align="center">Log In</h1>
                     <center><img src="../img/avatar.png" id="avatar" width="50%" height="50%"></center>
                     <br>
-                    <input type="text" id="login_username" placeholder="Username" required><br>
-                    <input type="password" id="login_password" placeholder="Password" required><br>
+                    <input type="text" id="login_username" placeholder="Index Number" name="loginUsername" required><br>
+                    <input type="password" id="login_password" placeholder="Password" name="loginPassword" required><br>
                     <input type="checkbox" id="keepMeLogin" checked><label for="keepMeLogin">Remember me</label>
-                    <a href="#" class="forgetpsw" title="Frogot your password ?">Forget Password?</a><br>
-                    <input type="submit" value="Log In"><br>
+                    <a href="#" class="forgetpsw" title="Frogot your password ?" name="forgetPassword">Forget Password?</a><br>
+                    <input type="submit" value="Log In" name="loginBtn"><br>
 
                 </form>
             </div>
@@ -61,5 +61,69 @@
 <script src="../javascript/backgroundCanvas/EasePack.min.js"></script>
 <script src="../javascript/backgroundCanvas/particles.js"></script>
 <script src="../javascript/backgroundCanvas/rAF.js"></script>
+
+
+<?php
+
+require_once("connection/dbConnection.php");
+
+function submitOnclick(){
+    session_start();
+    $username=$_POST['loginUsername'];
+    $password=sha1($_POST['loginPassword']);
+
+    $char = strtoupper(substr($username, -1)) ;
+
+      switch ($char){
+        case 'S':
+            $query = "SELECT * FROM student WHERE password='$password' AND indexNumber ='$username'";
+            break;
+        case 'T':
+            $query = "SELECT * FROM teacher WHERE password='$password' AND user_name ='$username'";
+            break;
+        case 'O':
+            $query = "SELECT * FROM owner WHERE password='$password' AND user_name ='$username'";
+            break;
+        default:
+            echo "<script type='text/javascript'>alert('Invalid type user!'); window.location.href = 'login.php';</script>";
+            break;
+    }
+
+    $result_set=runQuery($query);
+
+    if (mysqli_num_rows($result_set) == 1 && ($char=='S')) {
+        $_SESSION['username'] = $username;
+        $_SESSION['password'] = $password;
+        $_SESSION['logged'] = true;
+        header("location: student.php"); // Redirecting To Other Page
+    }
+    elseif ((mysqli_num_rows($result_set) == 1 && ($char=='T')) ){
+        $_SESSION['username'] = $username;
+        $_SESSION['password'] = $password;
+        $_SESSION['logged'] = true;
+        header("location: teacher.php"); // Redirecting To Other Page
+    }
+    elseif ((mysqli_num_rows($result_set) == 1 && ($char=='O')) ){
+        $_SESSION['username'] = $username;
+        $_SESSION['password'] = $password;
+        $_SESSION['logged'] = true;
+        header("location: owner.php"); // Redirecting To Other Page
+    }
+    else {
+        echo "<script type='text/javascript'>alert('Invalid Index Number or Password !'); window.location.href = 'login.php';</script>";
+    }
+
+}
+
+if (isset($_POST['loginBtn'])) {
+    submitOnclick();
+}
+
+if (isset($_GET['forgetPassword'])) {
+    echo "forget?";
+}
+
+?>
+
 </body>
 </html>
