@@ -112,6 +112,8 @@ function submitOnclick(){
     }else {
         pass.value = "";
         cmfpass.value = "";
+        agree.checked = false;
+        innerJump("signup");
     }
 
 }
@@ -168,4 +170,10 @@ function isNumeric(input) {
 
 function isAlpha(input){
    return /^[a-zA-Z]*$/.test(input);
+}
+
+function innerJump(id){
+    var url = location.href;               //Save down the URL without hash.
+    location.href = "#"+id;                 //Go to the target element.
+    history.replaceState(null,null,url);   //Don't like hashes. Changing it back.
 }
