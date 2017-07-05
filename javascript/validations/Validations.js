@@ -1,26 +1,16 @@
-var fname = document.getElementById('firstName');
-var lname = document.getElementById('lastName');
-var useraddress = document.getElementById('address');
-var userbday = document.getElementById('bDay');
-var gender = document.getElementById('gender');
-var usermail = document.getElementById('email');
-var tel= document.getElementById('telephoneNo');
-var pass= document.getElementById('password');
-var cmfpass =  document.getElementById('confirmPassword');
-var agree = document.getElementById('agreement');
-var agreeStatement = document.getElementById('agreementStatement');
-var formWarnings = document.getElementsByClassName('warning');
 
+function validate_general(fname,lname,useraddress,userbday,gender,usermail,tel){
 
-
-function validate_update(){
-    normalizeFields();
     var fill = fname.value.length !=0 && lname.value.length !=0 && useraddress.value.length !=0 && userbday.value.length !=0 && usermail.value.length !=0
         && tel.value.length !=0 && gender.selectedIndex !=0;
+    console.log(fname.value);
+
     if(!fill){
         alert("Please fill all the details !");
         return false;
     }
+
+    normalizeFields_general();
 
     var fnameCheck = false;
     if(isAlpha(fname.value)){
@@ -92,9 +82,10 @@ function validate_update(){
 
 }
 
-function validate_signup(validated){
+function validate_signup(validated,pass,cmfpass,agree,agreeStatement){
+    normalizeFields_signup();
     var fill = validated && pass.value.length !=0 && cmfpass.value.length !=0;
-    if(pass.value.length ==0 && cmfpass.value.length ==0){
+    if(fill && pass.value.length ==0 && cmfpass.value.length ==0){
         alert("Please fill all the details !");
         return false;
     }
@@ -141,12 +132,20 @@ function validate_signup(validated){
     }
 }
 
+function validate_update(validated,jumpLink){
+    if(validated){
+        document.getElementById('id01').style.display='block';
+    }else {
+        innerJump(jumpLink);
+    }
+}
+
 function errorCss(tagId){
     tagId.style.borderColor = "red";
     tagId.style.boxShadow = "red";
 }
 
-function normalizeFields() {
+function normalizeFields_general() {
      fname.style.borderColor = "";
      fname.style.boxShadow = "";
 
@@ -165,16 +164,10 @@ function normalizeFields() {
     tel.style.borderColor = "";
     tel.style.boxShadow = "";
 
-    pass.style.borderColor = "";
-    pass.style.boxShadow = "";
-
-    cmfpass.style.borderColor = "";
-    cmfpass.style.boxShadow = "";
-
     gender.style.borderColor = "";
     gender.style.boxShadow = "";
 
-    agreeStatement.style.color = "";
+
 
     for(var i =0;i<formWarnings.length;i++){
         if(i!=2) {
@@ -184,6 +177,16 @@ function normalizeFields() {
         }
     }
 
+}
+
+function normalizeFields_signup(){
+        pass.style.borderColor = "";
+    pass.style.boxShadow = "";
+
+    cmfpass.style.borderColor = "";
+    cmfpass.style.boxShadow = "";
+
+    agreeStatement.style.color = "";
 }
 
 function isNumeric(input) {

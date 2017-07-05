@@ -87,7 +87,7 @@
 
                     <input type="checkbox" id="agreement"><label for="agreement" id="agreementStatement"> I agree with the conditions of Yureka Institute.</label>
                     <br>
-                    <input type="submit" value="Submit" onclick="submitOnclick();" >
+                    <input type="submit" value="Submit" onclick="validateOnclick();" >
                     <!--onclick="submitOnclick();" for validations"-->
 
                     <!--Index container -->
@@ -120,11 +120,12 @@
     </div>
 </div>
 
+<script src="../javascript/validations/signupValidations.js"></script>
+<script src="../javascript/validations/Validations.js"></script>
 <script src="../javascript/backgroundCanvas/TweenLite.min.js"></script>
 <script src="../javascript/backgroundCanvas/EasePack.min.js"></script>
 <script src="../javascript/backgroundCanvas/particles.js"></script>
 <script src="../javascript/backgroundCanvas/rAF.js"></script>
-<script src="../javascript/Validations.js"></script>
 
 <!--php code here-->
 <?php

@@ -141,44 +141,61 @@
 
                     <div class="updateDetails_panel" style="display:none;">
                         <div class="formContainer">
-                            <form id="updateDetails">
-                                <h1 align="center">Update Account Info</h1>
-                                <Lable>Name</Lable><br>
-                                <input type="text" id="firstName_u"  placeholder="First Name">
-                                <input type="text" id="lastName_u"  placeholder="Last Name"><br>
+                            <form id="supdateDetails" action="" method="post">
+                                <h1 align="center">Update Details</h1>
+                                <Lable>Name</Lable>
+                                <font size="2" class="warning" color="red"></font>          <!--name warning 0-->
+                                <br>
+                                <input type="text" id="sfirstName"  placeholder="First Name" name="sfirstName">
+                                <input type="text" id="slastName"  placeholder="Last Name" name="slastName"><br>
+
+
+                                <br>
                                 <Lable>Address</Lable><br>
-                                <textarea rows="4" columns="40" id="address_u"></textarea>
+                                <textarea rows="4" columns="40" id="saddress" name="saddress"></textarea>
                                 <br>
                                 <Lable>Birthday</Lable><br>
-                                <input type="date" id="bDay_u" >
+                                <input type="date" id="sbDay" name="sbday">
 
                                 <br>
                                 <Lable>Gender</Lable><br>
-                                <select id="gender_u">
+                                <select id="sgender" name="sgender">
                                     <option hidden>Select</option>
                                     <option>Male</option>
                                     <option>Female</option>
                                 </select>
 
                                 <br>
-                                <Lable>Email</Lable><br>
-                                <input type="email" id="email_u" >
+                                <Lable>Email</Lable>
+                                <font size="2" class="warning" color="red"></font>  <!--email warning 1-->
+                                <br>
+                                <input type="email" id="semail" name="semail">
 
                                 <br>
-                                <Lable>Telephone</Lable><br>
-                                <input type="tel" id="telephoneNo_u" >
-
-
-                                <br>
-                                <Lable>Create a Password</Lable><br>
-                                <input type="password" id="password_u">
+                                <Lable>Telephone</Lable>
+                                <font size="2" class="warning">(*Must contain 10 digits)</font><br> <!--tel warning 2-->
+                                <font size="2" class="warning" color="red"></font><br> <!--tel warning 3-->
+                                <input type="tel" id="stelephoneNo" name="stelephone">
 
                                 <br>
-                                <Lable>Confirm Password</Lable><br>
-                                <input type="password" id="confirmPassword_u" >
+                                <input type="submit" value="Update" onclick="updateValidationOnclick();" >
+                                <!--onclick="submitOnclick();" for validations"-->
 
+                                <!--Index container -->
+                                <div id="id01" class="modal">
+                                    <div class="modal-content animate">
+                                        <div class="imgcontainer">
+                                            <span onclick="document.getElementById('id01').style.display='none'" class="close" title="Close Modal">&times;</span>
+                                        </div>
+                                        <div class="container">
+                                            <label><b>Enter Your Password</b></label>
+                                            <input type="password" placeholder="Password" name="updatePass" required>
+                                            <input type="submit" name="saveChanges" value="Save Changes">
+                                        </div>
+                                    </div>
+                                </div>
+                                <!---->
 
-                                <button onclick="submitOnclick()">Update</button>
                             </form>
                         </div>
                     </div>
@@ -200,6 +217,8 @@
 <script src="../javascript/dayTimeSelector.js"></script>
 <script src="../javascript/notificationPanel.js"></script>
 <script src="../javascript/Layers.js"></script>
+<script src="../javascript/validations/studentValidations.js"></script>
+<script src="../javascript/validations/Validations.js"></script>
 <script src="../javascript/backgroundCanvas/TweenLite.min.js"></script>
 <script src="../javascript/backgroundCanvas/EasePack.min.js"></script>
 <script src="../javascript/backgroundCanvas/particles.js"></script>
