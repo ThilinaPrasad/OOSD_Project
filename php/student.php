@@ -1,3 +1,18 @@
+<?php
+require_once("connection/dbConnection.php");
+
+///////Load user data//////////////////////////////////////////////////////////////////////////////////////////
+session_start();
+$query = "SELECT * FROM student WHERE indexNumber='{$_SESSION["username"]}' AND password='{$_SESSION["password"]}'";
+$result = runQuery($query);
+
+if(mysqli_num_rows($result)==1 && $_SESSION['logged']){
+    $data = mysqli_fetch_assoc($result);
+}
+
+///////Load user data//////////////////////////////////////////////////////////////////////////////////////////
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -119,7 +134,7 @@
                             </li>
                             <ul><div id="dayTime">Good Evening!</div></ul>
                         </ul>
-                        <a href="#" id="loggedName" title="Update Information" onclick="studentLayers(); updateDetails_layer.style.display='block';">First Name</a>
+                        <a href="#" id="loggedName" title="Update Information" onclick="studentLayers(); updateDetails_layer.style.display='block';"><?php echo $data['firstName']." ".$data['lastName'];?></a>
                     </div>
                     <!--Day Timer and User Info-->
 
@@ -141,41 +156,41 @@
 
                     <div class="updateDetails_panel" style="display:none;">
                         <div class="formContainer">
-                            <form id="supdateDetails" action="" method="post">
+                            <form id="supdateDetails" action="student.php" method="post">
                                 <h1 align="center">Update Details</h1>
                                 <Lable>Name</Lable>
                                 <font size="2" class="warning" color="red"></font>          <!--name warning 0-->
                                 <br>
-                                <input type="text" id="sfirstName"  placeholder="First Name" name="sfirstName">
-                                <input type="text" id="slastName"  placeholder="Last Name" name="slastName"><br>
+                                <input type="text" id="sfirstName"  placeholder="First Name" name="sfirstName" <?php echo "value='{$data["firstName"]}'";?>>
+                                <input type="text" id="slastName"  placeholder="Last Name" name="slastName" <?php echo "value='{$data["lastName"]}'";?>><br>
 
 
                                 <br>
                                 <Lable>Address</Lable><br>
-                                <textarea rows="4" columns="40" id="saddress" name="saddress"></textarea>
+                                <textarea rows="4" columns="40" id="saddress" name="saddress"><?php echo $data["address"];?></textarea>
                                 <br>
                                 <Lable>Birthday</Lable><br>
-                                <input type="date" id="sbDay" name="sbday">
+                                <input type="date" id="sbDay" name="sbday" <?php echo "value='{$data["birthDay"]}'";?>>
 
                                 <br>
                                 <Lable>Gender</Lable><br>
                                 <select id="sgender" name="sgender">
                                     <option hidden>Select</option>
-                                    <option>Male</option>
-                                    <option>Female</option>
+                                    <option <?php if($data["gender"]=="Male"){echo "selected='selected'";}?>>Male</option>
+                                    <option <?php if($data["gender"]=="Female"){echo "selected='selected'";}?>>Female</option>
                                 </select>
 
                                 <br>
                                 <Lable>Email</Lable>
                                 <font size="2" class="warning" color="red"></font>  <!--email warning 1-->
                                 <br>
-                                <input type="email" id="semail" name="semail">
+                                <input type="email" id="semail" name="semail" <?php echo "value='{$data["email"]}'";?>>
 
                                 <br>
                                 <Lable>Telephone</Lable>
                                 <font size="2" class="warning">(*Must contain 10 digits)</font><br> <!--tel warning 2-->
                                 <font size="2" class="warning" color="red"></font><br> <!--tel warning 3-->
-                                <input type="tel" id="stelephoneNo" name="stelephone">
+                                <input type="tel" id="stelephoneNo" name="stelephone" <?php echo "value='{$data["telephone"]}'";?>>
 
                                 <br>
                                 <input type="submit" value="Update" onclick="updateValidationOnclick();" >
@@ -223,5 +238,44 @@
 <script src="../javascript/backgroundCanvas/EasePack.min.js"></script>
 <script src="../javascript/backgroundCanvas/particles.js"></script>
 <script src="../javascript/backgroundCanvas/rAF.js"></script>
+
+<?php
+
+///////update details code//////////////////////////////////////////////////////////////////////////////////////////
+function updateData(){
+    global $data;
+    $firstName = $_POST['sfirstName'];
+    $lastName = $_POST['slastName'];
+    $address = $_POST['saddress'];
+    $bday = $_POST['sbday'];
+    $gender = $_POST['sgender'];
+    $email = $_POST['semail'];
+    $telephone = $_POST['stelephone'];
+
+    $checkChanges = $firstName != $data['firstName'] || $lastName != $data['lastName'] || $address != $data['address'] || $bday != $data['birthDay']
+        || $gender != $data['gender'] || $email != $data['email'] || $telephone != $data['telephone'] ;
+
+        $query = "UPDATE student SET firstName='$firstName',lastName='$lastName',address='$address',birthDay='$bday',gender='$gender',email='$email',telephone='$telephone' WHERE indexNumber='{$_SESSION["username"]}' AND password='{$_SESSION["password"]}'";
+    if($checkChanges) {
+        if (sha1($_POST['updatePass']) == $_SESSION['password']) {
+            runQuery($query);
+            echo "<script>alert('Successfully updated!');</script>";
+            echo "<script>window.location.href = 'student.php';</script>";
+        } else {
+            echo "<script>alert('Invalid Password!'); updateDetails_layer.style.display = 'block';</script>";
+        }
+    } else {
+        echo "<script>alert('No changes detected!'); updateDetails_layer.style.display = 'block';</script>";
+
+    }
+}
+
+if(isset($_POST['updatePass'])){
+    updateData();
+}
+
+///////update details code//////////////////////////////////////////////////////////////////////////////////////////
+
+?>
 </body>
 </html>

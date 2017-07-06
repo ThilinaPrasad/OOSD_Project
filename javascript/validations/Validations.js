@@ -17,7 +17,7 @@ function validate_general(fname,lname,useraddress,userbday,gender,usermail,tel){
         fnameCheck = true;
     }else {
         fnameCheck = false;
-        errorCss(fname);
+        fieldColorChange(fname,"red");
         formWarnings[0].innerText = "first name only contain letters";
     }
 
@@ -26,7 +26,7 @@ function validate_general(fname,lname,useraddress,userbday,gender,usermail,tel){
         lnameCheck = true;
     }else {
         lnameCheck = false;
-        errorCss(lname);
+        fieldColorChange(lname,"red");
         formWarnings[0].innerText = "last name only contain letters";
     }
 
@@ -38,14 +38,14 @@ function validate_general(fname,lname,useraddress,userbday,gender,usermail,tel){
             mailCheck = true;
         }else if(fill){
             mailCheck = false;
-            errorCss(usermail);
+            fieldColorChange(usermail,"red");
             formWarnings[1].innerText = "please use gmail addresses !";
             //alert("Please use GMAIL address !");
         }
     }
     else if(fill){
         mailCheck = false;
-        errorCss(usermail);
+        fieldColorChange(usermail,"red");
         formWarnings[1].innerText = "email must contain @ sign";
         //alert("Invalid Email Address !");
     }
@@ -57,12 +57,12 @@ function validate_general(fname,lname,useraddress,userbday,gender,usermail,tel){
             telCheck = true;
         }else {
             formWarnings[3].innerText = "telephone only contain numbers";
-            errorCss(tel);
+            fieldColorChange(tel,"red");
             telCheck = false;
         }
     }else if(fill){
         telCheck = false;
-        errorCss(tel);
+        fieldColorChange(tel,"red");
         formWarnings[2].style.color = "red";
        // alert("Invalid Telephone Number !");
     }
@@ -97,15 +97,15 @@ function validate_signup(validated,pass,cmfpass,agree,agreeStatement){
             passCheck = true;
         } else if (fill) {
             passCheck = false;
-            errorCss(pass);
-            errorCss(cmfpass);
+            fieldColorChange(pass,"red");
+            fieldColorChange(cmfpass,"red");
             formWarnings[4].innerText = "password mismatched !";
             //alert("Password mismatched !");
         }
     }else {
         passCheck = false;
-        errorCss(pass);
-        errorCss(cmfpass);
+        fieldColorChange(pass,"red");
+        fieldColorChange(cmfpass,"red");
         formWarnings[4].innerText = "password must have 8-16 digits !";
         //alert("Password must have 8-16 digits !");
     }
@@ -125,8 +125,8 @@ function validate_signup(validated,pass,cmfpass,agree,agreeStatement){
         pass.value = "";
         cmfpass.value = "";
         agree.checked = false;
-        errorCss(pass);
-        errorCss(cmfpass);
+        fieldColorChange(pass,"red");
+        fieldColorChange(cmfpass,"red");
         agreeStatement.style.color = '#ff0000';
         innerJump("signup");
     }
@@ -140,33 +140,19 @@ function validate_update(validated,jumpLink){
     }
 }
 
-function errorCss(tagId){
-    tagId.style.borderColor = "red";
-    tagId.style.boxShadow = "red";
+function fieldColorChange(tagId,color){
+    tagId.style.borderColor = color;
+    tagId.style.boxShadow = color;
 }
 
 function normalizeFields_general() {
-     fname.style.borderColor = "";
-     fname.style.boxShadow = "";
-
-    lname.style.borderColor = "";
-    lname.style.boxShadow = "";
-
-    useraddress.style.borderColor = "";
-    useraddress.style.boxShadow = "";
-
-    userbday.style.borderColor = "";
-    userbday.style.boxShadow = "";
-
-    usermail.style.borderColor = "";
-    usermail.style.boxShadow = "";
-
-    tel.style.borderColor = "";
-    tel.style.boxShadow = "";
-
-    gender.style.borderColor = "";
-    gender.style.boxShadow = "";
-
+     fieldColorChange(fname,"");
+    fieldColorChange(lname,"");
+    fieldColorChange(useraddress,"");
+    fieldColorChange(userbday,"");
+    fieldColorChange(usermail,"");
+    fieldColorChange(tel,"");
+    fieldColorChange(gender,"");
 
 
     for(var i =0;i<formWarnings.length;i++){
@@ -180,11 +166,9 @@ function normalizeFields_general() {
 }
 
 function normalizeFields_signup(){
-        pass.style.borderColor = "";
-    pass.style.boxShadow = "";
+    fieldColorChange(pass,"");
 
-    cmfpass.style.borderColor = "";
-    cmfpass.style.boxShadow = "";
+    fieldColorChange(cmfpass,"");
 
     agreeStatement.style.color = "";
 }

@@ -57,10 +57,12 @@
     </div>
 </div>
 
+<script src="../javascript/validations/Validations.js"></script>
 <script src="../javascript/backgroundCanvas/TweenLite.min.js"></script>
 <script src="../javascript/backgroundCanvas/EasePack.min.js"></script>
 <script src="../javascript/backgroundCanvas/particles.js"></script>
 <script src="../javascript/backgroundCanvas/rAF.js"></script>
+
 
 
 <?php
@@ -68,12 +70,13 @@
 require_once("connection/dbConnection.php");
 
 function submitOnclick(){
+   // echo "<script type='text/javascript'>fieldColorChange(document.getElementsByClassName('login_username'),'');fieldColorChange(document.getElementsByClassName('login_password'),'');</script>";
     session_start();
     $username=$_POST['loginUsername'];
     $password=sha1($_POST['loginPassword']);
 
     $char = strtoupper(substr($username, -1)) ;
-
+    $query = "";
       switch ($char){
         case 'S':
             $query = "SELECT * FROM student WHERE password='$password' AND indexNumber ='$username'";
@@ -85,34 +88,33 @@ function submitOnclick(){
             $query = "SELECT * FROM owner WHERE password='$password' AND user_name ='$username'";
             break;
         default:
-            echo "<script type='text/javascript'>alert('Invalid type user!'); window.location.href = 'login.php';</script>";
+            echo "<script type='text/javascript'>alert('Invalid type user!'); fieldColorChange(document.getElementById('login_username'),'red');</script>";
             break;
+          //window.location.href = 'login.php';
     }
+    if($query!="") {
+        $result_set = runQuery($query);
 
-    $result_set=runQuery($query);
-
-    if (mysqli_num_rows($result_set) == 1 && ($char=='S')) {
-        $_SESSION['username'] = $username;
-        $_SESSION['password'] = $password;
-        $_SESSION['logged'] = true;
-        header("location: student.php"); // Redirecting To Other Page
+        if (mysqli_num_rows($result_set) == 1 && ($char == 'S')) {
+            $_SESSION['username'] = $username;
+            $_SESSION['password'] = $password;
+            $_SESSION['logged'] = true;
+            header("location: student.php"); // Redirecting To Other Page
+        } elseif ((mysqli_num_rows($result_set) == 1 && ($char == 'T'))) {
+            $_SESSION['username'] = $username;
+            $_SESSION['password'] = $password;
+            $_SESSION['logged'] = true;
+            header("location: teacher.php"); // Redirecting To Other Page
+        } elseif ((mysqli_num_rows($result_set) == 1 && ($char == 'O'))) {
+            $_SESSION['username'] = $username;
+            $_SESSION['password'] = $password;
+            $_SESSION['logged'] = true;
+            header("location: owner.php"); // Redirecting To Other Page
+        } else {
+            echo "<script type='text/javascript'>alert('Invalid Index Number or Password !'); fieldColorChange(document.getElementById('login_username'),'red'); fieldColorChange(document.getElementById('login_password'),'red');</script>";
+        }
     }
-    elseif ((mysqli_num_rows($result_set) == 1 && ($char=='T')) ){
-        $_SESSION['username'] = $username;
-        $_SESSION['password'] = $password;
-        $_SESSION['logged'] = true;
-        header("location: teacher.php"); // Redirecting To Other Page
-    }
-    elseif ((mysqli_num_rows($result_set) == 1 && ($char=='O')) ){
-        $_SESSION['username'] = $username;
-        $_SESSION['password'] = $password;
-        $_SESSION['logged'] = true;
-        header("location: owner.php"); // Redirecting To Other Page
-    }
-    else {
-        echo "<script type='text/javascript'>alert('Invalid Index Number or Password !'); window.location.href = 'login.php';</script>";
-    }
-
+//window.location.href = 'login.php';
 }
 
 if (isset($_POST['loginBtn'])) {
