@@ -36,7 +36,7 @@ if(mysqli_num_rows($result)==1 && $_SESSION['logged']){
             <!--navigation bar start-->
             <ul class="nav">
                 <li><a href="../index.php"><img src="../img/nav/nav_yureka_logo.png"></a></li>
-                <li><a href="courses.php">Courses</a></li>
+                <li><a href="courses.php" target="_blank">Courses</a></li>
                 <li class="dropdown"><a href="#">Site 3</a></li>
                 <li class="dropdown"><a href="#">Site 3</a></li>
                 <li id="nav_noti"><a href="#" onclick="openNav()" style="color: white;">&#128276;</a></li>

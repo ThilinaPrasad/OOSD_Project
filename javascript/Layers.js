@@ -43,6 +43,7 @@ function ownerLayers(){
 function studentLayers(){
     tutorials_layer.style.display = "none";
     results_layer.style.display = "none";
+    updateDetails_layer.style.display = "none";
 
     tutorials_btn.className = "";
     results_btn.className ="";
@@ -53,3 +54,21 @@ function changeLayer(button,layer){
     layer.style.display = "block";
 }
 
+function DoubleScroll(element) {
+    var scrollbar = document.createElement('div');
+    scrollbar.appendChild(document.createElement('div'));
+    scrollbar.style.overflow= 'auto';
+    scrollbar.style.overflowY= 'hidden';
+    scrollbar.firstChild.style.width= element.scrollWidth+'px';
+    scrollbar.firstChild.style.paddingTop= '1px';
+    scrollbar.firstChild.appendChild(document.createTextNode('\xA0'));
+    scrollbar.onscroll= function() {
+        element.scrollLeft= scrollbar.scrollLeft;
+    };
+    element.onscroll= function() {
+        scrollbar.scrollLeft= element.scrollLeft;
+    };
+    element.parentNode.insertBefore(scrollbar, element);
+}
+
+DoubleScroll(document.getElementById('update_section'));

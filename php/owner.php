@@ -1,6 +1,7 @@
 <!--php code here-->
 <?php require_once("connection/dbConnection.php");
 
+///////////////////////////////New Student////////////////////////////////////////////////////////////
 function indexGenerate()
 {
     $query = "SELECT * FROM student ORDER BY id DESC LIMIT 1";
@@ -33,6 +34,132 @@ if(isset($_POST['issue'])) {
     exit();
 }
 
+///////////////////////////////New Student////////////////////////////////////////////////////////////
+
+///////////////////////////////Add Teacher////////////////////////////////////////////////////////////
+
+///////////////////////////////Add Teacher////////////////////////////////////////////////////////////
+
+
+///////////////////////////////Courses////////////////////////////////////////////////////////////
+
+/////////////////////////////// Add Courses////////////////////////////////////////////////////////////
+
+$weekDays_DD = "<option>Sunday</option>
+                                <option>Monday</option>
+                                <option>Tuesday</option>
+                                <option>Wednesday</option>
+                                <option>Thursday</option>
+                                <option>Friday</option>
+                                <option>Saturday</option>";
+
+$availableHalls_DD = "<option>Hall No:1</option>
+                                <option>Hall No:2</option>
+                                <option>Hall No:3</option>";
+
+$availableSubjects_DD = "";
+
+if(isset($_POST['doneAdd'])){
+    //if($_POST['upPass'] == $_SESSION['password']) { *************************************** complete this line **************
+    if(true){
+        $query_courseAdd = "INSERT INTO courses (subject, teacher, classDay, classTime, hall) VALUES ('{$_POST["subject"]}','{$_POST["teacher"]}','{$_POST["classDay"]}','{$_POST["classTime"]}','{$_POST["hall"]}')";
+        runQuery($query_courseAdd);
+        echo "<script type='text/javascript'>alert('Course Successfully Added !');</script>";
+        echo '<script>window.location.href = "owner.php";</script>';
+        exit();
+    }
+}
+
+$availableTeachers = "";
+$query_teacher = "SELECT * FROM teacher";
+$teachers = runQuery($query_teacher);
+if(mysqli_num_rows($teachers)>0) {
+    while ($teacher = mysqli_fetch_assoc($teachers)) {
+        $availableTeachers.="<option>{$teacher['firstName']} {$teacher['lastName']}</option>";
+    }
+}else{
+    $availableTeachers =  "<option>No Teachers</option>";
+}
+
+/////////////////////////////// Add Courses////////////////////////////////////////////////////////////
+
+///////////////////////////////Update Courses////////////////////////////////////////////////////////////
+
+//>>>>>>>>>>>>>>Load Data <<<<<<<<<<<<<<<<<<<<<<<<<
+$query_courseUp = "SELECT * FROM courses";
+$coursesUpdate = runQuery($query_courseUp);
+$courseID_array = array();
+$updateCourseDataTable = "<tr>";
+while ($courseUpdate = mysqli_fetch_assoc($coursesUpdate)){
+    array_push($courseID_array, $courseUpdate['courseId']);
+    $availableSubjects_DD .= "<option>{$courseUpdate['subject']}</option>";
+    $updateCourseDataTable .= "<td><input type='text' name='changedSub[]' value='{$courseUpdate['subject']}'></td>";
+    $updateCourseDataTable .= "<td><select name='changedTeacher[]'>
+                                   <option selected hidden>{$courseUpdate['teacher']}</option>
+                                   {$availableTeachers}
+                                </select></td>";
+    $updateCourseDataTable .= "<td><select name='changedDay[]'>
+                                <option selected hidden>{$courseUpdate['classDay']}</option>
+                                {$weekDays_DD}
+                                </select></td>";
+    $updateCourseDataTable .= "<td><input type='time' name='changedTime[]' value='{$courseUpdate['classTime']}'></td>";
+    $updateCourseDataTable .= "<td><select name='changedHall[]'>
+                                <option selected hidden>{$courseUpdate['hall']}</option>
+                                {$availableHalls_DD}
+                                </select></td>";
+    $updateCourseDataTable .= "</tr>";
+}
+//>>>>>>>>>>>>>>Load Data <<<<<<<<<<<<<<<<<<<<<<<<<
+
+//>>>>>>>>>>>>>>Update Data<<<<<<<<<<<<<<<<<<<<<<<<<
+if(isset($_POST['doneUpdate'])){
+    //if($_POST['changesPass'] == $_SESSION['password']) { *************************************** complete this line **************
+    if(true){
+        $noOfRows = mysqli_num_rows($coursesUpdate);
+        $sub_array = $_POST['changedSub'];
+        $tea_array = $_POST['changedTeacher'];
+        $day_array = $_POST['changedDay'];
+        $time_array = $_POST['changedTime'];
+        $hall_array = $_POST['changedHall'];
+        for ($i=0;$i<$noOfRows;$i++){
+            $query_changes = "UPDATE courses SET subject='{$sub_array[$i]}',teacher='{$tea_array[$i]}',classDay='{$day_array[$i]}',classTime ='{$time_array[$i]}' ,hall='{$hall_array[$i]}' WHERE courseID='{$courseID_array[$i]}'";
+            runQuery($query_changes);
+        }
+        echo "<script type='text/javascript'>alert('Course details Successfully Updated !');</script>";
+        echo '<script>window.location.href = "owner.php";</script>';
+        exit();
+    }
+}
+//>>>>>>>>>>>>>>Update Data<<<<<<<<<<<<<<<<<<<<<<<<<
+
+//>>>>>>>>>>>>>>Delete Data<<<<<<<<<<<<<<<<<<<<<<<<<
+
+if(isset($_POST['doneDelete'])){
+    //if($_POST['deletePass'] == $_SESSION['password']) { *************************************** complete this line **************
+    if(true){
+        echo "<script type='text/javascript'>alert({$_POST["deleteSub"]});</script>";
+        $query_delete = "DELETE FROM courses WHERE subject='{$_POST["deleteSub"]}' AND teacher='{$_POST["deleteTeacher"]}' AND classDay='{$_POST["deleteDay"]}'";
+        runQuery($query_delete);
+        $deletedRows = mysqli_affected_rows($connection);
+        if($deletedRows==1) {
+            echo "<script type='text/javascript'>alert('Course Successfully Deleted !');</script>";
+        }else{
+            echo "<script type='text/javascript'>alert('Not found Course match with given data !');</script>";
+        }
+    }else{
+        echo "<script type='text/javascript'>alert('Invalid Password!');</script>";
+    }
+    echo '<script>window.location.href = "owner.php";</script>';
+    exit();
+}
+
+//>>>>>>>>>>>>>>Delete Data<<<<<<<<<<<<<<<<<<<<<<<<<
+
+
+///////////////////////////////Update Courses////////////////////////////////////////////////////////////
+
+///////////////////////////////Courses////////////////////////////////////////////////////////////
+
 ?>
 
 <!--php code here-->
@@ -45,7 +172,6 @@ if(isset($_POST['issue'])) {
     <link rel="icon" href="../img/favicon.png">
     <link href="../css/main.css" rel="stylesheet">
     <link href="../css/up_in.css" rel="stylesheet">
-    <link href="../css/courses.css" rel="stylesheet">
     <link href="../css/owner.css" rel="stylesheet">
 
 
@@ -61,7 +187,7 @@ if(isset($_POST['issue'])) {
             <!--navigation bar start-->
             <ul class="nav">
                 <li><a href="../index.php"><img src="../img/nav/nav_yureka_logo.png"></a></li>
-                <li><a href="courses.php">Courses</a></li>
+                <li><a href="courses.php" target="_blank">Courses</a></li>
                 <li><a href="#">Site 3</a></li>
                 <li><a href="#">Site 2</a></li>
                 </li>
@@ -94,7 +220,7 @@ if(isset($_POST['issue'])) {
                         <a href="#" class="active" id="sendNotification" onclick="ownerLayers(); changeLayer(sendNotifi_btn,sendNotifi_layer);">Send Notifications</a>
                         <a href="#" id="advertisement" onclick="ownerLayers(); changeLayer(advertisement_btn,advertisement_layer);">Add Advertisement</a>
                         <a href="#" id="addTeacher" onclick="ownerLayers(); changeLayer(addTeacher_btn,addTeacher_layer);">Add Teacher</a>
-                        <a href="#" id="updateCourses" onclick="ownerLayers(); changeLayer(updateCourses_btn,updateCourses_layer);">Update Courses</a>
+                        <a href="#" id="updateCourses" onclick="ownerLayers(); changeLayer(updateCourses_btn,updateCourses_layer);">Manage Courses</a>
                         <a href="#" id="newStudent" onclick="ownerLayers(); changeLayer(newStudent_btn,newStudent_layer);">New Student</a>
                     </div>
                 </div>
@@ -164,89 +290,164 @@ if(isset($_POST['issue'])) {
                                 <input type="password" id="confirmPassword" >
 
 
-                                <button onclick="submitOnclick()">Add Teacher</button>
+                                <button onclick="">Add Teacher</button>
                             </form>
                         </div>
                     </div>
 
                     <div class="updateCourses_panel" style="display: none;">
-                        <table>
-                            <tr>
-                                <th>Subject</th>
-                                <th>Teacher</th>
-                                <th>Class Day</th>
-                                <th>Time</th>
-                            </tr>
+                        <!-- >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>inner Links<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<-->
+                        <a href="#update_section">Update Course</a>&nbsp;&nbsp;&nbsp;&nbsp;<a href="#deleteCourse_innerLink">Delete Course</a>
+                        <!-- >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>inner Links<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<-->
 
-                            <tr>
-                                <td contenteditable='true'>Test Subject</td>
-                                <td contenteditable='true'>Test Teacher</td>
-                                <td contenteditable='true'>Test Day</td>
-                                <td contenteditable='true'>Test Time</td>
-                            </tr>
+                        <!-- >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>Add courses section<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<-->
+                        <div class="formContainer" id="addCourse_innerLink">
+                        <form action="owner.php" method="post">
+                            <h1 align="center">Add New Course</h1>
+                            <label>Subject</label><br>
+                            <input type="text" placeholder="Subject" name="subject" id="subject">
+                            <label>Teacher</label><br>
+                            <select name="teacher" title="Only display registered teachers" id="teacherSelect">
+                                <option selected hidden>Select Teacher </option>
+                                <?php
+                                    echo $availableTeachers;
+                                ?>
+                            </select>
+                            <br>
+                            <label>Class Day</label><br>
+                            <select name="classDay">
+                                <?php
+                                echo $weekDays_DD;
+                                ?>
+                            </select>
+                            <br>
+                            <label>Time</label><br>
+                            <input type="time" name="classTime" id="classTime" value="06:00">
+                            <br>
+                            <label>Hall</label><br>
+                            <select name="hall">
+                                <?php
+                                echo $availableHalls_DD;
+                                ?>
+                            </select>
+                            <br>
 
-                            <tr>
-                                <td contenteditable='true'>Test Subject</td>
-                                <td contenteditable='true'>Test Teacher</td>
-                                <td contenteditable='true'>Test Day</td>
-                                <td contenteditable='true'>Test Time</td>
-                            </tr>
+                            <input type="submit" value="Add Course" onclick="addCourseOnClick()">
 
-                            <tr>
-                                <td contenteditable='true'>Test Subject</td>
-                                <td contenteditable='true'>Test Teacher</td>
-                                <td contenteditable='true'>Test Day</td>
-                                <td contenteditable='true'>Test Time</td>
-                            </tr>
+                            <!--Index container -->
+                            <div id="validateAddCourse" class="modal">
+                                <div class="modal-content animate">
+                                    <div class="imgcontainer">
+                                        <span onclick="document.getElementById('validateAddCourse').style.display='none'" class="close" title="Close Modal">&times;</span>
+                                    </div>
+                                    <div class="container">
+                                        <label><b>Enter Password</b></label>
+                                        <input type="password" placeholder="Password" name="upPass" required>
+                                        <input type="submit" name="doneAdd" value="Done">
+                                    </div>
+                                </div>
+                            </div>
+                            <!---->
+                        </form>
+                        </div>
+                        <br>
 
-                            <tr>
-                                <td contenteditable='true'>Test Subject</td>
-                                <td contenteditable='true'>Test Teacher</td>
-                                <td contenteditable='true'>Test Day</td>
-                                <td contenteditable='true'>Test Time</td>
-                            </tr>
+                        <!-- >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>Add courses section<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<-->
 
-                            <tr>
-                                <td contenteditable='true'>Test Subject</td>
-                                <td contenteditable='true'>Test Teacher</td>
-                                <td contenteditable='true'>Test Day</td>
-                                <td contenteditable='true'>Test Time</td>
-                            </tr>
+                       <hr class="hr1">
+                       <hr class="hr1">
 
-                            <tr>
-                                <td contenteditable='true'>Test Subject</td>
-                                <td contenteditable='true'>Test Teacher</td>
-                                <td contenteditable='true'>Test Day</td>
-                                <td contenteditable='true'>Test Time</td>
-                            </tr>
+                       <!-- >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>update courses section<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<-->
+                        <div id="update_section" >
+                        <form action="owner.php" method="post">
+                            <h1 align="center">Update Course</h1>
+                            <table>
+                                <tr>
+                                    <th>Subject</th>
+                                    <th>Teacher</th>
+                                    <th>Class Day</th>
+                                    <th>Time</th>
+                                    <th>Hall</th>
+                                </tr>
 
-                            <tr>
-                                <td contenteditable='true'>Test Subject</td>
-                                <td contenteditable='true'>Test Teacher</td>
-                                <td contenteditable='true'>Test Day</td>
-                                <td contenteditable='true'>Test Time</td>
-                            </tr>
+                                <?php echo $updateCourseDataTable;?>
 
-                            <tr>
-                                <td contenteditable='true'>Test Subject</td>
-                                <td contenteditable='true'>Test Teacher</td>
-                                <td contenteditable='true'>Test Day</td>
-                                <td contenteditable='true'>Test Time</td>
-                            </tr>
+                            </table>
+                                <input type="submit" name="updateCourses" value="Update Changes" onclick="document.getElementById('changeCourse').style.display = 'block';">
+                                <!--Password for course changes -->
+                                <div id="changeCourse" class="modal">
+                                    <div class="modal-content animate">
+                                        <div class="imgcontainer">
+                                            <span onclick="document.getElementById('changeCourse').style.display='none'" class="close" title="Close Modal">&times;</span>
+                                        </div>
+                                        <div class="container">
+                                            <label><b>Enter Password</b></label>
+                                            <input type="password" placeholder="Password" name="changesPass" required>
+                                            <input type="submit" name="doneUpdate" value="Save Changes">
+                                        </div>
+                                    </div>
+                                </div>
+                                <!--Password for course changes-->
 
-                        </table>
-                        <ul id="update">
-                            <li><button class="clr">Reset Table</button></li>
-                            <li><button >Save Changes</button></li>
-                        </ul>
-                    </div>
+                        </form>
 
-                    <div class="updateDetails_panel" style="display:none;">
-                        <div class="formContainer">
-                            <form id="oupdateDetails" action="" method="post">
-                                <h1 align="center">Update Details</h1>
-                                <Lable>Name</Lable>
-                                <font size="2" class="warning" color="red"></font>          <!--name warning 0-->
+                        </div>
+                        <!-- >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>update courses section<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<-->
+
+                        <hr class="hr1" style="margin-top: 50px;">
+                        <hr class="hr1" style="margin-bottom: 50px;">
+
+                        <!-- >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>Delete courses section<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<-->
+                        <div id="deleteCourse_innerLink">
+                        <form action="owner.php" method="post" id="deleteBorder">
+                                <h1 align="center" style="color: red;">Delete Course</h1>
+                            <h6 align="center" style="font-weight: normal;"><font size="2">(*must fill all fields to delete)</font></h6>
+                            <ul style="margin-left: 12%;">
+
+                                <li><select name="deleteSub" id="deleteSub">
+                                    <option selected hidden>Select Subject</option>
+                                    <?php echo $availableSubjects_DD;?>
+                                    </select></li>
+                                    <li><select name="deleteTeacher" id="deleteTeacher">
+                                            <option selected hidden>Select Teacher</option>
+                                            <?php echo $availableTeachers;?>
+                                        </select></li>
+                                    <li><select name="deleteDay" id="deleteDay">
+                                            <option selected hidden>Select Day</option>
+                                            <?php echo $weekDays_DD;?>
+                                        </select></li>
+                                    <li><input type="submit" id="deleteBtn" value="Delete Subject" onclick="deleteOnClick();"></li>
+                                </ul>
+                            <!--Password for delete courses -->
+                            <div id="deleteCourse" class="modal">
+                                <div class="modal-content animate">
+                                    <div class="imgcontainer">
+                                        <span onclick="document.getElementById('deleteCourse').style.display='none'" class="close" title="Close Modal">&times;</span>
+                                    </div>
+                                    <div class="container">
+                                        <label><b>Enter Password</b></label>
+                                        <input type="password" placeholder="Password" name="deletePass" required>
+                                        <input type="submit" name="doneDelete" value="Done">
+                                    </div>
+                                </div>
+                            </div>
+                            <!--Password for delete courses -->
+
+                            </form>
+                        </div>
+
+                        <!-- >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>Delete courses section<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<-->
+                        <!-- >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>inner Links<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<-->
+                        <a href="#right_container">Add New Course</a>&nbsp;&nbsp;&nbsp;&nbsp;<a href="#update_section">Update Course</a>
+                        <!-- >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>inner Links<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<-->
+                  </div>
+
+                  <div class="updateDetails_panel" style="display:none;">
+                      <div class="formContainer">
+                          <form id="oupdateDetails" action="" method="post">
+                              <h1 align="center">Update Details</h1>
+                              <Lable>Name</Lable>
+                              <font size="2" class="warning" color="red"></font>          <!--name warning 0-->
                                 <br>
                                 <input type="text" id="ofirstName"  placeholder="First Name" name="ofirstName">
                                 <input type="text" id="olastName"  placeholder="Last Name" name="olastName"><br>
@@ -346,9 +547,11 @@ if(isset($_POST['issue'])) {
     }
 
 
-
 </script>
 
+
+
+<script src="../javascript/jquery/jquery-3.2.1.min.js"></script>
 <script src="../javascript/validations/ownerValidations.js"></script>
 <script src="../javascript/validations/Validations.js"></script>
 <script src="../javascript/dayTimeSelector.js"></script>

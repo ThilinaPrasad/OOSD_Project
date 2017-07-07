@@ -1,3 +1,20 @@
+<?php
+
+require_once("connection/dbConnection.php");
+
+$query_courseUp = "SELECT * FROM courses";
+$coursesUpdate = runQuery($query_courseUp);
+$updateCourseDataTable = "<tr>";
+while ($courseUpdate = mysqli_fetch_assoc($coursesUpdate)){
+    $updateCourseDataTable .= "<td>{$courseUpdate['subject']}</td>";
+    $updateCourseDataTable .= "<td>{$courseUpdate['teacher']}</td>";
+    $updateCourseDataTable .= "<td>{$courseUpdate['classDay']}</td>";
+    $updateCourseDataTable .= "<td>{$courseUpdate["classTime"]}</td>";
+    $updateCourseDataTable .= "<td>{$courseUpdate["hall"]}</td>";
+    $updateCourseDataTable .= "</tr>";
+}
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -6,6 +23,7 @@
     <link rel="icon" href="../img/favicon.png">
     <link href="../css/main.css" rel="stylesheet">
     <link href="../css/courses.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Kaushan+Script" rel="stylesheet">
 </head>
 <body bgcolor="#e3e6ea"  class="container demo-1">
 <div class="content">
@@ -34,75 +52,16 @@
         <section class="bodyInner">
 
             <table>
+                <caption>Available Classes</caption>
                 <tr>
                     <th>Subject</th>
                     <th>Teacher</th>
                     <th>Class Day</th>
                     <th>Time</th>
+                    <th>Hall</th>
                 </tr>
 
-                <tr>
-                    <td>Test Subject</td>
-                    <td>Test Teacher</td>
-                    <td>Test Day</td>
-                    <td>Test Time</td>
-                </tr>
-
-                <tr>
-                    <td>Test Subject</td>
-                    <td>Test Teacher</td>
-                    <td>Test Day</td>
-                    <td>Test Time</td>
-                </tr>
-
-                <tr>
-                    <td>Test Subject</td>
-                    <td>Test Teacher</td>
-                    <td>Test Day</td>
-                    <td>Test Time</td>
-                </tr>
-
-                <tr>
-                    <td>Test Subject</td>
-                    <td>Test Teacher</td>
-                    <td>Test Day</td>
-                    <td>Test Time</td>
-                </tr>
-
-                <tr>
-                    <td>Test Subject</td>
-                    <td>Test Teacher</td>
-                    <td>Test Day</td>
-                    <td>Test Time</td>
-                </tr>
-
-                <tr>
-                    <td>Test Subject</td>
-                    <td>Test Teacher</td>
-                    <td>Test Day</td>
-                    <td>Test Time</td>
-                </tr>
-
-                <tr>
-                    <td>Test Subject</td>
-                    <td>Test Teacher</td>
-                    <td>Test Day</td>
-                    <td>Test Time</td>
-                </tr>
-
-                <tr>
-                    <td>Test Subject</td>
-                    <td>Test Teacher</td>
-                    <td>Test Day</td>
-                    <td>Test Time</td>
-                </tr>
-
-                <tr>
-                    <td>Test Subject</td>
-                    <td>Test Teacher</td>
-                    <td>Test Day</td>
-                    <td>Test Time</td>
-                </tr>
+                <?php echo $updateCourseDataTable;?>
 
             </table>
 

@@ -92,6 +92,7 @@ function submitOnclick(){
             break;
           //window.location.href = 'login.php';
     }
+
     if($query!="") {
         $result_set = runQuery($query);
 

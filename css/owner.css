@@ -105,9 +105,10 @@ ul{
     overflow: scroll;
 }
 
-#update{
-    margin: auto auto auto 60px;
+#teacherSelect{
+    width: 100%;
 }
+
 
 /*Index*/
 
@@ -139,3 +140,37 @@ ul{
     margin-left: 40%;
 }
 
+table {
+    margin: 5% auto 5% auto;
+    width: 80%;
+}
+
+td, th {
+   text-align: center;
+}
+
+
+td input[type=text],td input[type=time],td select,td{
+    width: 15vw;
+}
+
+#update_section{
+    overflow: auto; overflow-y: hidden;
+}
+
+#deleteBorder{
+    width: 99%;
+    height: 250px;
+    border: solid red 3px;
+    border-radius: 25px;
+    background-color: rgba(214, 47, 63,0.2);
+    margin-bottom: 30px;
+}
+
+#deleteBtn{
+    background-color: rgba(255, 0, 0,0.6);
+}
+
+#deleteBtn:hover{
+    background-color: rgb(255, 0, 0);
+}
