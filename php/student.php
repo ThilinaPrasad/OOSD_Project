@@ -5,12 +5,22 @@ require_once("connection/dbConnection.php");
 session_start();
 $query = "SELECT * FROM student WHERE indexNumber='{$_SESSION["username"]}' AND password='{$_SESSION["password"]}'";
 $result = runQuery($query);
-
 if(mysqli_num_rows($result)==1 && $_SESSION['logged']){
     $data = mysqli_fetch_assoc($result);
 }
 
 ///////Load user data//////////////////////////////////////////////////////////////////////////////////////////
+
+$query_results = "SELECT * FROM results WHERE indexNumber='{$_SESSION["username"]}'";
+$result_data = runQuery($query_results);
+if(mysqli_num_rows($result_data)==1 && $_SESSION['logged']){
+    $data_result = mysqli_fetch_assoc($result_data);
+}else{
+    $data_result = array('indexNumber'=>$_SESSION['username'],'studentName'=>$data['firstName']." ".$data['lastName'],'subject'=>'Not Added','marks'=>'Not Added');
+}
+
+///////Load available results//////////////////////////////////////////////////////////////////////////////////////////
+
 ?>
 
 <!DOCTYPE html>
@@ -23,6 +33,7 @@ if(mysqli_num_rows($result)==1 && $_SESSION['logged']){
     <link href="../css/up_in.css" rel="stylesheet">
     <link href="../css/courses.css" rel="stylesheet">
     <link href="../css/owner.css" rel="stylesheet">
+    <link href="../css/student.css" rel="stylesheet">
     <link href="../css/notification_panel.css" rel="stylesheet">
 
 </head>
@@ -41,7 +52,7 @@ if(mysqli_num_rows($result)==1 && $_SESSION['logged']){
                 <li class="dropdown"><a href="#">Site 3</a></li>
                 <li id="nav_noti"><a href="#" onclick="openNav()" style="color: white;">&#128276;</a></li>
                 </li>
-                <li ><a href="#"><img src="../img/nav/nav_logout.png" style="vertical-align: bottom">&nbsp;Log Out</a></li>
+                <li ><a href="login.php"><img src="../img/nav/nav_logout.png" style="vertical-align: bottom">&nbsp;Log Out</a></li>
             </ul>
             <!--navigation bar end-->
         </header>
@@ -151,7 +162,24 @@ if(mysqli_num_rows($result)==1 && $_SESSION['logged']){
                     </div>
 
                     <div class="results_panel" style="display: none;">
-
+                    <table>
+                        <tr>
+                            <td>Student Name</td>
+                            <td><?php echo $data_result['studentName'];?></td>
+                        </tr>
+                        <tr>
+                            <td>Index Number</td>
+                            <td><?php echo $data_result['indexNumber'];?></td>
+                        </tr>
+                                                <tr>
+                            <td>Subject</td>
+                            <td><?php echo $data_result['subject'];?></td>
+                        </tr>
+                        <tr>
+                            <td>Marks</td>
+                            <td><?php $temp = $data_result['marks']; if(strlen($temp)>3){echo $temp;}else{echo $temp."%";};?></td>
+                        </tr>
+                    </table>
                     </div>
 
                     <div class="updateDetails_panel" style="display:none;">

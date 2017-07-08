@@ -1,5 +1,5 @@
 <!--php code here-->
-<?php require_once("connection/dbConnection.php");
+<?php require ("connection/dbConnection.php");
 
 ///////////////////////////////New Student////////////////////////////////////////////////////////////
 function indexGenerate()
@@ -191,7 +191,7 @@ if(isset($_POST['doneDelete'])){
                 <li><a href="#">Site 3</a></li>
                 <li><a href="#">Site 2</a></li>
                 </li>
-                <li ><a href="#"><img src="../img/nav/nav_logout.png" style="vertical-align: bottom">&nbsp;Log Out</a></li>
+                <li ><a href="login.php"><img src="../img/nav/nav_logout.png" style="vertical-align: bottom">&nbsp;Log Out</a></li>
             </ul>
             <!--navigation bar end-->
         </header>
@@ -302,7 +302,7 @@ if(isset($_POST['doneDelete'])){
 
                         <!-- >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>Add courses section<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<-->
                         <div class="formContainer" id="addCourse_innerLink">
-                        <form action="owner.php" method="post">
+                        <form action="owner.php" method="post" >
                             <h1 align="center">Add New Course</h1>
                             <label>Subject</label><br>
                             <input type="text" placeholder="Subject" name="subject" id="subject">

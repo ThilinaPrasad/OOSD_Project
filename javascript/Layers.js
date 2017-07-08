@@ -49,6 +49,17 @@ function studentLayers(){
     results_btn.className ="";
 }
 
+function teacherLayers(){
+    tutorials_layer.style.display = "none";
+    results_layer.style.display = "none";
+    sendNotifi_layer.style.display = "none";
+    updateDetails_layer.style.display = "none";
+
+    tutorials_btn.className = "";
+    results_btn.className ="";
+    sendNotifi_btn.className = "";
+}
+
 function changeLayer(button,layer){
     button.className = "active";
     layer.style.display = "block";
