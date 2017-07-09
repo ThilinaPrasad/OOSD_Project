@@ -1,9 +1,6 @@
 /**
  * Created by user on 6/30/2017.
  */
-function closeNotifi(index){
-    document.getElementsByClassName("notification")[index].style.display = "none";
-}
 
 function openNav() {
     document.getElementById("myNav").style.width = "100%";

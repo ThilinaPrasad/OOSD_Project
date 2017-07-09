@@ -1,5 +1,6 @@
 <!--php code here-->
 <?php require ("connection/dbConnection.php");
+require ("notifications/notifications.php");
 
 ///////////////////////////////New Student////////////////////////////////////////////////////////////
 function indexGenerate()
@@ -26,10 +27,15 @@ function indexGenerate()
     }
 }
 
+
 if(isset($_POST['issue'])) {
     $indexNo = $_POST['index'];
+    $stuMail = $_POST['stumail'];
     $query = "INSERT INTO student (indexNumber) VALUE ('$indexNo')";
     runQuery($query);
+    if(strlen(trim($stuMail))>0) {
+        sendMail($stuMail, "Your Registration Index Number of ", "This is a valid index number issued by Yureka Higner Education Institute.If you have any problem with registration please contact our office. <br><h1 align='center' style='background-color:lightgray; color:#4CAF50; width:400px; padding:20px; border:solid 4px gray; border-radius:50px; margin-left:20%; margin-top: 50px; margin-bottom: 50px;'>Index Number : " . $indexNo."</h1><br><a href='#'>Yureka Higher Education Institute</a> All Rights Reserved!", "Yureka Institute");
+    }
     echo '<script>window.location.href = "owner.php";</script>';
     exit();
 }
@@ -160,6 +166,16 @@ if(isset($_POST['doneDelete'])){
 
 ///////////////////////////////Courses////////////////////////////////////////////////////////////
 
+///////////////////////////////Send Notifications////////////////////////////////////////////////////////////
+if(isset($_POST['sendBtn'])){
+    sendNotification("Owner");
+    sendNotificationMail("Yureka notification from","Owner");
+        echo "<script type='text/javascript'>alert('Notification Sent!');</script>";
+        echo '<script>window.location.href = "owner.php";</script>';
+        exit();
+}
+///////////////////////////////Send Notifications////////////////////////////////////////////////////////////
+
 ?>
 
 <!--php code here-->
@@ -229,16 +245,18 @@ if(isset($_POST['doneDelete'])){
 
 
                     <div class="notification_panel" style="display: block;">
-                        <select>
-                            <option>All</option>
-                            <option>Students</option>
-                            <option>Teachers</option>
-                        </select>
-                        <textarea rows="10" columns="40" class="message" placeholder="Type Your Message Here"></textarea>
-                        <ul>
-                            <li><button class="clr">Clear</button></li>
-                            <li><button class="send">Send</button></li>
-                        </ul>
+                        <form action="owner.php" method="post">
+                            <select name="receiver">
+                                <option>All</option>
+                                <option>Students</option>
+                                <option>Teachers</option>
+                            </select>
+                            <textarea rows="10" columns="40" class="message" id="notice" name="notice" placeholder="Type Your Message Here"></textarea>
+                            <ul>
+                                <li><button class="clr">Clear</button></li>
+                                <li><button class="send" name="sendBtn" id="sendBtn">Send</button></li>
+                            </ul>
+                        </form>
                     </div>
 
                     <div class="advertisement_panel" style="display: none;">
@@ -507,6 +525,7 @@ if(isset($_POST['doneDelete'])){
                             <button id="generateIndex">Generate Index</button>
                             <form method="post" action="owner.php" style="display: none;" id="indexForm">
                             <input type="text" name="index" id ="displayIndex"  readonly>
+                                <input type="text" placeholder="Student Email Here (optianal)" title="Add student have an email" name="stumail" id="stumail">
                             <input type="submit"  id="issuedIndex" name="issue" value="Issued">
                         </form>
 

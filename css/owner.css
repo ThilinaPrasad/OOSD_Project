@@ -174,3 +174,9 @@ td input[type=text],td input[type=time],td select,td{
 #deleteBtn:hover{
     background-color: rgb(255, 0, 0);
 }
+
+#stumail{
+  text-align: center;
+    width: 60%;
+    margin-left: 20%;
+}

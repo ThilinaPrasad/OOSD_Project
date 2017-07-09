@@ -80,3 +80,17 @@ function uploadResults_oneOnclick(){
         document.getElementById('resultUploadPassword').style.display = 'block';
     }
 }
+
+
+var fname = document.getElementById('tfirstName');
+var lname = document.getElementById('tlastName');
+var useraddress = document.getElementById('taddress');
+var userbday = document.getElementById('tbDay');
+var gender = document.getElementById('tgender');
+var usermail = document.getElementById('temail');
+var tel= document.getElementById('ttelephoneNo');
+var formWarnings = document.getElementsByClassName('warning');
+
+function updateValidationOnclick() {
+    validate_update(validate_general(fname,lname,useraddress,userbday,gender,usermail,tel),"tupdateDetails");
+}

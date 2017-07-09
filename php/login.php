@@ -69,55 +69,64 @@
 
 require_once("connection/dbConnection.php");
 
-function submitOnclick(){
-   // echo "<script type='text/javascript'>fieldColorChange(document.getElementsByClassName('login_username'),'');fieldColorChange(document.getElementsByClassName('login_password'),'');</script>";
+function submitOnclick()
+{
+    global $connection;
+    // echo "<script type='text/javascript'>fieldColorChange(document.getElementsByClassName('login_username'),'');fieldColorChange(document.getElementsByClassName('login_password'),'');</script>";
     session_start();
-    $username=$_POST['loginUsername'];
-    $password=sha1($_POST['loginPassword']);
+    $username = $_POST['loginUsername'];
+    $password = sha1($_POST['loginPassword']);
 
-    $char = strtoupper(substr($username, -1)) ;
+    $char = strtoupper(substr($username, -1));
     $query = "";
-      switch ($char){
+    switch ($char) {
         case 'S':
-            $query = "SELECT * FROM student WHERE password='$password' AND indexNumber ='$username'";
+            $query = "SELECT * FROM student WHERE password='{$password}' AND indexNumber ='{$username}'";
             break;
         case 'T':
-            $query = "SELECT * FROM teacher WHERE password='$password' AND user_name ='$username'";
+            $query = "SELECT * FROM teacher WHERE password='{$password}' AND indexNumber ='{$username}'";
             break;
         case 'O':
-            $query = "SELECT * FROM owner WHERE password='$password' AND user_name ='$username'";
+            $query = "SELECT * FROM owner WHERE password='{$password}' AND indexNumber ='{$username}'";
             break;
         default:
             echo "<script type='text/javascript'>alert('Invalid type user!'); fieldColorChange(document.getElementById('login_username'),'red');</script>";
             break;
-          //window.location.href = 'login.php';
     }
 
-    if($query!="") {
+    if ($query != "") {
         $result_set = runQuery($query);
+        if (mysqli_num_rows($result_set) == 1) {
+            switch ($char) {
+                case "S":
+                    $_SESSION['username'] = $username;
+                    $_SESSION['password'] = $password;
+                    $_SESSION['logged'] = true;
+                    header("location: student.php"); // Redirecting To Other Page
+                    break;
+                case "T":
+                    $_SESSION['username'] = $username;
+                    $_SESSION['password'] = $password;
+                    $_SESSION['logged'] = true;
+                    header("location: teacher.php"); // Redirecting To Other Page
+                    break;
+                case "O":
+                    $_SESSION['username'] = $username;
+                    $_SESSION['password'] = $password;
+                    $_SESSION['logged'] = true;
+                    header("location: owner.php"); // Redirecting To Other Page
+                    break;
+                default:
+                    echo "<script type='text/javascript'>alert('Invalid Index Number or Password !'); fieldColorChange(document.getElementById('login_username'),'red'); fieldColorChange(document.getElementById('login_password'),'red');</script>";
+                    break;
 
-        if (mysqli_num_rows($result_set) == 1 && ($char == 'S')) {
-            $_SESSION['username'] = $username;
-            $_SESSION['password'] = $password;
-            $_SESSION['logged'] = true;
-            header("location: student.php"); // Redirecting To Other Page
-        } elseif ((mysqli_num_rows($result_set) == 1 && ($char == 'T'))) {
-            $_SESSION['username'] = $username;
-            $_SESSION['password'] = $password;
-            $_SESSION['logged'] = true;
-            header("location: teacher.php"); // Redirecting To Other Page
-        } elseif ((mysqli_num_rows($result_set) == 1 && ($char == 'O'))) {
-            $_SESSION['username'] = $username;
-            $_SESSION['password'] = $password;
-            $_SESSION['logged'] = true;
-            header("location: owner.php"); // Redirecting To Other Page
-        } else {
-            echo "<script type='text/javascript'>alert('Invalid Index Number or Password !'); fieldColorChange(document.getElementById('login_username'),'red'); fieldColorChange(document.getElementById('login_password'),'red');</script>";
+            }
+
+
         }
-    }
 //window.location.href = 'login.php';
+    }
 }
-
 if (isset($_POST['loginBtn'])) {
     submitOnclick();
 }
@@ -125,8 +134,6 @@ if (isset($_POST['loginBtn'])) {
 if (isset($_GET['forgetPassword'])) {
     echo "forget?";
 }
-
 ?>
-
 </body>
 </html>

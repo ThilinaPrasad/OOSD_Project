@@ -2,57 +2,80 @@
 <?php
 require ("connection/dbConnection.php");
 require ('excelUpload/uploadFile.php');
+require ("notifications/notifications.php");
+///////Load user data//////////////////////////////////////////////////////////////////////////////////////////
 session_start();
+$query = "SELECT * FROM teacher WHERE indexNumber='{$_SESSION["username"]}' AND password='{$_SESSION["password"]}'";
+$result = runQuery($query);
+if(mysqli_num_rows($result)==1 && $_SESSION['logged']) {
+    $data = mysqli_fetch_assoc($result);
+
+    $fullName = $data['firstName'] . " " . $data['lastName'];
+///////Load user data//////////////////////////////////////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////// Load Subjects /////////////////////////////////////
-$availableSubjects_DD = "";
-$query_course = "SELECT * FROM courses";
-$coursesUpdate = runQuery($query_course);
-while ($courseUpdate = mysqli_fetch_assoc($coursesUpdate)){
-$availableSubjects_DD .= "<option>{$courseUpdate['subject']}</option>";
-}
+    $availableSubjects_DD = "";
+    $query_course = "SELECT * FROM courses";
+    $coursesUpdate = runQuery($query_course);
+    while ($courseUpdate = mysqli_fetch_assoc($coursesUpdate)) {
+        $availableSubjects_DD .= "<option>{$courseUpdate['subject']}</option>";
+    }
 /////////////////////////////////////////////////////////////////// Load Subjects /////////////////////////////////////
 
 /////////////////////////////////////////////////////////////////// result excel upload /////////////////////////////////////
 
-if(isset($_POST['resultupload'])){
-//if($_POST['uploadResultPass'] == $_SESSION['password']) { *************************************** complete this line **************
-    if(true) {
-        $file_path = $_FILES['resultfile']['tmp_name'];
-        if (saveToDB($file_path, $_POST['filesubject'])) {
-            echo "<script>alert('Successfully Added Results !');</script>";
+    if (isset($_POST['resultupload'])) {
+if($_POST['uploadResultPass'] == $_SESSION['password']) {
+            $file_path = $_FILES['resultfile']['tmp_name'];
+            if (saveToDB($file_path, $_POST['filesubject'])) {
+                echo "<script>alert('Successfully Added Results !');</script>";
+            } else {
+                echo "<script>alert('Error happened uploading !');</script>";
+            }
         } else {
-            echo "<script>alert('Error happened uploading !');</script>";
+            echo "<script>alert('Invalid Password !');</script>";
         }
-    }else{
-        echo "<script>alert('Invalid Password !');</script>";
+        echo '<script>window.location.href = "teacher.php";</script>';
+        exit();
     }
-    echo '<script>window.location.href = "teacher.php";</script>';
-    exit();
-}
 /////////////////////////////////////////////////////////////////// result excel upload /////////////////////////////////////
 
 /////////////////////////////////////////////////////////////////// result upload row by row /////////////////////////////////////
-if(isset($_POST['resultupload_one'])){
-//if($_POST['uploadResultPass_one'] == $_SESSION['password']) { *************************************** complete this line **************
-    if(true) {
-        if(!$_SESSION['oneadded']){
-            runQuery($query_truncate_results);
-        }
-        $query_one = "INSERT INTO results (indexNumber, studentName, subject, marks) VALUES ('{$_POST['resultIndex_one']}','{$_POST['resultName_one']}','{$_POST['resultSub_one']}','{$_POST['resultMark_one']}')";
-        if (runQuery($query_one)) {
-            echo "<script>alert('Successfully Added Results !');</script>";
+    if (isset($_POST['resultupload_one'])) {
+if($_POST['uploadResultPass_one'] == $_SESSION['password']) {
+            if (!$_SESSION['oneadded']) {
+                runQuery($query_truncate_results);
+            }
+            $query_one = "INSERT INTO results (indexNumber, studentName, subject, marks) VALUES ('{$_POST['resultIndex_one']}','{$_POST['resultName_one']}','{$_POST['resultSub_one']}','{$_POST['resultMark_one']}')";
+            if (runQuery($query_one)) {
+                echo "<script>alert('Successfully Added Results !');</script>";
+            } else {
+                echo "<script>alert('Error happened uploading !');</script>";
+            }
         } else {
-            echo "<script>alert('Error happened uploading !');</script>";
+            echo "<script>alert('Invalid Password !');</script>";
         }
-    }else{
-        echo "<script>alert('Invalid Password !');</script>";
+        echo '<script>window.location.href = "teacher.php";</script>';
+        $_SESSION['oneadded'] = true;
+        exit();
     }
-    echo '<script>window.location.href = "teacher.php";</script>';
-    $_SESSION['oneadded'] = true;
-    exit();
-}
 /////////////////////////////////////////////////////////////////// result upload row by row /////////////////////////////////////
 
+///////////////////////////////Send Notifications////////////////////////////////////////////////////////////
+    if (isset($_POST['sendBtn'])) {
+        sendNotification($fullName);
+        sendNotificationMail("Yureka notification from", $fullName);
+        echo "<script type='text/javascript'>alert('Notification Sent!');</script>";
+        echo '<script>window.location.href = "teacher.php";</script>';
+        exit();
+    }
+///////////////////////////////Send Notifications////////////////////////////////////////////////////////////
+
+///////Load available Notifications////////////////////////////////////////////////////////////////////////////////
+
+    $notificationPanel = loadNotifiPanel(loadData('Teachers'));
+
+///////Load available Notifications////////////////////////////////////////////////////////////////////////////////
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -80,7 +103,7 @@ if(isset($_POST['resultupload_one'])){
                 <li><a href="courses.php" target="_blank">Courses</a></li>
                 <li class="dropdown"><a href="#">Site 3</a></li>
                 <li class="dropdown"><a href="#">Site 3</a></li>
-                <li id="nav_noti"><a href="#" onclick="openNav()" style="color: white;">&#128276;</a></li>
+                <li id="nav_noti"><a href="#" onclick="openNav()" style="color: white;"><img src='<?php echo $notifiLogo;?>'></a></li>
                 </li>
                 <li ><a href="login.php"><img src="../img/nav/nav_logout.png" style="vertical-align: bottom">&nbsp;Log Out</a></li>
             </ul>
@@ -97,67 +120,9 @@ if(isset($_POST['resultupload_one'])){
                 <hr class="hr1">
                 <hr class="hr2">
                 <div class="overlay-content">
-
-                    <div class="notification">
-                        <h3 class="sender">Sender_1</h3>
-                        <p class="content">Notification Info 1</p>
-                        <button class="notifiClose" onclick="closeNotifi(0);">Close</button>
-                    </div>
-
-                    <div class="notification">
-                        <h3 class="sender">Sender_2</h3>
-                        <p class="content">Notification Info 2</p>
-                        <button class="notifiClose" onclick="closeNotifi(1);">Close</button>
-                    </div>
-
-                    <div class="notification">
-                        <h3 class="sender">Sender_3</h3>
-                        <p class="content">Notification Info 3</p>
-                        <button class="notifiClose" onclick="closeNotifi(2);">Close</button>
-                    </div>
-
-                    <div class="notification">
-                        <h3 class="sender">Sender_4</h3>
-                        <p class="content">Notification Info 4</p>
-                        <button class="notifiClose" onclick="closeNotifi(3);">Close</button>
-                    </div>
-
-                    <div class="notification">
-                        <h3 class="sender">Sender_5</h3>
-                        <p class="content">Notification Info 5</p>
-                        <button class="notifiClose" onclick="closeNotifi(4);">Close</button>
-                    </div>
-
-                    <div class="notification">
-                        <h3 class="sender">Sender_6</h3>
-                        <p class="content">Notification Info 6</p>
-                        <button class="notifiClose" onclick="closeNotifi(5);">Close</button>
-                    </div>
-
-                    <div class="notification">
-                        <h3 class="sender">Sender_7</h3>
-                        <p class="content">Notification Info 7</p>
-                        <button class="notifiClose" onclick="closeNotifi(6);">Close</button>
-                    </div>
-
-                    <div class="notification">
-                        <h3 class="sender">Sender_8</h3>
-                        <p class="content">Notification Info 8</p>
-                        <button class="notifiClose" onclick="closeNotifi(7);">Close</button>
-                    </div>
-
-                    <div class="notification">
-                        <h3 class="sender">Sender_9</h3>
-                        <p class="content">Notification Info 9</p>
-                        <button class="notifiClose" onclick="closeNotifi(8);">Close</button>
-                    </div>
-
-                    <div class="notification">
-                        <h3 class="sender">Sender_10</h3>
-                        <p class="content">Notification Info 10</p>
-                        <button class="notifiClose" onclick="closeNotifi(9);">Close</button>
-                    </div>
-
+                    <?php
+                    echo $notificationPanel;
+                    ?>
                 </div>
             </div>
             <!--Notification panel-->
@@ -175,7 +140,7 @@ if(isset($_POST['resultupload_one'])){
                             </li>
                             <ul><div id="dayTime">Good Evening!</div></ul>
                         </ul>
-                        <a href="#" id="loggedName" title="Update Information" onclick="studentLayers(); updateDetails_layer.style.display='block';">User Name</a>
+                        <a href="#" id="loggedName" title="Update Information" onclick="studentLayers(); updateDetails_layer.style.display='block';"><?php echo $fullName;?></a>
                     </div>
                     <!--Day Timer and User Info-->
 
@@ -261,55 +226,57 @@ if(isset($_POST['resultupload_one'])){
                     </div>
 
                     <div class="notification_panel" style="display: none;">
-                        <select>
-                            <option>All</option>
-                            <option>Students</option>
-                            <option>Teachers</option>
-                        </select>
-                        <textarea rows="10" columns="40" class="message" placeholder="Type Your Message Here"></textarea>
-                        <ul>
-                            <li><button class="clr">Clear</button></li>
-                            <li><button class="send">Send</button></li>
-                        </ul>
+                        <form action="teacher.php" method="post">
+                            <select name="receiver">
+                                <option>All</option>
+                                <option>Students</option>
+                                <option>Teachers</option>
+                            </select>
+                            <textarea rows="10" columns="40" class="message" id="notice" name="notice" placeholder="Type Your Message Here"></textarea>
+                            <ul>
+                                <li><button class="clr">Clear</button></li>
+                                <li><button class="send" name="sendBtn" id="sendBtn">Send</button></li>
+                            </ul>
+                        </form>
                     </div>
 
                     <div class="updateDetails_panel" style="display:none;">
                         <div class="formContainer">
-                            <form id="supdateDetails" action="student.php" method="post">
+                            <form id="tupdateDetails" action="teacher.php" method="post">
                                 <h1 align="center">Update Details</h1>
                                 <Lable>Name</Lable>
                                 <font size="2" class="warning" color="red"></font>          <!--name warning 0-->
                                 <br>
-                                <input type="text" id="sfirstName"  placeholder="First Name" name="sfirstName">
-                                <input type="text" id="slastName"  placeholder="Last Name" name="slastName"><br>
+                                <input type="text" id="tfirstName"  placeholder="First Name" name="tfirstName" <?php echo "value='{$data["firstName"]}'";?>>
+                                <input type="text" id="tlastName"  placeholder="Last Name" name="tlastName" <?php echo "value='{$data["lastName"]}'";?>><br>
 
 
                                 <br>
                                 <Lable>Address</Lable><br>
-                                <textarea rows="4" columns="40" id="saddress" name="saddress"></textarea>
+                                <textarea rows="4" columns="40" id="taddress" name="taddress"><?php echo $data["address"];?></textarea>
                                 <br>
                                 <Lable>Birthday</Lable><br>
-                                <input type="date" id="sbDay" name="sbday">
+                                <input type="date" id="tbDay" name="tbday" <?php echo "value='{$data["birthDay"]}'";?>>
 
                                 <br>
                                 <Lable>Gender</Lable><br>
-                                <select id="sgender" name="sgender">
+                                <select id="tgender" name="tgender">
                                     <option hidden>Select</option>
-                                    <option>Male</option>
-                                    <option>Female</option>
+                                    <option <?php if($data["gender"]=="Male"){echo "selected='selected'";}?>>Male</option>
+                                    <option <?php if($data["gender"]=="Female"){echo "selected='selected'";}?>>Female</option>
                                 </select>
 
                                 <br>
                                 <Lable>Email</Lable>
                                 <font size="2" class="warning" color="red"></font>  <!--email warning 1-->
                                 <br>
-                                <input type="email" id="semail" name="semail">
+                                <input type="email" id="temail" name="temail" <?php echo "value='{$data["email"]}'";?>>
 
                                 <br>
                                 <Lable>Telephone</Lable>
                                 <font size="2" class="warning">(*Must contain 10 digits)</font><br> <!--tel warning 2-->
                                 <font size="2" class="warning" color="red"></font><br> <!--tel warning 3-->
-                                <input type="tel" id="stelephoneNo" name="stelephone">
+                                <input type="tel" id="ttelephoneNo" name="ttelephone" <?php echo "value='{$data["telephone"]}'";?>>
 
                                 <br>
                                 <input type="submit" value="Update" onclick="updateValidationOnclick();" >
@@ -357,7 +324,43 @@ if(isset($_POST['resultupload_one'])){
 <script src="../javascript/backgroundCanvas/EasePack.min.js"></script>
 <script src="../javascript/backgroundCanvas/particles.js"></script>
 <script src="../javascript/backgroundCanvas/rAF.js"></script>
-<?php mysqli_close($connection);?>
+<?php
+///////update details code//////////////////////////////////////////////////////////////////////////////////////////
+function updateData(){
+    global $data;
+    $firstName = $_POST['tfirstName'];
+    $lastName = $_POST['tlastName'];
+    $address = $_POST['taddress'];
+    $bday = $_POST['tbday'];
+    $gender = $_POST['tgender'];
+    $email = $_POST['temail'];
+    $telephone = $_POST['ttelephone'];
 
+    $checkChanges = $firstName != $data['firstName'] || $lastName != $data['lastName'] || $address != $data['address'] || $bday != $data['birthDay']
+        || $gender != $data['gender'] || $email != $data['email'] || $telephone != $data['telephone'] ;
+
+    $query = "UPDATE teacher SET firstName='$firstName',lastName='$lastName',address='$address',birthDay='$bday',gender='$gender',email='$email',telephone='$telephone' WHERE indexNumber='{$_SESSION["username"]}' AND password='{$_SESSION["password"]}'";
+    if($checkChanges) {
+        if (sha1($_POST['updatePass']) == $_SESSION['password']) {
+            runQuery($query);
+            echo "<script>alert('Successfully updated!');</script>";
+            echo "<script>window.location.href = 'teacher.php';</script>";
+        } else {
+            echo "<script>alert('Invalid Password!'); updateDetails_layer.style.display = 'block';</script>";
+        }
+    } else {
+        echo "<script>alert('No changes detected!'); updateDetails_layer.style.display = 'block';</script>";
+
+    }
+}
+if($_SESSION['logged']) {
+    if (isset($_POST['updatePass'])) {
+        updateData();
+    }
+}
+
+///////update details code//////////////////////////////////////////////////////////////////////////////////////////
+
+?>
 </body>
 </html>

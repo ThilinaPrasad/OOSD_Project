@@ -28,7 +28,7 @@
     color: #f1f1f1;
 }
 
-.overlay .closebtn {
+.overlay .closebtn{
     position: absolute;
     top: 20px;
     right: 45px;
@@ -42,32 +42,33 @@
 }
 
 .notification{
-    border:0.5px solid gray;
     height:auto;
     margin: 4px 20px auto 20px;
     border-radius: 20px;
-    padding: 10px 20px 10px 20px;
+    padding: 10px 20px 10px 40px;
     color: white;
-
-}
-
-.notifiClose{
-    font-size:12px;
     width: auto;
-    padding: 2px 3px;
-    background-color: transparent;
-    color: darkgray;
-
+    transition: background-color 0.1s;
+    background-color: rgba(142, 142, 142,0.5);
+    z-index: 10;
 }
 
-.notifiClose:hover{
-    cursor: hand;
-    background-color: transparent;
-    color: white;
+.notification:hover{
+    background-color: rgba(142, 142, 142,0.7);
+    cursor: pointer;
+    transform: scale(1.01);
 }
 
+.notifiSender{
+    margin-left: 10px;
+}
+.notifiContent{
+    margin-left: 40px;
+}
 
-
+.new{
+    border: solid white;
+}
 
 @media screen and (max-height: 450px) {
     .overlay a {font-size: 20px}
@@ -76,4 +77,8 @@
         top: 15px;
         right: 35px;
     }
+}
+
+footer{
+    z-index: 1;
 }

@@ -92,7 +92,7 @@ function validate_signup(validated,pass,cmfpass,agree,agreeStatement){
 
     // Password == Con Pass
     var passCheck = false;
-    if(pass.value.length>=8) {
+    if(pass.value.trim().length>=8) {
         if (pass.value === cmfpass.value) {
             passCheck = true;
         } else if (fill) {
@@ -102,11 +102,11 @@ function validate_signup(validated,pass,cmfpass,agree,agreeStatement){
             formWarnings[4].innerText = "password mismatched !";
             //alert("Password mismatched !");
         }
-    }else {
+    }else if(fill){
         passCheck = false;
         fieldColorChange(pass,"red");
         fieldColorChange(cmfpass,"red");
-        formWarnings[4].innerText = "password must have 8-16 digits !";
+        formWarnings[4].innerText = "password must have 8-16 digits without whitespaces !";
         //alert("Password must have 8-16 digits !");
     }
 

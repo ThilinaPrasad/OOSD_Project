@@ -1,26 +1,32 @@
 <?php
-require_once("connection/dbConnection.php");
-
+require ("connection/dbConnection.php");
+require ("notifications/notifications.php");
 ///////Load user data//////////////////////////////////////////////////////////////////////////////////////////
 session_start();
 $query = "SELECT * FROM student WHERE indexNumber='{$_SESSION["username"]}' AND password='{$_SESSION["password"]}'";
 $result = runQuery($query);
-if(mysqli_num_rows($result)==1 && $_SESSION['logged']){
+if(mysqli_num_rows($result)==1 && $_SESSION['logged']) {
     $data = mysqli_fetch_assoc($result);
-}
+
 
 ///////Load user data//////////////////////////////////////////////////////////////////////////////////////////
 
-$query_results = "SELECT * FROM results WHERE indexNumber='{$_SESSION["username"]}'";
-$result_data = runQuery($query_results);
-if(mysqli_num_rows($result_data)==1 && $_SESSION['logged']){
-    $data_result = mysqli_fetch_assoc($result_data);
-}else{
-    $data_result = array('indexNumber'=>$_SESSION['username'],'studentName'=>$data['firstName']." ".$data['lastName'],'subject'=>'Not Added','marks'=>'Not Added');
-}
+    $query_results = "SELECT * FROM results WHERE indexNumber='{$_SESSION["username"]}'";
+    $result_data = runQuery($query_results);
+    if (mysqli_num_rows($result_data) == 1 && $_SESSION['logged']) {
+        $data_result = mysqli_fetch_assoc($result_data);
+    } else {
+        $data_result = array('indexNumber' => $_SESSION['username'], 'studentName' => $data['firstName'] . " " . $data['lastName'], 'subject' => 'Not Added', 'marks' => 'Not Added');
+    }
 
 ///////Load available results//////////////////////////////////////////////////////////////////////////////////////////
 
+///////Load available Notifications////////////////////////////////////////////////////////////////////////////////
+
+    $notificationPanel = loadNotifiPanel(loadData('Students'));
+
+///////Load available Notifications////////////////////////////////////////////////////////////////////////////////
+}
 ?>
 
 <!DOCTYPE html>
@@ -50,7 +56,7 @@ if(mysqli_num_rows($result_data)==1 && $_SESSION['logged']){
                 <li><a href="courses.php" target="_blank">Courses</a></li>
                 <li class="dropdown"><a href="#">Site 3</a></li>
                 <li class="dropdown"><a href="#">Site 3</a></li>
-                <li id="nav_noti"><a href="#" onclick="openNav()" style="color: white;">&#128276;</a></li>
+                <li id="nav_noti"><a href="#" onclick="openNav()" style="color: white;"><img src='<?php echo $notifiLogo;?>'></a></li>
                 </li>
                 <li ><a href="login.php"><img src="../img/nav/nav_logout.png" style="vertical-align: bottom">&nbsp;Log Out</a></li>
             </ul>
@@ -67,67 +73,9 @@ if(mysqli_num_rows($result_data)==1 && $_SESSION['logged']){
                 <hr class="hr1">
                 <hr class="hr2">
                 <div class="overlay-content">
-
-                    <div class="notification">
-                        <h3 class="sender">Sender_1</h3>
-                        <p class="content">Notification Info 1</p>
-                        <button class="notifiClose" onclick="closeNotifi(0);">Close</button>
-                    </div>
-
-                    <div class="notification">
-                        <h3 class="sender">Sender_2</h3>
-                        <p class="content">Notification Info 2</p>
-                        <button class="notifiClose" onclick="closeNotifi(1);">Close</button>
-                    </div>
-
-                    <div class="notification">
-                        <h3 class="sender">Sender_3</h3>
-                        <p class="content">Notification Info 3</p>
-                        <button class="notifiClose" onclick="closeNotifi(2);">Close</button>
-                    </div>
-
-                    <div class="notification">
-                        <h3 class="sender">Sender_4</h3>
-                        <p class="content">Notification Info 4</p>
-                        <button class="notifiClose" onclick="closeNotifi(3);">Close</button>
-                    </div>
-
-                    <div class="notification">
-                        <h3 class="sender">Sender_5</h3>
-                        <p class="content">Notification Info 5</p>
-                        <button class="notifiClose" onclick="closeNotifi(4);">Close</button>
-                    </div>
-
-                    <div class="notification">
-                        <h3 class="sender">Sender_6</h3>
-                        <p class="content">Notification Info 6</p>
-                        <button class="notifiClose" onclick="closeNotifi(5);">Close</button>
-                    </div>
-
-                    <div class="notification">
-                        <h3 class="sender">Sender_7</h3>
-                        <p class="content">Notification Info 7</p>
-                        <button class="notifiClose" onclick="closeNotifi(6);">Close</button>
-                    </div>
-
-                    <div class="notification">
-                        <h3 class="sender">Sender_8</h3>
-                        <p class="content">Notification Info 8</p>
-                        <button class="notifiClose" onclick="closeNotifi(7);">Close</button>
-                    </div>
-
-                    <div class="notification">
-                        <h3 class="sender">Sender_9</h3>
-                        <p class="content">Notification Info 9</p>
-                        <button class="notifiClose" onclick="closeNotifi(8);">Close</button>
-                    </div>
-
-                    <div class="notification">
-                        <h3 class="sender">Sender_10</h3>
-                        <p class="content">Notification Info 10</p>
-                        <button class="notifiClose" onclick="closeNotifi(9);">Close</button>
-                    </div>
-
+                    <?php
+                    echo $notificationPanel;
+                    ?>
                 </div>
             </div>
             <!--Notification panel-->
@@ -243,9 +191,8 @@ if(mysqli_num_rows($result_data)==1 && $_SESSION['logged']){
                         </div>
                     </div>
 
-
                 </div>
-            </div >
+            </div>
 
         </section>
         <!--footer section-->
@@ -268,7 +215,6 @@ if(mysqli_num_rows($result_data)==1 && $_SESSION['logged']){
 <script src="../javascript/backgroundCanvas/rAF.js"></script>
 
 <?php
-
 ///////update details code//////////////////////////////////////////////////////////////////////////////////////////
 function updateData(){
     global $data;
@@ -297,12 +243,15 @@ function updateData(){
 
     }
 }
-
-if(isset($_POST['updatePass'])){
-    updateData();
+if($_SESSION['logged']) {
+    if (isset($_POST['updatePass'])) {
+        updateData();
+    }
 }
 
 ///////update details code//////////////////////////////////////////////////////////////////////////////////////////
+
+
 
 ?>
 </body>
