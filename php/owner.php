@@ -2,43 +2,50 @@
 <?php require ("connection/dbConnection.php");
 require ("notifications/notifications.php");
 
+///////Load user data//////////////////////////////////////////////////////////////////////////////////////////
+session_start();
+$query = "SELECT * FROM owner WHERE indexNumber='{$_SESSION["username"]}' AND password='{$_SESSION["password"]}'";
+$result = runQuery($query);
+if(mysqli_num_rows($result)==1 && $_SESSION['logged']) {
+    $data = mysqli_fetch_assoc($result);
+    $fullName = $data['firstName'] . " " . $data['lastName'];
 ///////////////////////////////New Student////////////////////////////////////////////////////////////
-function indexGenerate()
-{
-    $query = "SELECT * FROM student ORDER BY id DESC LIMIT 1";
-    $result_set = runQuery($query);
-    if ($result_set) {
-        $result_set = mysqli_fetch_assoc($result_set);
-        $raw = $result_set['id']+1;
-        $raw = strval($raw);
-        $year = substr(strval(date("Y")),-2);
-        if(strlen($raw)==1){
-            return $year."000".$raw."S";
-        }else if(strlen($raw)==2){
-            return $year."00".$raw."S";
-        }else if(strlen($raw)==3){
-            return $year."0".$raw."S";
-        }else if(strlen($raw)==4){
-            return $year.$raw."S";
-        }else{
-            return "System reached the maximum number of users !";
+    function indexGenerate()
+    {
+        $query = "SELECT * FROM student ORDER BY id DESC LIMIT 1";
+        $result_set = runQuery($query);
+        if ($result_set) {
+            $result_set = mysqli_fetch_assoc($result_set);
+            $raw = $result_set['id'] + 1;
+            $raw = strval($raw);
+            $year = substr(strval(date("Y")), -2);
+            if (strlen($raw) == 1) {
+                return $year . "000" . $raw . "S";
+            } else if (strlen($raw) == 2) {
+                return $year . "00" . $raw . "S";
+            } else if (strlen($raw) == 3) {
+                return $year . "0" . $raw . "S";
+            } else if (strlen($raw) == 4) {
+                return $year . $raw . "S";
+            } else {
+                return "System reached the maximum number of users !";
+            }
+
         }
-
     }
-}
 
 
-if(isset($_POST['issue'])) {
-    $indexNo = $_POST['index'];
-    $stuMail = $_POST['stumail'];
-    $query = "INSERT INTO student (indexNumber) VALUE ('$indexNo')";
-    runQuery($query);
-    if(strlen(trim($stuMail))>0) {
-        sendMail($stuMail, "Your Registration Index Number of ", "This is a valid index number issued by Yureka Higner Education Institute.If you have any problem with registration please contact our office. <br><h1 align='center' style='background-color:lightgray; color:#4CAF50; width:400px; padding:20px; border:solid 4px gray; border-radius:50px; margin-left:20%; margin-top: 50px; margin-bottom: 50px;'>Index Number : " . $indexNo."</h1><br><a href='#'>Yureka Higher Education Institute</a> All Rights Reserved!", "Yureka Institute");
+    if (isset($_POST['issue'])) {
+        $indexNo = $_POST['index'];
+        $stuMail = $_POST['stumail'];
+        $query = "INSERT INTO student (indexNumber) VALUE ('$indexNo')";
+        runQuery($query);
+        if (strlen(trim($stuMail)) > 0) {
+            sendMail($stuMail, "Your Registration Index Number of ", "Welcome to Yureka Institute online System ! <br><br>This is a valid index number issued by Yureka Higner Education Institute.If you have any problem with registration please contact our office. <br><h1 align='center' style='background-color:lightgray; color:#4CAF50; width:400px; padding:20px; border:solid 4px gray; border-radius:50px; margin-left:20%; margin-top: 50px; margin-bottom: 50px;'>Index Number : " . $indexNo . "</h1><br><a href='#'>Yureka Higher Education Institute</a> All Rights Reserved!", "Yureka Institute");
+        }
+        echo '<script>window.location.href = "owner.php";</script>';
+        exit();
     }
-    echo '<script>window.location.href = "owner.php";</script>';
-    exit();
-}
 
 ///////////////////////////////New Student////////////////////////////////////////////////////////////
 
@@ -51,7 +58,7 @@ if(isset($_POST['issue'])) {
 
 /////////////////////////////// Add Courses////////////////////////////////////////////////////////////
 
-$weekDays_DD = "<option>Sunday</option>
+    $weekDays_DD = "<option>Sunday</option>
                                 <option>Monday</option>
                                 <option>Tuesday</option>
                                 <option>Wednesday</option>
@@ -59,105 +66,105 @@ $weekDays_DD = "<option>Sunday</option>
                                 <option>Friday</option>
                                 <option>Saturday</option>";
 
-$availableHalls_DD = "<option>Hall No:1</option>
+    $availableHalls_DD = "<option>Hall No:1</option>
                                 <option>Hall No:2</option>
                                 <option>Hall No:3</option>";
 
-$availableSubjects_DD = "";
+    $availableSubjects_DD = "";
 
-if(isset($_POST['doneAdd'])){
-    //if($_POST['upPass'] == $_SESSION['password']) { *************************************** complete this line **************
-    if(true){
-        $query_courseAdd = "INSERT INTO courses (subject, teacher, classDay, classTime, hall) VALUES ('{$_POST["subject"]}','{$_POST["teacher"]}','{$_POST["classDay"]}','{$_POST["classTime"]}','{$_POST["hall"]}')";
-        runQuery($query_courseAdd);
-        echo "<script type='text/javascript'>alert('Course Successfully Added !');</script>";
-        echo '<script>window.location.href = "owner.php";</script>';
-        exit();
+    if (isset($_POST['doneAdd'])) {
+        //if($_POST['upPass'] == $_SESSION['password']) { *************************************** complete this line **************
+        if (true) {
+            $query_courseAdd = "INSERT INTO courses (subject, teacher, classDay, classTime, hall) VALUES ('{$_POST["subject"]}','{$_POST["teacher"]}','{$_POST["classDay"]}','{$_POST["classTime"]}','{$_POST["hall"]}')";
+            runQuery($query_courseAdd);
+            echo "<script type='text/javascript'>alert('Course Successfully Added !');</script>";
+            echo '<script>window.location.href = "owner.php";</script>';
+            exit();
+        }
     }
-}
 
-$availableTeachers = "";
-$query_teacher = "SELECT * FROM teacher";
-$teachers = runQuery($query_teacher);
-if(mysqli_num_rows($teachers)>0) {
-    while ($teacher = mysqli_fetch_assoc($teachers)) {
-        $availableTeachers.="<option>{$teacher['firstName']} {$teacher['lastName']}</option>";
+    $availableTeachers = "";
+    $query_teacher = "SELECT * FROM teacher";
+    $teachers = runQuery($query_teacher);
+    if (mysqli_num_rows($teachers) > 0) {
+        while ($teacher = mysqli_fetch_assoc($teachers)) {
+            $availableTeachers .= "<option>{$teacher['firstName']} {$teacher['lastName']}</option>";
+        }
+    } else {
+        $availableTeachers = "<option>No Teachers</option>";
     }
-}else{
-    $availableTeachers =  "<option>No Teachers</option>";
-}
 
 /////////////////////////////// Add Courses////////////////////////////////////////////////////////////
 
 ///////////////////////////////Update Courses////////////////////////////////////////////////////////////
 
 //>>>>>>>>>>>>>>Load Data <<<<<<<<<<<<<<<<<<<<<<<<<
-$query_courseUp = "SELECT * FROM courses";
-$coursesUpdate = runQuery($query_courseUp);
-$courseID_array = array();
-$updateCourseDataTable = "<tr>";
-while ($courseUpdate = mysqli_fetch_assoc($coursesUpdate)){
-    array_push($courseID_array, $courseUpdate['courseId']);
-    $availableSubjects_DD .= "<option>{$courseUpdate['subject']}</option>";
-    $updateCourseDataTable .= "<td><input type='text' name='changedSub[]' value='{$courseUpdate['subject']}'></td>";
-    $updateCourseDataTable .= "<td><select name='changedTeacher[]'>
+    $query_courseUp = "SELECT * FROM courses";
+    $coursesUpdate = runQuery($query_courseUp);
+    $courseID_array = array();
+    $updateCourseDataTable = "<tr>";
+    while ($courseUpdate = mysqli_fetch_assoc($coursesUpdate)) {
+        array_push($courseID_array, $courseUpdate['courseId']);
+        $availableSubjects_DD .= "<option>{$courseUpdate['subject']}</option>";
+        $updateCourseDataTable .= "<td><input type='text' name='changedSub[]' value='{$courseUpdate['subject']}'></td>";
+        $updateCourseDataTable .= "<td><select name='changedTeacher[]'>
                                    <option selected hidden>{$courseUpdate['teacher']}</option>
                                    {$availableTeachers}
                                 </select></td>";
-    $updateCourseDataTable .= "<td><select name='changedDay[]'>
+        $updateCourseDataTable .= "<td><select name='changedDay[]'>
                                 <option selected hidden>{$courseUpdate['classDay']}</option>
                                 {$weekDays_DD}
                                 </select></td>";
-    $updateCourseDataTable .= "<td><input type='time' name='changedTime[]' value='{$courseUpdate['classTime']}'></td>";
-    $updateCourseDataTable .= "<td><select name='changedHall[]'>
+        $updateCourseDataTable .= "<td><input type='time' name='changedTime[]' value='{$courseUpdate['classTime']}'></td>";
+        $updateCourseDataTable .= "<td><select name='changedHall[]'>
                                 <option selected hidden>{$courseUpdate['hall']}</option>
                                 {$availableHalls_DD}
                                 </select></td>";
-    $updateCourseDataTable .= "</tr>";
-}
+        $updateCourseDataTable .= "</tr>";
+    }
 //>>>>>>>>>>>>>>Load Data <<<<<<<<<<<<<<<<<<<<<<<<<
 
 //>>>>>>>>>>>>>>Update Data<<<<<<<<<<<<<<<<<<<<<<<<<
-if(isset($_POST['doneUpdate'])){
-    //if($_POST['changesPass'] == $_SESSION['password']) { *************************************** complete this line **************
-    if(true){
-        $noOfRows = mysqli_num_rows($coursesUpdate);
-        $sub_array = $_POST['changedSub'];
-        $tea_array = $_POST['changedTeacher'];
-        $day_array = $_POST['changedDay'];
-        $time_array = $_POST['changedTime'];
-        $hall_array = $_POST['changedHall'];
-        for ($i=0;$i<$noOfRows;$i++){
-            $query_changes = "UPDATE courses SET subject='{$sub_array[$i]}',teacher='{$tea_array[$i]}',classDay='{$day_array[$i]}',classTime ='{$time_array[$i]}' ,hall='{$hall_array[$i]}' WHERE courseID='{$courseID_array[$i]}'";
-            runQuery($query_changes);
+    if (isset($_POST['doneUpdate'])) {
+        //if($_POST['changesPass'] == $_SESSION['password']) { *************************************** complete this line **************
+        if (true) {
+            $noOfRows = mysqli_num_rows($coursesUpdate);
+            $sub_array = $_POST['changedSub'];
+            $tea_array = $_POST['changedTeacher'];
+            $day_array = $_POST['changedDay'];
+            $time_array = $_POST['changedTime'];
+            $hall_array = $_POST['changedHall'];
+            for ($i = 0; $i < $noOfRows; $i++) {
+                $query_changes = "UPDATE courses SET subject='{$sub_array[$i]}',teacher='{$tea_array[$i]}',classDay='{$day_array[$i]}',classTime ='{$time_array[$i]}' ,hall='{$hall_array[$i]}' WHERE courseID='{$courseID_array[$i]}'";
+                runQuery($query_changes);
+            }
+            echo "<script type='text/javascript'>alert('Course details Successfully Updated !');</script>";
+            echo '<script>window.location.href = "owner.php";</script>';
+            exit();
         }
-        echo "<script type='text/javascript'>alert('Course details Successfully Updated !');</script>";
-        echo '<script>window.location.href = "owner.php";</script>';
-        exit();
     }
-}
 //>>>>>>>>>>>>>>Update Data<<<<<<<<<<<<<<<<<<<<<<<<<
 
 //>>>>>>>>>>>>>>Delete Data<<<<<<<<<<<<<<<<<<<<<<<<<
 
-if(isset($_POST['doneDelete'])){
-    //if($_POST['deletePass'] == $_SESSION['password']) { *************************************** complete this line **************
-    if(true){
-        echo "<script type='text/javascript'>alert({$_POST["deleteSub"]});</script>";
-        $query_delete = "DELETE FROM courses WHERE subject='{$_POST["deleteSub"]}' AND teacher='{$_POST["deleteTeacher"]}' AND classDay='{$_POST["deleteDay"]}'";
-        runQuery($query_delete);
-        $deletedRows = mysqli_affected_rows($connection);
-        if($deletedRows==1) {
-            echo "<script type='text/javascript'>alert('Course Successfully Deleted !');</script>";
-        }else{
-            echo "<script type='text/javascript'>alert('Not found Course match with given data !');</script>";
+    if (isset($_POST['doneDelete'])) {
+        //if($_POST['deletePass'] == $_SESSION['password']) { *************************************** complete this line **************
+        if (true) {
+            echo "<script type='text/javascript'>alert({$_POST["deleteSub"]});</script>";
+            $query_delete = "DELETE FROM courses WHERE subject='{$_POST["deleteSub"]}' AND teacher='{$_POST["deleteTeacher"]}' AND classDay='{$_POST["deleteDay"]}'";
+            runQuery($query_delete);
+            $deletedRows = mysqli_affected_rows($connection);
+            if ($deletedRows == 1) {
+                echo "<script type='text/javascript'>alert('Course Successfully Deleted !');</script>";
+            } else {
+                echo "<script type='text/javascript'>alert('Not found Course match with given data !');</script>";
+            }
+        } else {
+            echo "<script type='text/javascript'>alert('Invalid Password!');</script>";
         }
-    }else{
-        echo "<script type='text/javascript'>alert('Invalid Password!');</script>";
+        echo '<script>window.location.href = "owner.php";</script>';
+        exit();
     }
-    echo '<script>window.location.href = "owner.php";</script>';
-    exit();
-}
 
 //>>>>>>>>>>>>>>Delete Data<<<<<<<<<<<<<<<<<<<<<<<<<
 
@@ -167,15 +174,32 @@ if(isset($_POST['doneDelete'])){
 ///////////////////////////////Courses////////////////////////////////////////////////////////////
 
 ///////////////////////////////Send Notifications////////////////////////////////////////////////////////////
-if(isset($_POST['sendBtn'])){
-    sendNotification("Owner");
-    sendNotificationMail("Yureka notification from","Owner");
+    if (isset($_POST['sendBtn'])) {
+        sendNotification("Owner");
+        sendNotificationMail("Yureka notification from", "Owner");
         echo "<script type='text/javascript'>alert('Notification Sent!');</script>";
         echo '<script>window.location.href = "owner.php";</script>';
         exit();
-}
+    }
 ///////////////////////////////Send Notifications////////////////////////////////////////////////////////////
 
+///////////////////////////////Change Password////////////////////////////////////////////////////////////
+    if (isset($_POST['ochangePassBtn'])) {
+        $newPassword = sha1($_POST['onewPass']);
+        if($_SESSION['password']== sha1($_POST['ocurrentPass'])){
+            $query_cp = "UPDATE owner SET password='{$newPassword}' WHERE indexNumber='{$_SESSION["username"]}'";
+            runQuery($query_cp);
+            $_SESSION['password']=$newPassword;
+            sendMail($data['email'],"Yureka LogIn Password Changed By","Your Yureka Institute online user account password changed by ".$fullName." on ".date("Y-m-d")." at ".date("h:i:sa")."<br><br><br><a href='#'>Yureka Higher Education Institute</a> All Rights Reserved!",$fullName);
+            echo "<script type='text/javascript'>alert('Password Successfully Changed!');</script>";
+        }else{
+            echo "<script type='text/javascript'>alert('Invalid Current Password!');</script>";
+        }
+        echo '<script>window.location.href = "owner.php";</script>';
+        exit();
+    }
+///////////////////////////////Change Password////////////////////////////////////////////////////////////
+}
 ?>
 
 <!--php code here-->
@@ -207,7 +231,7 @@ if(isset($_POST['sendBtn'])){
                 <li><a href="#">Site 3</a></li>
                 <li><a href="#">Site 2</a></li>
                 </li>
-                <li ><a href="login.php"><img src="../img/nav/nav_logout.png" style="vertical-align: bottom">&nbsp;Log Out</a></li>
+                <li ><a href="logout.php"><img src="../img/nav/nav_logout.png" style="vertical-align: bottom">&nbsp;Log Out</a></li>
             </ul>
             <!--navigation bar end-->
         </header>
@@ -228,7 +252,7 @@ if(isset($_POST['sendBtn'])){
                             </li>
                             <ul><div id="dayTime">Good Evening !</div></ul>
                         </ul>
-                        <a href="#" id="loggedName" title="Update Information" onclick="ownerLayers(); updateDetails_layer.style.display='block';">First Name</a>
+                        <a href="#" id="loggedName" title="Update Information" onclick="ownerLayers(); updateDetails_layer.style.display='block';"><?php echo $fullName;?></a>
                     </div>
                     <!--Day Timer and User Info-->
 
@@ -246,15 +270,15 @@ if(isset($_POST['sendBtn'])){
 
                     <div class="notification_panel" style="display: block;">
                         <form action="owner.php" method="post">
-                            <select name="receiver">
+                            <select name="receiver" id="notReceiver">
                                 <option>All</option>
                                 <option>Students</option>
                                 <option>Teachers</option>
                             </select>
                             <textarea rows="10" columns="40" class="message" id="notice" name="notice" placeholder="Type Your Message Here"></textarea>
                             <ul>
-                                <li><button class="clr">Clear</button></li>
-                                <li><button class="send" name="sendBtn" id="sendBtn">Send</button></li>
+                                <li><button class="clr" onclick="notificationCrear(document.getElementById('notReceiver'),document.getElementById('notice')); return false;">Clear</button></li>
+                                <li><button class="send" name="sendBtn" id="sendBtn" onclick="return noticeCheck(document.getElementById('notice'));">Send</button></li>
                             </ul>
                         </form>
                     </div>
@@ -467,36 +491,36 @@ if(isset($_POST['sendBtn'])){
                               <Lable>Name</Lable>
                               <font size="2" class="warning" color="red"></font>          <!--name warning 0-->
                                 <br>
-                                <input type="text" id="ofirstName"  placeholder="First Name" name="ofirstName">
-                                <input type="text" id="olastName"  placeholder="Last Name" name="olastName"><br>
+                                <input type="text" id="ofirstName"  placeholder="First Name" name="ofirstName" <?php echo "value='{$data["firstName"]}'";?>>
+                                <input type="text" id="olastName"  placeholder="Last Name" name="olastName" <?php echo "value='{$data["lastName"]}'";?>><br>
 
 
                                 <br>
                                 <Lable>Address</Lable><br>
-                                <textarea rows="4" columns="40" id="oaddress" name="oaddress"></textarea>
+                                <textarea rows="4" columns="40" id="oaddress" name="oaddress"><?php echo $data["address"];?></textarea>
                                 <br>
                                 <Lable>Birthday</Lable><br>
-                                <input type="date" id="obDay" name="obday">
+                                <input type="date" id="obDay" name="obday" <?php echo "value='{$data["birthDay"]}'";?>>
 
                                 <br>
                                 <Lable>Gender</Lable><br>
                                 <select id="ogender" name="ogender">
                                     <option hidden>Select</option>
-                                    <option>Male</option>
-                                    <option>Female</option>
+                                    <option <?php if($data["gender"]=="Male"){echo "selected='selected'";}?>>Male</option>
+                                    <option <?php if($data["gender"]=="Female"){echo "selected='selected'";}?>>Female</option>
                                 </select>
 
                                 <br>
                                 <Lable>Email</Lable>
                                 <font size="2" class="warning" color="red"></font>  <!--email warning 1-->
                                 <br>
-                                <input type="email" id="oemail" name="oemail">
+                                <input type="email" id="oemail" name="oemail" <?php echo "value='{$data["email"]}'";?>>
 
                                 <br>
                                 <Lable>Telephone</Lable>
                                 <font size="2" class="warning">(*Must contain 10 digits)</font><br> <!--tel warning 2-->
                                 <font size="2" class="warning" color="red"></font><br> <!--tel warning 3-->
-                                <input type="tel" id="otelephoneNo" name="otelephone">
+                                <input type="tel" id="otelephoneNo" name="otelephone" <?php echo "value='{$data["telephone"]}'";?>>
 
                                 <br>
                                 <input type="submit" value="Update" onclick="updateValidationOnclick();" >
@@ -516,9 +540,31 @@ if(isset($_POST['sendBtn'])){
                                     </div>
                                 </div>
                                 <!---->
+                              <a href="#" style="margin-left:350px;" onclick="document.getElementById('changePassword').style.display='block';return false;">Change Password</a>
 
                             </form>
+
+                          <form action="owner.php" method="post">
+                              <!--change password container -->
+                              <div id="changePassword" class="modal">
+                                  <div class="modal-content animate">
+                                      <div class="imgcontainer">
+                                          <span onclick="document.getElementById('changePassword').style.display='none'" class="close" title="Close Modal">&times;</span>
+                                      </div>
+                                      <div class="container">
+                                          <label><b>Change Password</b></label>
+                                          <input type="password" placeholder="Current Password" name="ocurrentPass" id="ocurrentPass" required>
+                                          <font size="2" id="ochangePassWarn">(*password must have 8-16 digits)</font><br>
+                                          <input type="password" placeholder="New Password" name="onewPass" id="onewPass" required>
+                                          <input type="password" placeholder="Confirm New Password" name="ocmfnewPass" id="ocmfPass" required>
+                                          <input type="submit" name="ochangePassBtn" value="Change Password" onclick="return changePassBtnOnclick(document.getElementById('ocurrentPass'),document.getElementById('onewPass'),document.getElementById('ocmfPass'),document.getElementById('ochangePassWarn'));">
+                                      </div>
+                                  </div>
+                              </div>
+                              <!---->
+                          </form>
                         </div>
+
                     </div>
 
                     <div class="newStudent_panel" style="display: none;">

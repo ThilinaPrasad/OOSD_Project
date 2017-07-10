@@ -186,3 +186,58 @@ function innerJump(id){
     location.href = "#"+id;                 //Go to the target element.
     history.replaceState(null,null,url);   //Don't like hashes. Changing it back.
 }
+
+
+////////////////////////Send Notification Panel //////////////////////////////////////
+function notificationCrear(receiver,msg){
+    receiver.selectedIndex = 0;
+    msg.value = '';
+}
+
+function noticeCheck(not){
+    fieldColorChange(not,'');
+    if(not.value.trim().length>0){
+        return  true;
+    }else{
+        not.value = '';
+        fieldColorChange(not,'red');
+        return false;
+    }
+
+}
+////////////////////////Send Notification Panel //////////////////////////////////////
+
+////////////////////////Change pass validations //////////////////////////////////////
+
+function changePassBtnOnclick(current,newPass,cmfNewPass,warn){
+    fieldColorChange(current,'');
+    fieldColorChange(newPass,'');
+    fieldColorChange(cmfNewPass,'');
+    warn.style.color = '';
+    warn.innerText = '(*password must have 8-16 digits)';
+
+    if( current.value.trim().length>0){
+        if(newPass.value.trim().length>=8){
+            if(cmfNewPass.value==newPass.value){
+                return true;
+            }else{
+                warn.innerText = 'Password mismatched!';
+                warn.style.color = 'red';
+                fieldColorChange(newPass,'red');
+                fieldColorChange(cmfNewPass,'red');
+                return false;
+            }
+        }else{
+            warn.style.color = 'red';
+            fieldColorChange(newPass,'red');
+            fieldColorChange(cmfNewPass,'red');
+            return false;
+        }
+    }else{
+        fieldColorChange(current,'red');
+        return false;
+    }
+
+}
+
+////////////////////////Change pass validations //////////////////////////////////////

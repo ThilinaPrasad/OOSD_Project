@@ -7,7 +7,7 @@ $query = "SELECT * FROM student WHERE indexNumber='{$_SESSION["username"]}' AND 
 $result = runQuery($query);
 if(mysqli_num_rows($result)==1 && $_SESSION['logged']) {
     $data = mysqli_fetch_assoc($result);
-
+    $fullName = $data['firstName'] . " " . $data['lastName'];
 
 ///////Load user data//////////////////////////////////////////////////////////////////////////////////////////
 
@@ -26,6 +26,23 @@ if(mysqli_num_rows($result)==1 && $_SESSION['logged']) {
     $notificationPanel = loadNotifiPanel(loadData('Students'));
 
 ///////Load available Notifications////////////////////////////////////////////////////////////////////////////////
+
+    /////////////////////////////////Change Password////////////////////////////////////////////////////////////
+    if (isset($_POST['schangePassBtn'])) {
+        $newPassword = sha1($_POST['snewPass']);
+        if($_SESSION['password']== sha1($_POST['scurrentPass'])){
+            $query_cp = "UPDATE student SET password='{$newPassword}' WHERE indexNumber='{$_SESSION["username"]}'";
+            runQuery($query_cp);
+            $_SESSION['password']=$newPassword;
+            sendMail($data['email'],"Yureka LogIn Password Changed By","Your Yureka Institute online user account password changed by ".$fullName." on ".date("Y-m-d")." at ".date("h:i:sa")."<br><br><br><a href='#'>Yureka Higher Education Institute</a> All Rights Reserved!",$fullName);
+            echo "<script type='text/javascript'>alert('Password Successfully Changed!');</script>";
+        }else{
+            echo "<script type='text/javascript'>alert('Invalid Current Password!');</script>";
+        }
+        echo '<script>window.location.href = "student.php";</script>';
+        exit();
+    }
+///////////////////////////////Change Password////////////////////////////////////////////////////////////
 }
 ?>
 
@@ -58,7 +75,7 @@ if(mysqli_num_rows($result)==1 && $_SESSION['logged']) {
                 <li class="dropdown"><a href="#">Site 3</a></li>
                 <li id="nav_noti"><a href="#" onclick="openNav()" style="color: white;"><img src='<?php echo $notifiLogo;?>'></a></li>
                 </li>
-                <li ><a href="login.php"><img src="../img/nav/nav_logout.png" style="vertical-align: bottom">&nbsp;Log Out</a></li>
+                <li ><a href="logout.php"><img src="../img/nav/nav_logout.png" style="vertical-align: bottom">&nbsp;Log Out</a></li>
             </ul>
             <!--navigation bar end-->
         </header>
@@ -93,7 +110,7 @@ if(mysqli_num_rows($result)==1 && $_SESSION['logged']) {
                             </li>
                             <ul><div id="dayTime">Good Evening!</div></ul>
                         </ul>
-                        <a href="#" id="loggedName" title="Update Information" onclick="studentLayers(); updateDetails_layer.style.display='block';"><?php echo $data['firstName']." ".$data['lastName'];?></a>
+                        <a href="#" id="loggedName" title="Update Information" onclick="studentLayers(); updateDetails_layer.style.display='block';"><?php echo $fullName;?></a>
                     </div>
                     <!--Day Timer and User Info-->
 
@@ -186,7 +203,28 @@ if(mysqli_num_rows($result)==1 && $_SESSION['logged']) {
                                     </div>
                                 </div>
                                 <!---->
+                                <a href="#" style="margin-left:350px;" onclick="document.getElementById('changePassword').style.display='block';return false;">Change Password</a>
 
+                            </form>
+
+                            <form action="student.php" method="post">
+                                <!--change password container -->
+                                <div id="changePassword" class="modal">
+                                    <div class="modal-content animate">
+                                        <div class="imgcontainer">
+                                            <span onclick="document.getElementById('changePassword').style.display='none'" class="close" title="Close Modal">&times;</span>
+                                        </div>
+                                        <div class="container">
+                                            <label><b>Change Password</b></label>
+                                            <input type="password" placeholder="Current Password" name="scurrentPass" id="ocurrentPass" required>
+                                            <font size="2" id="ochangePassWarn">(*password must have 8-16 digits)</font><br>
+                                            <input type="password" placeholder="New Password" name="snewPass" id="onewPass" required>
+                                            <input type="password" placeholder="Confirm New Password" name="scmfnewPass" id="ocmfPass" required>
+                                            <input type="submit" name="schangePassBtn" value="Change Password" onclick="return changePassBtnOnclick(document.getElementById('ocurrentPass'),document.getElementById('onewPass'),document.getElementById('ocmfPass'),document.getElementById('ochangePassWarn'));">
+                                        </div>
+                                    </div>
+                                </div>
+                                <!---->
                             </form>
                         </div>
                     </div>

@@ -9,7 +9,6 @@ $query = "SELECT * FROM teacher WHERE indexNumber='{$_SESSION["username"]}' AND 
 $result = runQuery($query);
 if(mysqli_num_rows($result)==1 && $_SESSION['logged']) {
     $data = mysqli_fetch_assoc($result);
-
     $fullName = $data['firstName'] . " " . $data['lastName'];
 ///////Load user data//////////////////////////////////////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////// Load Subjects /////////////////////////////////////
@@ -75,6 +74,23 @@ if($_POST['uploadResultPass_one'] == $_SESSION['password']) {
     $notificationPanel = loadNotifiPanel(loadData('Teachers'));
 
 ///////Load available Notifications////////////////////////////////////////////////////////////////////////////////
+
+/////////////////////////////////Change Password////////////////////////////////////////////////////////////
+    if (isset($_POST['tchangePassBtn'])) {
+        $newPassword = sha1($_POST['tnewPass']);
+        if($_SESSION['password']== sha1($_POST['tcurrentPass'])){
+            $query_cp = "UPDATE teacher SET password='{$newPassword}' WHERE indexNumber='{$_SESSION["username"]}'";
+            runQuery($query_cp);
+            $_SESSION['password']=$newPassword;
+            sendMail($data['email'],"Yureka LogIn Password Changed By","Your Yureka Institute online user account password changed by ".$fullName." on ".date("Y-m-d")." at ".date("h:i:sa")."<br><br><br><a href='#'>Yureka Higher Education Institute</a> All Rights Reserved!",$fullName);
+            echo "<script type='text/javascript'>alert('Password Successfully Changed!');</script>";
+        }else{
+            echo "<script type='text/javascript'>alert('Invalid Current Password!');</script>";
+        }
+        echo '<script>window.location.href = "teacher.php";</script>';
+        exit();
+    }
+///////////////////////////////Change Password////////////////////////////////////////////////////////////
 }
 ?>
 <!DOCTYPE html>
@@ -105,7 +121,7 @@ if($_POST['uploadResultPass_one'] == $_SESSION['password']) {
                 <li class="dropdown"><a href="#">Site 3</a></li>
                 <li id="nav_noti"><a href="#" onclick="openNav()" style="color: white;"><img src='<?php echo $notifiLogo;?>'></a></li>
                 </li>
-                <li ><a href="login.php"><img src="../img/nav/nav_logout.png" style="vertical-align: bottom">&nbsp;Log Out</a></li>
+                <li ><a href="logout.php"><img src="../img/nav/nav_logout.png" style="vertical-align: bottom">&nbsp;Log Out</a></li>
             </ul>
             <!--navigation bar end-->
         </header>
@@ -227,15 +243,15 @@ if($_POST['uploadResultPass_one'] == $_SESSION['password']) {
 
                     <div class="notification_panel" style="display: none;">
                         <form action="teacher.php" method="post">
-                            <select name="receiver">
+                            <select name="receiver" id="tnotReceiver">
                                 <option>All</option>
                                 <option>Students</option>
                                 <option>Teachers</option>
                             </select>
-                            <textarea rows="10" columns="40" class="message" id="notice" name="notice" placeholder="Type Your Message Here"></textarea>
+                            <textarea rows="10" columns="40" class="message" id="tnotice" name="notice" placeholder="Type Your Message Here"></textarea>
                             <ul>
-                                <li><button class="clr">Clear</button></li>
-                                <li><button class="send" name="sendBtn" id="sendBtn">Send</button></li>
+                                <li><button class="clr" onclick="notificationCrear(document.getElementById('tnotReceiver'),document.getElementById('tnotice')); return false;">Clear</button></li>
+                                <li><button class="send" name="sendBtn" id="sendBtn" onclick="return noticeCheck(document.getElementById('tnotice'));">Send</button></li>
                             </ul>
                         </form>
                     </div>
@@ -296,7 +312,28 @@ if($_POST['uploadResultPass_one'] == $_SESSION['password']) {
                                     </div>
                                 </div>
                                 <!---->
+                                <a href="#" style="margin-left:350px;" onclick="document.getElementById('changePassword').style.display='block';return false;">Change Password</a>
 
+                            </form>
+
+                            <form action="teacher.php" method="post">
+                                <!--change password container -->
+                                <div id="changePassword" class="modal">
+                                    <div class="modal-content animate">
+                                        <div class="imgcontainer">
+                                            <span onclick="document.getElementById('changePassword').style.display='none'" class="close" title="Close Modal">&times;</span>
+                                        </div>
+                                        <div class="container">
+                                            <label><b>Change Password</b></label>
+                                            <input type="password" placeholder="Current Password" name="tcurrentPass" id="ocurrentPass" required>
+                                            <font size="2" id="ochangePassWarn">(*password must have 8-16 digits)</font><br>
+                                            <input type="password" placeholder="New Password" name="tnewPass" id="onewPass" required>
+                                            <input type="password" placeholder="Confirm New Password" name="tcmfnewPass" id="ocmfPass" required>
+                                            <input type="submit" name="tchangePassBtn" value="Change Password" onclick="return changePassBtnOnclick(document.getElementById('ocurrentPass'),document.getElementById('onewPass'),document.getElementById('ocmfPass'),document.getElementById('ochangePassWarn'));">
+                                        </div>
+                                    </div>
+                                </div>
+                                <!---->
                             </form>
                         </div>
                     </div>

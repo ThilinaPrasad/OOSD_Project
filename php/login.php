@@ -121,8 +121,8 @@ function submitOnclick()
                     break;
 
             }
-
-
+        }else{
+            echo "<script type='text/javascript'>alert('Invalid Index Number or Password !'); fieldColorChange(document.getElementById('login_username'),'red'); fieldColorChange(document.getElementById('login_password'),'red');</script>";
         }
 //window.location.href = 'login.php';
     }

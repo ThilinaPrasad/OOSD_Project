@@ -159,11 +159,13 @@ input[type="submit"]:hover ,button:hover{
 /*footer hr lines*/
 .hr1{
     border-top: 2px solid gray;
+    z-index: 1;
 }
 
 .hr2{
     border-top: 10px solid gray;
     margin-top: -3px;
+    z-index: 1;
 }
 
 /*footer hr lines*/
