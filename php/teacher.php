@@ -295,6 +295,10 @@ if($_POST['uploadResultPass_one'] == $_SESSION['password']) {
                                 <input type="tel" id="ttelephoneNo" name="ttelephone" <?php echo "value='{$data["telephone"]}'";?>>
 
                                 <br>
+                                <Lable>Educational Qualifications</Lable><br>
+                                <input type="text" id="ateduQualifications" name="teducationalQualifi" <?php echo "value='{$data["eduQualification"]}'";?>>
+
+                                <br>
                                 <input type="submit" value="Update" onclick="updateValidationOnclick();" >
                                 <!--onclick="submitOnclick();" for validations"-->
 
@@ -372,11 +376,12 @@ function updateData(){
     $gender = $_POST['tgender'];
     $email = $_POST['temail'];
     $telephone = $_POST['ttelephone'];
+    $eduQau = $_POST['teducationalQualifi'];
 
     $checkChanges = $firstName != $data['firstName'] || $lastName != $data['lastName'] || $address != $data['address'] || $bday != $data['birthDay']
-        || $gender != $data['gender'] || $email != $data['email'] || $telephone != $data['telephone'] ;
+        || $gender != $data['gender'] || $email != $data['email'] || $telephone != $data['telephone'] || $eduQau != $data['eduQualification'] ;
 
-    $query = "UPDATE teacher SET firstName='$firstName',lastName='$lastName',address='$address',birthDay='$bday',gender='$gender',email='$email',telephone='$telephone' WHERE indexNumber='{$_SESSION["username"]}' AND password='{$_SESSION["password"]}'";
+    $query = "UPDATE teacher SET firstName='$firstName',lastName='$lastName',address='$address',birthDay='$bday',gender='$gender',email='$email',telephone='$telephone',eduQualification='$eduQau' WHERE indexNumber='{$_SESSION["username"]}' AND password='{$_SESSION["password"]}'";
     if($checkChanges) {
         if (sha1($_POST['updatePass']) == $_SESSION['password']) {
             runQuery($query);
