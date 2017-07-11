@@ -202,6 +202,107 @@ if(mysqli_num_rows($result)==1 && $_SESSION['logged']) {
 }
 ?>
 
+<?php
+
+/*** check if a file was submitted ***/
+if(!isset($_FILES['userfile']))
+{
+    echo '<p>Please select a file</p>';
+}
+else
+{
+    try {
+        upload();
+        /*** give praise and thanks to the php gods ***/
+        echo '<p>Thank you for submitting</p>';
+    }
+    catch(PDOException $e)
+    {
+        echo '<h4>'.$e->getMessage().'</h4>';
+    }
+    catch(Exception $e)
+    {
+        echo '<h4>'.$e->getMessage().'</h4>';
+    }
+}
+
+
+/**
+ *
+ * the upload function
+ *
+ * @access public
+ *
+ * @return void
+ *
+ */
+function upload(){
+    /*** check if a file was uploaded ***/
+    if(is_uploaded_file($_FILES['userfile']['tmp_name']) && getimagesize($_FILES['userfile']['tmp_name']) != false)
+    {
+        /***  get the advertisement description. ***/
+        $msg = $_POST['msg'];
+        /***  get the image info. ***/
+        $size = getimagesize($_FILES['userfile']['tmp_name']);
+
+
+        /*** create a second variable for the thumbnail ***/
+        $thumb_data = $_FILES['userfile']['tmp_name'];
+
+        /*** the height of the thumbnail ***/
+        $thumb_height = 250;
+        $thumb_width = 630;
+
+        /***  get the image source ***/
+        $src = ImageCreateFromjpeg($thumb_data);
+
+        /*** create the destination image ***/
+        $destImage = ImageCreateTrueColor($thumb_width, $thumb_height);
+
+        /*** copy and resize the src image to the dest image ***/
+        ImageCopyResampled($destImage, $src, 0,0,0,0, $thumb_width, $thumb_height, $size[0], $size[1]);
+
+        /*** start output buffering ***/
+        ob_start();
+
+        /***  export the image ***/
+        imageJPEG($destImage);
+
+        /*** stick the image content in a variable ***/
+        $image_thumb = ob_get_contents();
+
+        /*** clean up a little ***/
+        ob_end_clean();
+
+        /*** connect to db ***/
+        $dbh = new PDO("mysql:host=localhost;dbname=addsdatabase", 'root', '');
+
+        /*** set the error mode ***/
+        $dbh->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+        /*** prepare the sql ***/
+        $stmt = $dbh->prepare("INSERT INTO addstable (image_thumb, thumb_height, thumb_width, description) VALUES (? ,?, ?, '$msg')");
+        $stmt->bindParam(1, $image_thumb,  PDO::PARAM_LOB);
+        $stmt->bindParam(2, $thumb_height, PDO::PARAM_INT);
+        $stmt->bindParam(3, $thumb_width,  PDO::PARAM_INT);
+
+        /*** execute the query ***/
+        $stmt->execute();
+    }
+    else
+    {
+// if the file is not less than the maximum allowed, print an error
+        throw new Exception("Unsupported Image Format!");
+    }
+}
+
+
+
+
+?>
+
+
+
 <!--php code here-->
 
 <!DOCTYPE html>
