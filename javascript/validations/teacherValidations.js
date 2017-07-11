@@ -92,5 +92,5 @@ var tel= document.getElementById('ttelephoneNo');
 var formWarnings = document.getElementsByClassName('warning');
 
 function updateValidationOnclick() {
-    validate_update(validate_general(fname,lname,useraddress,userbday,gender,usermail,tel),"tupdateDetails");
+    validate_update(validate_general(fname,lname,useraddress,userbday,gender,usermail,tel,formWarnings),"tupdateDetails");
 }

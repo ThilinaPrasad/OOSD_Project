@@ -12,7 +12,7 @@ if(mysqli_num_rows($result)==1 && $_SESSION['logged']) {
 ///////////////////////////////New Student////////////////////////////////////////////////////////////
     function indexGenerate()
     {
-        $query = "SELECT * FROM student ORDER BY id DESC LIMIT 1";
+        $query = "SELECT id FROM student ORDER BY id DESC LIMIT 1";
         $result_set = runQuery($query);
         if ($result_set) {
             $result_set = mysqli_fetch_assoc($result_set);
@@ -47,11 +47,8 @@ if(mysqli_num_rows($result)==1 && $_SESSION['logged']) {
         exit();
     }
 
+
 ///////////////////////////////New Student////////////////////////////////////////////////////////////
-
-///////////////////////////////Add Teacher////////////////////////////////////////////////////////////
-
-///////////////////////////////Add Teacher////////////////////////////////////////////////////////////
 
 
 ///////////////////////////////Courses////////////////////////////////////////////////////////////
@@ -199,109 +196,48 @@ if(mysqli_num_rows($result)==1 && $_SESSION['logged']) {
         exit();
     }
 ///////////////////////////////Change Password////////////////////////////////////////////////////////////
+
+
+    /////////////////////////// Add Teacher /////////////////////////////////////////////////////////////////
+
+        $query = "SELECT id FROM teacher ORDER BY id DESC LIMIT 1";
+        $result_set = runQuery($query);
+        $tIndex = '';
+        if ($result_set) {
+            $result_set = mysqli_fetch_assoc($result_set);
+            $raw = $result_set['id'] + 1;
+            $raw = strval($raw);
+            $year = substr(strval(date("Y")), -2);
+            if (strlen($raw) == 1) {
+                $tIndex =  $year . "000" . $raw . "T";
+            } else if (strlen($raw) == 2) {
+                $tIndex =  $year . "00" . $raw . "T";
+            } else if (strlen($raw) == 3) {
+                $tIndex =  $year . "0" . $raw . "T";
+            } else if (strlen($raw) == 4) {
+                $tIndex =  $year . $raw . "T";
+            } else {
+                $tIndex =  "SRMI";
+            }
+
+        }
+
+        if(isset($_POST['atdone'])){
+            if(sha1($_POST['atPass'])==$_SESSION['password']) {
+                $tpass = sha1("teacher123");
+                $atquery = "INSERT INTO teacher(indexNumber, firstName, lastName, address, birthDay, gender, email, telephone, eduQualification,password) VALUES ('{$_POST["atindex"]}','{$_POST["atfirstName"]}','{$_POST["atlastName"]}','{$_POST["ataddress"]}','{$_POST["atbDay"]}','{$_POST["atgender"]}','{$_POST["atemail"]}','{$_POST["attelephone"]}','{$_POST["ateducationalQualifi"]}','{$tpass}')";
+                runQuery($atquery);
+                sendMail($_POST["atemail"], "Your Registration Index Number of ", $_POST["atfirstName"]." ".$_POST["atlastName"]." Welcome to Yureka Institute online System ! <br><br>This is a valid index number issued by Yureka Higner Education Institute.If you have any problem with registration please contact our office. <br><h1 align='center' style='background-color:lightgray; color:#4CAF50; width:400px; padding:20px; border:solid 4px gray; border-radius:50px; margin-left:20%; margin-top: 50px; margin-bottom: 50px;'>Index Number : " . $tIndex . "</h1><br><b>Your Temporary Password is : teacher123</b><br> please change it after your first login.<br><br><a href='#'>Yureka Higher Education Institute</a> All Rights Reserved!", "Yureka Institute");
+                echo '<script>alert("Teacher Successfully Added to your System! Teacher Password is : teacher123");</script>';
+            }else{
+                echo "<script type='text/javascript'>alert('Invalid Password!');</script>";
+            }
+            echo '<script>window.location.href = "owner.php";</script>';
+            exit();
+        }
+
 }
 ?>
-
-<?php
-
-/*** check if a file was submitted ***/
-if(!isset($_FILES['userfile']))
-{
-    echo '<p>Please select a file</p>';
-}
-else
-{
-    try {
-        upload();
-        /*** give praise and thanks to the php gods ***/
-        echo '<p>Thank you for submitting</p>';
-    }
-    catch(PDOException $e)
-    {
-        echo '<h4>'.$e->getMessage().'</h4>';
-    }
-    catch(Exception $e)
-    {
-        echo '<h4>'.$e->getMessage().'</h4>';
-    }
-}
-
-
-/**
- *
- * the upload function
- *
- * @access public
- *
- * @return void
- *
- */
-function upload(){
-    /*** check if a file was uploaded ***/
-    if(is_uploaded_file($_FILES['userfile']['tmp_name']) && getimagesize($_FILES['userfile']['tmp_name']) != false)
-    {
-        /***  get the advertisement description. ***/
-        $msg = $_POST['msg'];
-        /***  get the image info. ***/
-        $size = getimagesize($_FILES['userfile']['tmp_name']);
-
-
-        /*** create a second variable for the thumbnail ***/
-        $thumb_data = $_FILES['userfile']['tmp_name'];
-
-        /*** the height of the thumbnail ***/
-        $thumb_height = 250;
-        $thumb_width = 630;
-
-        /***  get the image source ***/
-        $src = ImageCreateFromjpeg($thumb_data);
-
-        /*** create the destination image ***/
-        $destImage = ImageCreateTrueColor($thumb_width, $thumb_height);
-
-        /*** copy and resize the src image to the dest image ***/
-        ImageCopyResampled($destImage, $src, 0,0,0,0, $thumb_width, $thumb_height, $size[0], $size[1]);
-
-        /*** start output buffering ***/
-        ob_start();
-
-        /***  export the image ***/
-        imageJPEG($destImage);
-
-        /*** stick the image content in a variable ***/
-        $image_thumb = ob_get_contents();
-
-        /*** clean up a little ***/
-        ob_end_clean();
-
-        /*** connect to db ***/
-        $dbh = new PDO("mysql:host=localhost;dbname=addsdatabase", 'root', '');
-
-        /*** set the error mode ***/
-        $dbh->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-
-        /*** prepare the sql ***/
-        $stmt = $dbh->prepare("INSERT INTO addstable (image_thumb, thumb_height, thumb_width, description) VALUES (? ,?, ?, '$msg')");
-        $stmt->bindParam(1, $image_thumb,  PDO::PARAM_LOB);
-        $stmt->bindParam(2, $thumb_height, PDO::PARAM_INT);
-        $stmt->bindParam(3, $thumb_width,  PDO::PARAM_INT);
-
-        /*** execute the query ***/
-        $stmt->execute();
-    }
-    else
-    {
-// if the file is not less than the maximum allowed, print an error
-        throw new Exception("Unsupported Image Format!");
-    }
-}
-
-
-
-
-?>
-
-
 
 <!--php code here-->
 
@@ -396,44 +332,65 @@ function upload(){
 
                     <div class="addTeacher_panel" style="display: none;">
                         <div class="formContainer">
-                            <form id="signup">
+                            <form action="owner.php" method="post">
                                 <h1 align="center">Add Teacher</h1>
-                                <Lable>Name</Lable><br>
-                                <input type="text" id="firstName"  placeholder="First Name">
-                                <input type="text" id="lastName"  placeholder="Last Name"><br>
+                                <div id="atdatasection">
+                                <Lable>Name</Lable>
+                                <font size="2" class="atwarning" color="red"></font>          <!--name warning 0--><br>
+                                <input type="text" id="atfirstName"  placeholder="First Name" name="atfirstName">
+                                <input type="text" id="atlastName"  placeholder="Last Name" name="atlastName"><br>
                                 <Lable>Address</Lable><br>
-                                <textarea rows="4" columns="40" id="address"></textarea>
+                                <textarea rows="4" columns="40" id="ataddress" name="ataddress"></textarea>
                                 <br>
                                 <Lable>Birthday</Lable><br>
-                                <input type="date" id="bDay" >
+                                <input type="date" id="atbDay" name="atbDay">
 
                                 <br>
                                 <Lable>Gender</Lable><br>
-                                <select id="gender">
+                                <select id="atgender" name="atgender">
                                     <option hidden>Select</option>
                                     <option>Male</option>
                                     <option>Female</option>
                                 </select>
 
                                 <br>
-                                <Lable>Email</Lable><br>
-                                <input type="email" id="email" >
+                                <Lable>Email</Lable>
+                                <font size="2" class="atwarning" color="red"></font>  <!--email warning 1-->
+                                <br>
+                                <input type="email" id="atemail" name="atemail">
 
                                 <br>
-                                <Lable>Telephone</Lable><br>
-                                <input type="tel" id="telephoneNo" >
-
+                                <Lable>Telephone</Lable>
+                                <font size="2" class="atwarning">(*Must contain 10 digits)</font><br> <!--tel warning 2-->
+                                <br>
+                                <input type="tel" id="attelephoneNo" name="attelephone">
 
                                 <br>
-                                <Lable>Create a Password</Lable><br>
-                                <input type="password" id="password">
-
-                                <br>
-                                <Lable>Confirm Password</Lable><br>
-                                <input type="password" id="confirmPassword" >
+                                <Lable>Educational Qualifications</Lable><br>
+                                <input type="text" id="ateduQualifications" name="ateducationalQualifi">
 
 
-                                <button onclick="">Add Teacher</button>
+                                <button onclick="atValidationOnclick(); return false;">Add Teacher</button>
+                                </div>
+
+                                <dev id="atindex" style="display: none;">
+                                    <input type="text" name="atindex" id ="atdisplayIndex" <?php echo "value='{$tIndex}'";?> readonly>
+                                    <input type="submit"  id="atissuedIndex" name="atissue" value="Comlepete Registration" onclick="document.getElementById('atpasswordSection').style.display='block';return false;">
+                                </dev>
+
+                                <div id="atpasswordSection" class="modal">
+                                    <div class="modal-content animate">
+                                        <div class="imgcontainer">
+                                            <span onclick="document.getElementById('atpasswordSection').style.display='none';" class="close" title="Close Modal">&times;</span>
+                                        </div>
+                                        <div class="container">
+                                            <label><b>Enter Your Password</b></label>
+                                            <input type="password" placeholder="Password" name="atPass" required>
+                                            <input type="submit" name="atdone" value="Done">
+                                        </div>
+                                    </div>
+                                </div>
+                                <!---->
                             </form>
                         </div>
                     </div>

@@ -1,5 +1,5 @@
 
-function validate_general(fname,lname,useraddress,userbday,gender,usermail,tel){
+function validate_general(fname,lname,useraddress,userbday,gender,usermail,tel,formWarnings){
 
     var fill = fname.value.length !=0 && lname.value.length !=0 && useraddress.value.length !=0 && userbday.value.length !=0 && usermail.value.length !=0
         && tel.value.length !=0 && gender.selectedIndex !=0;

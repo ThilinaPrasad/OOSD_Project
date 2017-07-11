@@ -12,5 +12,5 @@ var tel= document.getElementById('stelephoneNo');
 var formWarnings = document.getElementsByClassName('warning');
 
 function updateValidationOnclick() {
-    validate_update(validate_general(fname,lname,useraddress,userbday,gender,usermail,tel),"supdateDetails");
+    validate_update(validate_general(fname,lname,useraddress,userbday,gender,usermail,tel,formWarnings),"supdateDetails");
 }

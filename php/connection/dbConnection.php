@@ -6,7 +6,7 @@ function runQuery($query){
     if (mysqli_connect_errno()) {
         die("Data Base Connection Error : " . mysqli_connect_error());
     } else {
-       return mysqli_query($connection,$query);
-}
+        return mysqli_query($connection,$query);
+    }
 }
 ?>

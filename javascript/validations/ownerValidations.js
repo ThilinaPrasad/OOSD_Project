@@ -14,7 +14,7 @@ var tel= document.getElementById('otelephoneNo');
 var formWarnings = document.getElementsByClassName('warning');
 
 function updateValidationOnclick() {
-    validate_update(validate_general(fname,lname,useraddress,userbday,gender,usermail,tel),"oupdateDetails");
+    validate_update(validate_general(fname,lname,useraddress,userbday,gender,usermail,tel,formWarnings),"oupdateDetails");
 }
 
 /////////////////// Validations for Update Data////////////////////////////////
@@ -94,4 +94,20 @@ function deleteOnClick() {
 
 /////////////////// Validations for courses////////////////////////////////
 
+/////////////////////////// validations for add teacher /////////////////
+var atfname = document.getElementById('atfirstName');
+var atlname = document.getElementById('atlastName');
+var atuseraddress = document.getElementById('ataddress');
+var atuserbday = document.getElementById('atbDay');
+var atgender = document.getElementById('atgender');
+var atusermail = document.getElementById('atemail');
+var attel= document.getElementById('attelephoneNo');
+var atformWarnings = document.getElementsByClassName('atwarning');
 
+function atValidationOnclick() {
+    if(validate_general(atfname,atlname,atuseraddress,atuserbday,atgender,atusermail,attel,atformWarnings)){
+        document.getElementById('atdatasection').style.display = 'none';
+        document.getElementById('atindex').style.display = 'block';
+        innerJump(document.getElementsByClassName('nav'));
+    }
+}
