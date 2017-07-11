@@ -200,7 +200,6 @@ if (mysqli_num_rows($result) == 1 && $_SESSION['logged']) {
 
     /////////////////////////// Add Teacher /////////////////////////////////////////////////////////////////
 
-<<<<<<< HEAD
     $query = "SELECT id FROM teacher ORDER BY id DESC LIMIT 1";
     $result_set = runQuery($query);
     $tIndex = '';
@@ -236,43 +235,6 @@ if (mysqli_num_rows($result) == 1 && $_SESSION['logged']) {
         echo '<script>window.location.href = "owner.php";</script>';
         exit();
     }
-=======
-        $query = "SELECT id FROM teacher ORDER BY id DESC LIMIT 1";
-        $result_set = runQuery($query);
-        $tIndex = '';
-        if ($result_set) {
-            $result_set = mysqli_fetch_assoc($result_set);
-            $raw = $result_set['id'] + 1;
-            $raw = strval($raw);
-            $year = substr(strval(date("Y")), -2);
-            if (strlen($raw) == 1) {
-                $tIndex =  $year . "000" . $raw . "T";
-            } else if (strlen($raw) == 2) {
-                $tIndex =  $year . "00" . $raw . "T";
-            } else if (strlen($raw) == 3) {
-                $tIndex =  $year . "0" . $raw . "T";
-            } else if (strlen($raw) == 4) {
-                $tIndex =  $year . $raw . "T";
-            } else {
-                $tIndex =  "SRMI";
-            }
-
-        }
-
-        if(isset($_POST['atdone'])){
-            if(sha1($_POST['atPass'])==$_SESSION['password']) {
-                $tpass = sha1("teacher123");
-                $atquery = "INSERT INTO teacher(indexNumber, firstName, lastName, address, birthDay, gender, email, telephone, eduQualification,password) VALUES ('{$_POST["atindex"]}','{$_POST["atfirstName"]}','{$_POST["atlastName"]}','{$_POST["ataddress"]}','{$_POST["atbDay"]}','{$_POST["atgender"]}','{$_POST["atemail"]}','{$_POST["attelephone"]}','{$_POST["ateducationalQualifi"]}','{$tpass}')";
-                runQuery($atquery);
-                sendMail($_POST["atemail"], "Your Registration Index Number of ", $_POST["atfirstName"]." ".$_POST["atlastName"]." Welcome to Yureka Institute online System ! <br><br>This is a valid index number issued by Yureka Higner Education Institute.If you have any problem with registration please contact our office. <br><h1 align='center' style='background-color:lightgray; color:#4CAF50; width:400px; padding:20px; border:solid 4px gray; border-radius:50px; margin-left:20%; margin-top: 50px; margin-bottom: 50px;'>Index Number : " . $tIndex . "</h1><br><b>Your Temporary Password is : teacher123</b><br> please change it after your first login.<br><br><a href='#'>Yureka Higher Education Institute</a> All Rights Reserved!", "Yureka Institute");
-                echo '<script>alert("Teacher Successfully Added to your System! Teacher Password is : teacher123");</script>';
-            }else{
-                echo "<script type='text/javascript'>alert('Invalid Password!');</script>";
-            }
-            echo '<script>window.location.href = "owner.php";</script>';
-            exit();
-        }
->>>>>>> cd5164af5a0a89a2c64dc1c137232792e6cba793
 
 }
 
@@ -436,7 +398,6 @@ if (mysqli_num_rows($result) == 1 && $_SESSION['logged']) {
                             <form action="owner.php" method="post">
                                 <h1 align="center">Add Teacher</h1>
                                 <div id="atdatasection">
-<<<<<<< HEAD
                                     <Lable>Name</Lable>
                                     <font size="2" class="atwarning" color="red"></font>          <!--name warning 0-->
                                     <br>
@@ -480,41 +441,6 @@ if (mysqli_num_rows($result) == 1 && $_SESSION['logged']) {
 
                                     <button onclick="atValidationOnclick(); return false;">Add Teacher</button>
                                 </div>
-=======
-                                <Lable>Name</Lable>
-                                <font size="2" class="atwarning" color="red"></font>          <!--name warning 0--><br>
-                                <input type="text" id="atfirstName"  placeholder="First Name" name="atfirstName">
-                                <input type="text" id="atlastName"  placeholder="Last Name" name="atlastName"><br>
-                                <Lable>Address</Lable><br>
-                                <textarea rows="4" columns="40" id="ataddress" name="ataddress"></textarea>
-                                <br>
-                                <Lable>Birthday</Lable><br>
-                                <input type="date" id="atbDay" name="atbDay">
-
-                                <br>
-                                <Lable>Gender</Lable><br>
-                                <select id="atgender" name="atgender">
-                                    <option hidden>Select</option>
-                                    <option>Male</option>
-                                    <option>Female</option>
-                                </select>
-
-                                <br>
-                                <Lable>Email</Lable>
-                                <font size="2" class="atwarning" color="red"></font>  <!--email warning 1-->
-                                <br>
-                                <input type="email" id="atemail" name="atemail">
-
-                                <br>
-                                <Lable>Telephone</Lable>
-                                <font size="2" class="atwarning">(*Must contain 10 digits)</font><br> <!--tel warning 2-->
-                                <br>
-                                <input type="tel" id="attelephoneNo" name="attelephone">
-
-                                <br>
-                                <Lable>Educational Qualifications</Lable><br>
-                                <input type="text" id="ateduQualifications" name="ateducationalQualifi">
->>>>>>> cd5164af5a0a89a2c64dc1c137232792e6cba793
 
                                 <dev id="atindex" style="display: none;">
                                     <input type="text" name="atindex"
@@ -524,26 +450,11 @@ if (mysqli_num_rows($result) == 1 && $_SESSION['logged']) {
                                            onclick="document.getElementById('atpasswordSection').style.display='block';return false;">
                                 </dev>
 
-<<<<<<< HEAD
                                 <div id="atpasswordSection" class="modal">
                                     <div class="modal-content animate">
                                         <div class="imgcontainer">
                                             <span onclick="document.getElementById('atpasswordSection').style.display='none';"
                                                   class="close" title="Close Modal">&times;</span>
-=======
-                                <button onclick="atValidationOnclick(); return false;">Add Teacher</button>
-                                </div>
-
-                                <dev id="atindex" style="display: none;">
-                                    <input type="text" name="atindex" id ="atdisplayIndex" <?php echo "value='{$tIndex}'";?> readonly>
-                                    <input type="submit"  id="atissuedIndex" name="atissue" value="Comlepete Registration" onclick="document.getElementById('atpasswordSection').style.display='block';return false;">
-                                </dev>
-
-                                <div id="atpasswordSection" class="modal">
-                                    <div class="modal-content animate">
-                                        <div class="imgcontainer">
-                                            <span onclick="document.getElementById('atpasswordSection').style.display='none';" class="close" title="Close Modal">&times;</span>
->>>>>>> cd5164af5a0a89a2c64dc1c137232792e6cba793
                                         </div>
                                         <div class="container">
                                             <label><b>Enter Your Password</b></label>
