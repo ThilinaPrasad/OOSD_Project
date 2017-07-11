@@ -111,6 +111,7 @@ function atValidationOnclick() {
         innerJump(document.getElementsByClassName('nav'));
     }
 }
+<<<<<<< HEAD
 
 /////////////////////// Advertiesment//////////////////////////////
 var addfile = document.getElementById('addFileSelect');
@@ -150,3 +151,5 @@ function addAddOnClick(){
         document.getElementById('addpasswordSection').style.display = 'block';
     }
 }
+=======
+>>>>>>> cd5164af5a0a89a2c64dc1c137232792e6cba793
