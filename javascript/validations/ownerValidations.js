@@ -150,3 +150,9 @@ function addAddOnClick(){
         document.getElementById('addpasswordSection').style.display = 'block';
     }
 }
+
+function addClrOncilck(){
+    addfile.value = addfile.defaultValue;
+    addhoverDesc.value = "";
+    addDesc.value = "";
+}

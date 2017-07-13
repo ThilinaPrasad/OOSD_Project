@@ -1,7 +1,6 @@
 <!--php code here-->
 <?php require("connection/dbConnection.php");
 require("notifications/notifications.php");
-require("advertiesments/addAdds.php");
 ///////Load user data//////////////////////////////////////////////////////////////////////////////////////////
 session_start();
 $query = "SELECT * FROM owner WHERE indexNumber='{$_SESSION["username"]}' AND password='{$_SESSION["password"]}'";
@@ -9,6 +8,7 @@ $result = runQuery($query);
 if (mysqli_num_rows($result) == 1 && $_SESSION['logged']) {
     $data = mysqli_fetch_assoc($result);
     $fullName = $data['firstName'] . " " . $data['lastName'];
+
 ///////////////////////////////New Student////////////////////////////////////////////////////////////
     function indexGenerate()
     {
@@ -38,7 +38,7 @@ if (mysqli_num_rows($result) == 1 && $_SESSION['logged']) {
     if (isset($_POST['issue'])) {
         $indexNo = $_POST['index'];
         $stuMail = $_POST['stumail'];
-        $query = "INSERT INTO student (indexNumber) VALUE ('$indexNo')";
+        $query = "INSERT INTO student (indexNumber,profilePic) VALUES ('$indexNo','../img/profilePics/16401b92e208d08bd8d0e064441977fc713bf45d.png')";
         runQuery($query);
         if (strlen(trim($stuMail)) > 0) {
             sendMail($stuMail, "Your Registration Index Number of ", "Welcome to Yureka Institute online System ! <br><br>This is a valid index number issued by Yureka Higner Education Institute.If you have any problem with registration please contact our office. <br><h1 align='center' style='background-color:lightgray; color:#4CAF50; width:400px; padding:20px; border:solid 4px gray; border-radius:50px; margin-left:20%; margin-top: 50px; margin-bottom: 50px;'>Index Number : " . $indexNo . "</h1><br><a href='#'>Yureka Higher Education Institute</a> All Rights Reserved!", "Yureka Institute");
@@ -225,7 +225,7 @@ if (mysqli_num_rows($result) == 1 && $_SESSION['logged']) {
     if (isset($_POST['atdone'])) {
         if (sha1($_POST['atPass']) == $_SESSION['password']) {
             $tpass = sha1("teacher123");
-            $atquery = "INSERT INTO teacher(indexNumber, firstName, lastName, address, birthDay, gender, email, telephone, eduQualification,password) VALUES ('{$_POST["atindex"]}','{$_POST["atfirstName"]}','{$_POST["atlastName"]}','{$_POST["ataddress"]}','{$_POST["atbDay"]}','{$_POST["atgender"]}','{$_POST["atemail"]}','{$_POST["attelephone"]}','{$_POST["ateducationalQualifi"]}','{$tpass}')";
+            $atquery = "INSERT INTO teacher(indexNumber, firstName, lastName, address, birthDay, gender, email, telephone, eduQualification,profilePic,password) VALUES ('{$_POST["atindex"]}','{$_POST["atfirstName"]}','{$_POST["atlastName"]}','{$_POST["ataddress"]}','{$_POST["atbDay"]}','{$_POST["atgender"]}','{$_POST["atemail"]}','{$_POST["attelephone"]}','{$_POST["ateducationalQualifi"]}','../img/profilePics/16401b92e208d08bd8d0e064441977fc713bf45d.png','{$tpass}')";
             runQuery($atquery);
             sendMail($_POST["atemail"], "Your Registration Index Number of ", $_POST["atfirstName"] . " " . $_POST["atlastName"] . " Welcome to Yureka Institute online System ! <br><br>This is a valid index number issued by Yureka Higner Education Institute.If you have any problem with registration please contact our office. <br><h1 align='center' style='background-color:lightgray; color:#4CAF50; width:400px; padding:20px; border:solid 4px gray; border-radius:50px; margin-left:20%; margin-top: 50px; margin-bottom: 50px;'>Index Number : " . $tIndex . "</h1><br><b>Your Temporary Password is : teacher123</b><br> please change it after your first login.<br><br><a href='#'>Yureka Higher Education Institute</a> All Rights Reserved!", "Yureka Institute");
             echo '<script>alert("Teacher Successfully Added to your System! Teacher Password is : teacher123");</script>';
@@ -236,26 +236,54 @@ if (mysqli_num_rows($result) == 1 && $_SESSION['logged']) {
         exit();
     }
 
-}
 
 //////////////////////////////////////////////// Add Advertiesment /////////////////////////////
-/*if (isset($_POST['adddone'])) {
-    if (sha1($_POST['addPass']) == $_SESSION['password']) {
-        $file = $_FILES['resultfile'];
-        if (!isset($file)) {}else{
-            echo "<script>alert('Test 3');</script>";
-            try {
-                uploadAdd($file, 'addImageDesc', 'addDescription'); //this will upload your add
-                echo "<script type='text/javascript'>alert('Advertiesment successfully added!');</script>";
-            } catch (Exception $e) {
-                echo "<script type='text/javascript'>alert('Error happened while uploading!');</script>";
+    if (isset($_POST['adddone'])) {
+        if (sha1($_POST['addPass']) == $_SESSION['password']) {
+            $query_last_id = "SELECT addId FROM advertisements ORDER BY addId DESC LIMIT 1";
+            $result_lid = runQuery($query_last_id);
+            $result_lid = mysqli_fetch_assoc($result_lid);
+            $result_lid = $result_lid['addId'];
+            $result_lid = sha1($result_lid);
+            $file = $_FILES['addimg'];
+            $path_move = "../img/advertiesments/" . $result_lid . ".jpg";
+            if (move_uploaded_file($file['tmp_name'], $path_move)) {
+                $path_load = "img/advertiesments/" . $result_lid . ".jpg";
+                $query_add = "INSERT INTO  advertisements (imagePath , hoverDescription, description) VALUES ('{$path_load}','{$_POST['addImageDesc']}','{$_POST['addDescription']}')";
+                runQuery($query_add);
+                echo "<script type='text/javascript'>alert('Successfully Added!');</script>";
+            } else {
+                echo "<script type='text/javascript'>alert('Failed uploading please try again!');</script>";
             }
+        } else {
+            echo "<script type='text/javascript'>alert('Invalid Password!');</script>";
         }
-    } else {
-        echo "<script type='text/javascript'>alert('Invalid Password!');</script>";
+        echo '<script>window.location.href = "owner.php";</script>';
+        exit();
     }
-}*/
+
 //////////////////////////////////////////////// Add Advertiesment /////////////////////////////
+
+///////////////////////////////Change Profile pic////////////////////////////////////////////////////////////
+    if (isset($_POST['profilepicdone_o'])) {
+        if ($data['profilePic'] != '../img/profilePics/16401b92e208d08bd8d0e064441977fc713bf45d.png' && file_exists($data['profilePic'])) {
+            unlink($data['profilePic']);
+        }
+        $pic_id = sha1($data['indexNumber']);
+        $file = $_FILES['profileimg_o'];
+        $path = "../img/profilePics/" . $pic_id . ".jpg";
+        if (move_uploaded_file($file['tmp_name'], $path)) {
+            $query_update_pic = "UPDATE owner SET profilePic='{$path}' WHERE indexNumber='{$_SESSION['username']}'";
+            runQuery($query_update_pic);
+            echo "<script type='text/javascript'>alert('Successfully updated your Profile Picture!');</script>";
+        } else {
+            echo "<script type='text/javascript'>alert('Failed uploading please try again!');</script>";
+        }
+        echo '<script>window.location.href = "owner.php";</script>';
+        exit();
+    }
+///////////////////////////////Change Profile pic////////////////////////////////////////////////////////////
+}
 ?>
 
 <!--php code here-->
@@ -288,12 +316,33 @@ if (mysqli_num_rows($result) == 1 && $_SESSION['logged']) {
                 </li>
                 <li><a href="logout.php"><img src="../img/nav/nav_logout.png" style="vertical-align: bottom">&nbsp;Log
                         Out</a></li>
+                <img src='<?php echo $data['profilePic']; ?>' class="profilePic"
+                     onclick="document.getElementById('profilePicContainer').style.display='block';">
             </ul>
             <!--navigation bar end-->
         </header>
 
         <!--body content section-->
         <section>
+            <!--Update Profile pic Section-->
+            <div id="profilePicContainer" class="modal">
+                <div class="modal-content animate">
+                    <div class="imgcontainer">
+                        <span onclick="document.getElementById('profilePicContainer').style.display='none'"
+                              class="close" title="Close Modal">&times;</span>
+                    </div>
+                    <div class="container">
+                        <img src='<?php echo $data['profilePic']; ?>' class="displayProfilepic"><br><br>
+                        <label><b>Select New Profile Picture</b></label>
+                        <form action="owner.php" method="post" enctype="multipart/form-data">
+                            <input type="file" name="profileimg_o"><br>
+                            <font size="2" color="red">(*must select square shape images)</font><br>
+                            <input type="submit" name="profilepicdone_o" value="Update Profile Picture">
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <!--Update Profile pic Section-->
 
             <div class="Containerlayout">
                 <div id="left_container">
@@ -366,10 +415,10 @@ if (mysqli_num_rows($result) == 1 && $_SESSION['logged']) {
                             <textarea rows="10" columns="40" class="message"
                                       placeholder="Add Description Here for Image" name="addImageDesc"
                                       id="addImageDesc"></textarea>
-                           <input type="file" name="resultfile" id="addFileSelect">
+                            <input type="file" name="addimg" id="addFileSelect">
                             <ul>
                                 <li>
-                                    <button class="clr">Clear</button>
+                                    <button class="clr" onclick="addClrOncilck();">Clear All</button>
                                 </li>
                                 <li>
                                     <button class="" onclick="addAddOnClick();return false;">Add</button>
@@ -688,7 +737,7 @@ if (mysqli_num_rows($result) == 1 && $_SESSION['logged']) {
                                         <div class="container">
                                             <label><b>Enter Your Password</b></label>
                                             <input type="password" placeholder="Password" name="updatePass" required>
-                                            <input type="submit" name="saveChanges" value="Save Changes" >
+                                            <input type="submit" name="saveChanges" value="Save Changes">
                                         </div>
                                     </div>
                                 </div>
@@ -789,7 +838,8 @@ if (mysqli_num_rows($result) == 1 && $_SESSION['logged']) {
 
 <?php
 ///////update details code//////////////////////////////////////////////////////////////////////////////////////////
-function updateData(){
+function updateData()
+{
     global $data;
     $firstName = $_POST['ofirstName'];
     $lastName = $_POST['olastName'];
@@ -800,10 +850,10 @@ function updateData(){
     $telephone = $_POST['otelephone'];
 
     $checkChanges = $firstName != $data['firstName'] || $lastName != $data['lastName'] || $address != $data['address'] || $bday != $data['birthDay']
-        || $gender != $data['gender'] || $email != $data['email'] || $telephone != $data['telephone'] ;
+        || $gender != $data['gender'] || $email != $data['email'] || $telephone != $data['telephone'];
 
     $query = "UPDATE owner SET firstName='$firstName',lastName='$lastName',address='$address',birthDay='$bday',gender='$gender',email='$email',telephone='$telephone' WHERE indexNumber='{$_SESSION["username"]}' AND password='{$_SESSION["password"]}'";
-    if($checkChanges) {
+    if ($checkChanges) {
         if (sha1($_POST['updatePass']) == $_SESSION['password']) {
             runQuery($query);
             echo "<script>alert('Successfully updated!');</script>";
@@ -816,7 +866,8 @@ function updateData(){
 
     }
 }
-if($_SESSION['logged']) {
+
+if ($_SESSION['logged']) {
     if (isset($_POST['saveChanges'])) {
         updateData();
     }

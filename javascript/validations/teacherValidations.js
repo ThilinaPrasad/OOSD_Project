@@ -76,9 +76,8 @@ function uploadResults_oneOnclick(){
         fieldColorChange(oBoMark,'red');
     }
 
-    if(oBoSubCheck && oBoIndexCheck && oBoNameCheck && oBoMarkCheck){
-        document.getElementById('resultUploadPassword').style.display = 'block';
-    }
+    return oBoSubCheck && oBoIndexCheck && oBoNameCheck && oBoMarkCheck;
+
 }
 
 

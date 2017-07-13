@@ -39,82 +39,66 @@
 
             <!Add section-->
             <table width="100%" id="advTable">
-                <tr>
+            <?php
+            require "php/connection/dbConnection.php";
+                $query_show_adds="SELECT * FROM  advertisements";
+                $result = runQuery($query_show_adds);
+                $allAdds = "";
+                $i=0;
+                while($row=mysqli_fetch_assoc($result)){
+                    $loadedAdd = "";
+                    if($i%2==0){
+                        $loadedAdd .= '<tr>
                     <!Add image L-->
                     <td>
                         <div class="advContainer">
-                            <img src="img/addvertiesments/add1.jpg" alt="Add" class="image">
+                            <img src="';
+
+                        $loadedAdd.=$row["imagePath"];
+                        $loadedAdd.='" alt="Add" class="image">
                             <div class="overlay">
-                                <div class="text">dgshdgjjjhgfhsgfhgsjfgshgfsgfhgshgfhsgfhgshfgsjhgfhsgfjsgfgsjhgfhjsgfhsgfhgsfhgshgfhjsgfhjsgfhsghjsghjfgsgfjsgfhjsgfhsgfgshfgshgfshgfhsgfsgjfghsgfshgfhsgfhsgfhgsjfgshgfhsgfshgfhsgf</div>
+                                <div class="text">';
+                        $loadedAdd.= $row['hoverDescription'];
+                        $loadedAdd.='</div>
                             </div>
                         </div>
                     </td>
 
                     <!Add description R-->
-                    <td><p class="advText_r">
-                            W3Schools is optimized for learning, testing, and training. Examples might be simplified to improve reading and basic understanding. Tutorials, references, and examples are constantly reviewed to avoid errors, but we cannot warrant full correctness of all content. While using this site, you agree to have read and accepted our terms of use, cookie and privacy policy. Copyright 1999-2017 by Refsnes Data. All Rights Reserved.
-                            Powered by W3.CSS.
+                    <td><p class="advText_r">';
+                         $loadedAdd.= $row['description'];
 
-                        </p></td>
-                </tr>
-
-                <tr>
+                       $loadedAdd.= '</p></td>
+                </tr>';
+                    }else{
+                        $loadedAdd .= '<tr>
                     <!Add description L-->
-                    <td><p class="advText_l">
-                            W3Schools is optimized for learning, testing, and training. Examples might be simplified to improve reading and basic understanding. Tutorials, references, and examples are constantly reviewed to avoid errors, but we cannot warrant full correctness of all content. While using this site, you agree to have read and accepted our terms of use, cookie and privacy policy. Copyright 1999-2017 by Refsnes Data. All Rights Reserved.
-                            Powered by W3.CSS.
-
-                        </p></td>
+                    <td><p class="advText_l">';
+                        $loadedAdd.= $row['description'];
+                        $loadedAdd.='</p></td>
 
                     <!Add image R-->
                     <td>
                         <div class="advContainer">
-                            <img src="img/addvertiesments/add1.jpg" alt="Add" class="image">
+                            <img src="';
+                        $loadedAdd.=$row["imagePath"];
+                        $loadedAdd.='" alt="Add" class="image">
                             <div class="overlay">
-                                <div class="text">dgshdgjjjhgfhsgfhgsjfgshgfsgfhgshgfhsgfhgshfgsjhgfhsgfjsgfgsjhgfhjsgfhsgfhgsfhgshgfhjsgfhjsgfhsghjsghjfgsgfjsgfhjsgfhsgfgshfgshgfshgfhsgfsgjfghsgfshgfhsgfhsgfhgsjfgshgfhsgfshgfhsgf</div>
+                                <div class="text">';
+                        $loadedAdd.= $row['hoverDescription'];
+                        $loadedAdd.='</div>
                             </div>
                         </div>
                     </td>
                 </tr>
 
-                <tr>
-                    <!Add image L-->
-                    <td>
-                        <div class="advContainer">
-                            <img src="img/addvertiesments/add1.jpg" alt="Add" class="image">
-                            <div class="overlay">
-                                <div class="text">dgshdgjjjhgfhsgfhgsjfgshgfsgfhgshgfhsgfhgshfgsjhgfhsgfjsgfgsjhgfhjsgfhsgfhgsfhgshgfhjsgfhjsgfhsghjsghjfgsgfjsgfhjsgfhsgfgshfgshgfshgfhsgfsgjfghsgfshgfhsgfhsgfhgsjfgshgfhsgfshgfhsgf</div>
-                            </div>
-                        </div>
-                    </td>
-
-                    <!Add description R-->
-                    <td><p class="advText_r">
-                            W3Schools is optimized for learning, testing, and training. Examples might be simplified to improve reading and basic understanding. Tutorials, references, and examples are constantly reviewed to avoid errors, but we cannot warrant full correctness of all content. While using this site, you agree to have read and accepted our terms of use, cookie and privacy policy. Copyright 1999-2017 by Refsnes Data. All Rights Reserved.
-                            Powered by W3.CSS.
-
-                        </p></td>
-                </tr>
-
-                <tr>
-                    <!Add description L-->
-                    <td><p class="advText_l">
-                            W3Schools is optimized for learning, testing, and training. Examples might be simplified to improve reading and basic understanding. Tutorials, references, and examples are constantly reviewed to avoid errors, but we cannot warrant full correctness of all content. While using this site, you agree to have read and accepted our terms of use, cookie and privacy policy. Copyright 1999-2017 by Refsnes Data. All Rights Reserved.
-                            Powered by W3.CSS.
-
-                        </p></td>
-
-                    <!Add image R-->
-                    <td>
-                        <div class="advContainer">
-                            <img src="img/addvertiesments/add1.jpg" alt="Add" class="image">
-                            <div class="overlay">
-                                <div class="text">dgshdgjjjhgfhsgfhgsjfgshgfsgfhgshgfhsgfhgshfgsjhgfhsgfjsgfgsjhgfhjsgfhsgfhgsfhgshgfhjsgfhjsgfhsghjsghjfgsgfjsgfhjsgfhsgfgshfgshgfshgfhsgfsgjfghsgfshgfhsgfhsgfhgsjfgshgfhsgfshgfhsgf</div>
-                            </div>
-                        </div>
-                    </td>
-                </tr>
-
+                <tr>';
+                    }
+                    $allAdds = $loadedAdd.$allAdds;
+                    $i++;
+                }
+                echo $allAdds;
+                ?>
             </table>
         </section>
 

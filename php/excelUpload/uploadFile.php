@@ -30,7 +30,7 @@ function saveToDB($file_tmp,$subject){
         //  Read a row of data into an array
         $rowData = $sheet->rangeToArray('A' . $row . ':' . $highestColumn . $row, NULL, TRUE, FALSE);
         //  Insert row data array into your database of choice here
-        $query_excelSend = "INSERT INTO results (indexNumber, studentName, subject, marks) VALUES ('{$rowData[0][0]}','{$rowData[0][1]}','{$subject}','{$rowData[0][2]}')";
+        $query_excelSend = "INSERT INTO results (indexNumber, subject, marks) VALUES ('{$rowData[0][0]}','{$subject}','{$rowData[0][1]}')";
         $test = runQuery($query_excelSend);
 
         if(!$test){

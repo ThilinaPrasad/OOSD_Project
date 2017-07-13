@@ -11,9 +11,10 @@ if(mysqli_num_rows($result)==1 && $_SESSION['logged']) {
 
 ///////Load user data//////////////////////////////////////////////////////////////////////////////////////////
 
+    ///////Load available results//////////////////////////////////////////////////////////////////////////////////////////
     $query_results = "SELECT * FROM results WHERE indexNumber='{$_SESSION["username"]}'";
     $result_data = runQuery($query_results);
-    if (mysqli_num_rows($result_data) == 1 && $_SESSION['logged']) {
+    if ($result_data != null && mysqli_num_rows($result_data) == 1 && $_SESSION['logged']) {
         $data_result = mysqli_fetch_assoc($result_data);
     } else {
         $data_result = array('indexNumber' => $_SESSION['username'], 'studentName' => $data['firstName'] . " " . $data['lastName'], 'subject' => 'Not Added', 'marks' => 'Not Added');
@@ -30,19 +31,40 @@ if(mysqli_num_rows($result)==1 && $_SESSION['logged']) {
     /////////////////////////////////Change Password////////////////////////////////////////////////////////////
     if (isset($_POST['schangePassBtn'])) {
         $newPassword = sha1($_POST['snewPass']);
-        if($_SESSION['password']== sha1($_POST['scurrentPass'])){
+        if ($_SESSION['password'] == sha1($_POST['scurrentPass'])) {
             $query_cp = "UPDATE student SET password='{$newPassword}' WHERE indexNumber='{$_SESSION["username"]}'";
             runQuery($query_cp);
-            $_SESSION['password']=$newPassword;
-            sendMail($data['email'],"Yureka LogIn Password Changed By","Your Yureka Institute online user account password changed by ".$fullName." on ".date("Y-m-d")." at ".date("h:i:sa")."<br><br><br><a href='#'>Yureka Higher Education Institute</a> All Rights Reserved!",$fullName);
+            $_SESSION['password'] = $newPassword;
+            sendMail($data['email'], "Yureka LogIn Password Changed By", "Your Yureka Institute online user account password changed by " . $fullName . " on " . date("Y-m-d") . " at " . date("h:i:sa") . "<br><br><br><a href='#'>Yureka Higher Education Institute</a> All Rights Reserved!", $fullName);
             echo "<script type='text/javascript'>alert('Password Successfully Changed!');</script>";
-        }else{
+        } else {
             echo "<script type='text/javascript'>alert('Invalid Current Password!');</script>";
         }
         echo '<script>window.location.href = "student.php";</script>';
         exit();
     }
 ///////////////////////////////Change Password////////////////////////////////////////////////////////////
+
+    ///////////////////////////////Change Profile pic////////////////////////////////////////////////////////////
+    if (isset($_POST['profilepicdone_s'])) {
+        if($data['profilePic']!='../img/profilePics/16401b92e208d08bd8d0e064441977fc713bf45d.png' && file_exists($data['profilePic'])){
+            unlink($data['profilePic']);
+        }
+        $pic_id = sha1($data['indexNumber']);
+        $file = $_FILES['profileimg_s'];
+        $path = "../img/profilePics/" . $pic_id . ".jpg";
+        if (move_uploaded_file($file['tmp_name'], $path)) {
+            $query_update_pic = "UPDATE student SET profilePic='{$path}' WHERE indexNumber='{$_SESSION['username']}'";
+            runQuery($query_update_pic);
+            echo "<script type='text/javascript'>alert('Successfully updated your Profile Picture!');</script>";
+        } else {
+            echo "<script type='text/javascript'>alert('Failed uploading please try again!');</script>";
+        }
+    echo '<script>window.location.href = "student.php";</script>';
+    exit();
+}
+    ///////////////////////////////Change Profile pic////////////////////////////////////////////////////////////
+
 }
 ?>
 
@@ -76,12 +98,32 @@ if(mysqli_num_rows($result)==1 && $_SESSION['logged']) {
                 <li id="nav_noti"><a href="#" onclick="openNav()" style="color: white;"><img src='<?php echo $notifiLogo;?>'></a></li>
                 </li>
                 <li ><a href="logout.php"><img src="../img/nav/nav_logout.png" style="vertical-align: bottom">&nbsp;Log Out</a></li>
+                <img src='<?php echo $data['profilePic'];?>' class="profilePic" onclick="document.getElementById('profilePicContainer').style.display='block'">
             </ul>
             <!--navigation bar end-->
         </header>
 
         <!--body content section-->
         <section>
+
+            <!--Update Profile pic Section-->
+            <div id="profilePicContainer" class="modal">
+                <div class="modal-content animate">
+                    <div class="imgcontainer">
+                        <span onclick="document.getElementById('profilePicContainer').style.display='none'" class="close" title="Close Modal">&times;</span>
+                    </div>
+                    <div class="container">
+                        <img src='<?php echo $data['profilePic'];?>' class="displayProfilepic"><br><br>
+                        <label><b>Select New Profile Picture</b></label>
+                        <form action="student.php" method="post" enctype="multipart/form-data">
+                        <input type="file" name="profileimg_s"><br>
+                            <font size="2" color="red">(*must select square shape images)</font><br>
+                            <input type="submit" name="profilepicdone_s" value="Update Profile Picture">
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <!--Update Profile pic Section-->
 
             <!--Notification panel-->
             <div id="myNav" class="overlay">
@@ -130,7 +172,7 @@ if(mysqli_num_rows($result)==1 && $_SESSION['logged']) {
                     <table>
                         <tr>
                             <td>Student Name</td>
-                            <td><?php echo $data_result['studentName'];?></td>
+                            <td><?php echo $fullName;?></td>
                         </tr>
                         <tr>
                             <td>Index Number</td>

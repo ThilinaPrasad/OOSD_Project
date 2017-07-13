@@ -23,7 +23,7 @@ if(mysqli_num_rows($result)==1 && $_SESSION['logged']) {
 /////////////////////////////////////////////////////////////////// result excel upload /////////////////////////////////////
 
     if (isset($_POST['resultupload'])) {
-if($_POST['uploadResultPass'] == $_SESSION['password']) {
+if(sha1($_POST['uploadResultPass']) == $_SESSION['password']) {
             $file_path = $_FILES['resultfile']['tmp_name'];
             if (saveToDB($file_path, $_POST['filesubject'])) {
                 echo "<script>alert('Successfully Added Results !');</script>";
@@ -40,19 +40,15 @@ if($_POST['uploadResultPass'] == $_SESSION['password']) {
 
 /////////////////////////////////////////////////////////////////// result upload row by row /////////////////////////////////////
     if (isset($_POST['resultupload_one'])) {
-if($_POST['uploadResultPass_one'] == $_SESSION['password']) {
             if (!$_SESSION['oneadded']) {
                 runQuery($query_truncate_results);
             }
-            $query_one = "INSERT INTO results (indexNumber, studentName, subject, marks) VALUES ('{$_POST['resultIndex_one']}','{$_POST['resultName_one']}','{$_POST['resultSub_one']}','{$_POST['resultMark_one']}')";
+            $query_one = "INSERT INTO results (indexNumber,subject, marks) VALUES ('{$_POST['resultIndex_one']}','{$_POST['resultSub_one']}','{$_POST['resultMark_one']}')";
             if (runQuery($query_one)) {
                 echo "<script>alert('Successfully Added Results !');</script>";
             } else {
                 echo "<script>alert('Error happened uploading !');</script>";
             }
-        } else {
-            echo "<script>alert('Invalid Password !');</script>";
-        }
         echo '<script>window.location.href = "teacher.php";</script>';
         $_SESSION['oneadded'] = true;
         exit();
@@ -91,6 +87,27 @@ if($_POST['uploadResultPass_one'] == $_SESSION['password']) {
         exit();
     }
 ///////////////////////////////Change Password////////////////////////////////////////////////////////////
+
+    ///////////////////////////////Change Profile pic////////////////////////////////////////////////////////////
+    if (isset($_POST['profilepicdone_t'])) {
+        if($data['profilePic'] != '../img/profilePics/16401b92e208d08bd8d0e064441977fc713bf45d.png' && file_exists($data['profilePic'])){
+            unlink($data['profilePic']);
+        }
+        $pic_id = sha1($data['indexNumber']);
+        $file = $_FILES['profileimg_t'];
+        $path = "../img/profilePics/" . $pic_id . ".jpg";
+        if (move_uploaded_file($file['tmp_name'], $path)) {
+            $query_update_pic = "UPDATE teacher SET profilePic='{$path}' WHERE indexNumber='{$_SESSION['username']}'";
+            runQuery($query_update_pic);
+            echo "<script type='text/javascript'>alert('Successfully updated your Profile Picture!');</script>";
+        } else {
+            echo "<script type='text/javascript'>alert('Failed uploading please try again!');</script>";
+        }
+        echo '<script>window.location.href = "teacher.php";</script>';
+        exit();
+    }
+    ///////////////////////////////Change Profile pic////////////////////////////////////////////////////////////
+
 }
 ?>
 <!DOCTYPE html>
@@ -120,14 +137,33 @@ if($_POST['uploadResultPass_one'] == $_SESSION['password']) {
                 <li class="dropdown"><a href="#">Site 3</a></li>
                 <li class="dropdown"><a href="#">Site 3</a></li>
                 <li id="nav_noti"><a href="#" onclick="openNav()" style="color: white;"><img src='<?php echo $notifiLogo;?>'></a></li>
-                </li>
                 <li ><a href="logout.php"><img src="../img/nav/nav_logout.png" style="vertical-align: bottom">&nbsp;Log Out</a></li>
+                <img src='<?php echo $data['profilePic'];?>' class="profilePic" onclick="document.getElementById('profilePicContainer').style.display='block'">
+                <!--upload password -->
             </ul>
             <!--navigation bar end-->
         </header>
 
         <!--body content section-->
         <section>
+            <!--Update Profile pic Section-->
+            <div id="profilePicContainer" class="modal">
+                <div class="modal-content animate">
+                    <div class="imgcontainer">
+                        <span onclick="document.getElementById('profilePicContainer').style.display='none'" class="close" title="Close Modal">&times;</span>
+                    </div>
+                    <div class="container">
+                        <img src='<?php echo $data['profilePic'];?>' class="displayProfilepic"><br><br>
+                        <label><b>Select New Profile Picture</b></label>
+                        <form action="teacher.php" method="post" enctype="multipart/form-data">
+                            <input type="file" name="profileimg_t"><br>
+                            <font size="2" color="red">(*must select square shape images)</font><br>
+                            <input type="submit" name="profilepicdone_t" value="Update Profile Picture">
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <!--Update Profile pic Section-->
 
             <!--Notification panel-->
             <div id="myNav" class="overlay">
@@ -210,32 +246,15 @@ if($_POST['uploadResultPass_one'] == $_SESSION['password']) {
                         <div id="resultOneByOneSection">
                             <form action="teacher.php" method="post">
                                 <h1 align="center">Upload Results One By One</h1>
-                                <select class="subjectDD" name="resultSub_one" id="resultSub_one">
-                                    <option selected hidden>Select Subject</option>
-                                    <?php echo $availableSubjects_DD;?>
-                                </select><br>
                                 <ul id="marksDataRow">
+                                    <li> <select  name="resultSub_one" id="resultSub_one">
+                                            <option selected hidden>Select Subject</option>
+                                            <?php echo $availableSubjects_DD;?>
+                                        </select></li>
                                 <li><input type="text" placeholder="Index Number" name="resultIndex_one" id="resultIndex_one"></li>
-                                <li><input type="text" placeholder="Student Name" name="resultName_one" id="resultName_one"></li>
                                 <li><input type="number" placeholder="Marks" name="resultMark_one" id="resultMark_one"></li>
                                 </ul>
-                                <input type="submit" value="Upload Results" id="uploadResultOneByOne" onclick="uploadResults_oneOnclick();">
-
-                                <!--upload password -->
-                                <div id="resultUploadPassword" class="modal">
-                                    <div class="modal-content animate">
-                                        <div class="imgcontainer">
-                                            <span onclick="document.getElementById('resultUploadPassword').style.display='none'" class="close" title="Close Modal">&times;</span>
-                                        </div>
-                                        <div class="container">
-                                            <label><b>Enter Your Password</b></label>
-                                            <input type="password" placeholder="Password" name="uploadResultPass_one" required>
-                                            <input type="submit" name="resultupload_one" value="Done">
-                                        </div>
-                                    </div>
-                                </div>
-                                <!---->
-
+                                <input type="submit" name="resultupload_one" value="Upload Results" id="uploadResultOneByOne" onclick="return uploadResults_oneOnclick();">
                             </form>
                         </div>
 
