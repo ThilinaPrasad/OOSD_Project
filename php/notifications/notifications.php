@@ -1,11 +1,19 @@
 <?php
 require ("phpmail.php");
+$reminder='This is the reminder to pay your tution fees within first two weeks';
+
+$ntc = "SELECT * FROM notification WHERE notice='{$reminder}'";
+$rzlt=runQuery($ntc);
+if(date('d') == date('01') && (mysqli_num_rows($rzlt)< 1))  {
+    $s="INSERT INTO notification (notice,receiver,sender,sendDate)  VALUE ('{$reminder}','Students','Owner',CURDATE())";
+    runQuery($s);
+}
 
 $qry="DELETE FROM notification WHERE sendDate < NOW() - INTERVAL 7 DAY";
 runQuery($qry);
 
 function loadData($user){
-    $sql = "SELECT * FROM notifications WHERE receiver='{$user}' OR receiver='All'";
+    $sql = "SELECT * FROM notification WHERE receiver='{$user}' OR receiver='All'";
     $result=runQuery($sql);
     $notices=array();
     $sender=array();
@@ -49,7 +57,7 @@ function loadNotifiPanel($notifiArray){
 function sendNotification($sender){
     $notice=$_POST['notice'];
     $receiver=$_POST['receiver'];
-    $sql="INSERT INTO notifications (notice,receiver,sender,sendDate)  VALUE ('{$notice}','{$receiver}','{$sender}',CURDATE())";
+    $sql="INSERT INTO notification (notice,receiver,sender,sendDate)  VALUE ('{$notice}','{$receiver}','{$sender}',CURDATE())";
     runQuery($sql);
 }
 
