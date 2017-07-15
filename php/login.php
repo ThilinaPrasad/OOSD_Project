@@ -1,3 +1,4 @@
+<?php ob_start();session_start(); ?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -38,12 +39,28 @@
                     <h1 align="center">Log In</h1>
                     <center><img src="../img/avatar.png" id="avatar" width="50%" height="50%"></center>
                     <br>
-                    <input type="text" id="login_username" placeholder="Index Number" name="loginUsername" required><br>
-                    <input type="password" id="login_password" placeholder="Password" name="loginPassword" required><br>
-                    <input type="checkbox" id="keepMeLogin" checked><label for="keepMeLogin">Remember me</label>
-                    <a href="#" class="forgetpsw" title="Frogot your password ?" name="forgetPassword">Forget Password?</a><br>
-                    <input type="submit" value="Log In" name="loginBtn"><br>
-
+                    <input type="text" id="login_username" placeholder="Index Number" name="loginUsername" ><br>
+                    <input type="password" id="login_password" placeholder="Password" name="loginPassword" ><br>
+                    <input type="checkbox" id="keepMeLogin" name="keepMeLogin"  checked><label for="keepMeLogin">Remember me</label>
+                    <a href="#" class="forgetpsw" title="Frogot your password ?" name="forgetPassword" onclick="document.getElementById('frgt').style.display='block'">Forget Password?</a><br>
+                    <input type="submit" value="Log In" name="loginBtn" ><br>
+                </form>
+                <form action="login.php" method="post">
+                     <!--forget password -->
+                       <div id="frgt" class="modal">
+                              <div class="modal-content animate">
+                                        <div class="imgcontainer">
+                                                <span onclick="document.getElementById('frgt').style.display='none'" class="close" title="Close Modal">&times;</span>
+                                            </div>
+                                        <div class="container">
+                                               <label><b>Enter Index Number</b></label>
+                                               <input type="text" placeholder="Index Number" name="forgetIndex" required>
+                                       <input type="submit" name="forgot" value="Done">
+                                              
+                                           </div>
+                                   </div>
+                          </div>
+                       <!---->
                 </form>
             </div>
             <!--Log In forum -->
@@ -68,12 +85,13 @@
 <?php
 
 require_once("connection/dbConnection.php");
+require("notifications/notifications.php");
 
 function submitOnclick()
 {
     global $connection;
     // echo "<script type='text/javascript'>fieldColorChange(document.getElementsByClassName('login_username'),'');fieldColorChange(document.getElementsByClassName('login_password'),'');</script>";
-    session_start();
+    
     $username = $_POST['loginUsername'];
     $password = sha1($_POST['loginPassword']);
 
@@ -121,6 +139,8 @@ function submitOnclick()
                     break;
 
             }
+
+          
         }else{
             echo "<script type='text/javascript'>alert('Invalid Index Number or Password !'); fieldColorChange(document.getElementById('login_username'),'red'); fieldColorChange(document.getElementById('login_password'),'red');</script>";
         }
@@ -128,11 +148,55 @@ function submitOnclick()
     }
 }
 if (isset($_POST['loginBtn'])) {
+     if(isset($_POST["keepMeLogin"])) {
+        $username = $_POST['loginUsername'];
+    $password = sha1($_POST['loginPassword']);
+            echo "<script>alert('dsfsf');</script>";
+                setcookie ("username_log",$username,time()+ (10 * 365 * 24 * 60 * 60));
+                setcookie ("password_log",$password,time()+ (10 * 365 * 24 * 60 * 60));
+            } else {
+                if(isset($_COOKIE["username_log"])) {
+                    setcookie ("username_log","");
+                }
+                if(isset($_COOKIE["password_log"])) {
+                    setcookie ("password_log","");
+                }
+            }
     submitOnclick();
 }
 
-if (isset($_GET['forgetPassword'])) {
-    echo "forget?";
+
+
+
+if (isset($_POST['forgot'])) {
+    $indexNo=$_POST['forgetIndex'];
+    if ($indexNo!=null ) {
+
+        $query_check = "SELECT * FROM student WHERE indexNumber ='$indexNo'";
+        $result = runQuery($query_check);
+
+        if (mysqli_num_rows($result)==1) {
+            $result= mysqli_fetch_assoc($result);
+            $email=$result['email'];
+            $number='';
+            for ($i = 0; $i<5; $i++) {
+                    $number .= mt_rand(0,9);
+                }
+        $num=sha1($number);     
+        $sql="UPDATE student SET password='$num' WHERE indexNumber='$indexNo'"; 
+        runQuery($sql); 
+        sendMail($email,'Forgot Password',"This is the recovery password issued by the Yureka Institute Online System <br><br> Password: ".$number."Use this password to login", "Yureka Institute");
+
+        echo "<script>alert('Successfully sent the recovery  password to your email address!'); </script>";
+        
+            
+        }
+        else{
+            echo "<script type='text/javascript'>alert('Invalid Index Number  !'); fieldColorChange(document.getElementById('index'),'red');</script>";
+        }
+        echo '<script>window.location.href = "login.php";</script>';
+        exit();
+    }
 }
 ?>
 </body>
