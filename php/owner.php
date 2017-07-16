@@ -173,7 +173,7 @@ if (mysqli_num_rows($result) == 1 && $_SESSION['logged']) {
 ///////////////////////////////Send Notifications////////////////////////////////////////////////////////////
     if (isset($_POST['sendBtn'])) {
         sendNotification("Owner");
-        sendNotificationMail("Yureka notification from", "Owner");
+        sendNotificationMail("Yureka notification from", $fullName);
         echo "<script type='text/javascript'>alert('Notification Sent!');</script>";
         echo '<script>window.location.href = "owner.php";</script>';
         exit();
@@ -359,7 +359,7 @@ if (mysqli_num_rows($result) == 1 && $_SESSION['logged']) {
                                 <div id="dayTime">Good Evening !</div>
                             </ul>
                         </ul>
-                        <a href="#" id="loggedName" title="Update Information"
+                        <a href="#" id="loggedName" class="loggedName" title="Update Information"
                            onclick="ownerLayers(); updateDetails_layer.style.display='block';"><?php echo $fullName; ?></a>
                     </div>
                     <!--Day Timer and User Info-->
@@ -415,7 +415,8 @@ if (mysqli_num_rows($result) == 1 && $_SESSION['logged']) {
                             <textarea rows="10" columns="40" class="message"
                                       placeholder="Add Description Here for Image" name="addImageDesc"
                                       id="addImageDesc"></textarea>
-                            <input type="file" name="addimg" id="addFileSelect">
+                            <input type="file" name="addimg" id="addFileSelect"><br>
+                            <font size="2" color="red">(*615px X 300px image size recommended)</font><br>
                             <ul>
                                 <li>
                                     <button class="clr" onclick="addClrOncilck();">Clear All</button>

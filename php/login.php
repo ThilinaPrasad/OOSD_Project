@@ -39,8 +39,12 @@
                     <h1 align="center">Log In</h1>
                     <center><img src="../img/avatar.png" id="avatar" width="50%" height="50%"></center>
                     <br>
-                    <input type="text" id="login_username" placeholder="Index Number" name="loginUsername" ><br>
-                    <input type="password" id="login_password" placeholder="Password" name="loginPassword" ><br>
+                    <input type="text" id="login_username" placeholder="Index Number" name="loginUsername" value="<?php if (isset($_COOKIE['username_log'])) {
+                        echo $_COOKIE['username_log'];
+                    }?>"><br>
+                    <input type="password" id="login_password" placeholder="Password" name="loginPassword" value="<?php if (isset($_COOKIE['password_log'])) {
+                        echo $_COOKIE['password_log'];
+                    }?>"> <br>
                     <input type="checkbox" id="keepMeLogin" name="keepMeLogin"  checked><label for="keepMeLogin">Remember me</label>
                     <a href="#" class="forgetpsw" title="Frogot your password ?" name="forgetPassword" onclick="document.getElementById('frgt').style.display='block'">Forget Password?</a><br>
                     <input type="submit" value="Log In" name="loginBtn" ><br>
@@ -150,18 +154,12 @@ function submitOnclick()
 if (isset($_POST['loginBtn'])) {
      if(isset($_POST["keepMeLogin"])) {
         $username = $_POST['loginUsername'];
-    $password = sha1($_POST['loginPassword']);
-            echo "<script>alert('dsfsf');</script>";
+        $cookiepass=$_POST['loginPassword'];
+      
                 setcookie ("username_log",$username,time()+ (10 * 365 * 24 * 60 * 60));
-                setcookie ("password_log",$password,time()+ (10 * 365 * 24 * 60 * 60));
-            } else {
-                if(isset($_COOKIE["username_log"])) {
-                    setcookie ("username_log","");
-                }
-                if(isset($_COOKIE["password_log"])) {
-                    setcookie ("password_log","");
-                }
-            }
+                setcookie ("password_log",$cookiepass,time()+ (10 * 365 * 24 * 60 * 60));
+
+            } 
     submitOnclick();
 }
 
@@ -179,13 +177,13 @@ if (isset($_POST['forgot'])) {
             $result= mysqli_fetch_assoc($result);
             $email=$result['email'];
             $number='';
-            for ($i = 0; $i<5; $i++) {
+            for ($i = 0; $i<8; $i++) {
                     $number .= mt_rand(0,9);
                 }
         $num=sha1($number);     
         $sql="UPDATE student SET password='$num' WHERE indexNumber='$indexNo'"; 
         runQuery($sql); 
-        sendMail($email,'Forgot Password',"This is the recovery password issued by the Yureka Institute Online System <br><br> Password: ".$number."Use this password to login", "Yureka Institute");
+        sendMail($email,'Forgot Password',"This is the recovery password issued by the Yureka Institute Online System <br><br><h1 align='center' style='background-color:lightgray; color:#4CAF50; width:400px; padding:20px; border:solid 4px gray; border-radius:50px; margin-left:20%; margin-top: 50px; margin-bottom: 50px;'>New Password : ".$number."</h1><br>If you want to change this, do it after you logged your account.", "Yureka Institute");
 
         echo "<script>alert('Successfully sent the recovery  password to your email address!'); </script>";
         

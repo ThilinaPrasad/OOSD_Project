@@ -14,3 +14,12 @@ var formWarnings = document.getElementsByClassName('warning');
 function updateValidationOnclick() {
     validate_update(validate_general(fname,lname,useraddress,userbday,gender,usermail,tel,formWarnings),"supdateDetails");
 }
+
+var tumodule = document.getElementsByClassName('tmodule');
+function tmoduleOnclick(index){
+    if(window.getComputedStyle(tumodule[index],null).getPropertyValue("height")=='50px') {
+        tumodule[index].style.height = 'auto';
+    }else{
+        tumodule[index].style.height = '50px';
+    }
+}

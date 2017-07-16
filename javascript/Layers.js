@@ -25,6 +25,7 @@ var results_btn = document.getElementById("results");
 var results_layer = document.getElementsByClassName("results_panel")[0];
 
 
+
 function ownerLayers(){
     sendNotifi_layer.style.display = "none";
     advertisement_layer.style.display = "none";
@@ -38,6 +39,7 @@ function ownerLayers(){
     addTeacher_btn.className = "";
     updateCourses_btn.className ="";
     newStudent_btn.className ="";
+
 }
 
 function studentLayers(){
