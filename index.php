@@ -19,13 +19,9 @@
             <ul class="nav" style="z-index: 10000;">
                 <li class="active"><a href="index.php"><img src="img/nav/nav_yureka_logo.png"></a></li>
                 <li><a href="php/courses.php">Courses</a></li>
-
-                <!--drop down section-->
-                <li class="dropdown"><a href="#">site 3</a>
+                <li ><a href="php/about.html">About Us</a>
                 </li>
-                <!--drop down section-->
-
-                <li><a href="#">Site 2</a></li>
+                <li><a href="#">Contact Us</a></li>
                 <li><a href="php/signup.php"><img src="img/nav/nav_signup.png" style="vertical-align: bottom">&nbsp;Sign
                         Up</a></li>
                 <li><a href="php/login.php"><img src="img/nav/nav_login.png" style="vertical-align: bottom">&nbsp;Log In</a>

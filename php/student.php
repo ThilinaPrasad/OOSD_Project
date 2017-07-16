@@ -206,11 +206,10 @@ if (mysqli_num_rows($result) == 1 && $_SESSION['logged']) {
             <ul class="nav">
                 <li><a href="../index.php"><img src="../img/nav/nav_yureka_logo.png"></a></li>
                 <li><a href="courses.php" target="_blank">Courses</a></li>
-                <li class="dropdown"><a href="#">Site 3</a></li>
-                <li class="dropdown"><a href="#">Site 3</a></li>
+                <li><a href="about.html">About Us</a></li>
+                <li><a href="#">Contact Us</a></li>
                 <li id="nav_noti"><a href="#" onclick="openNav()" style="color: white;"><img
                                 src='<?php echo $notifiLogo; ?>'></a></li>
-                </li>
                 <li><a href="logout.php"><img src="../img/nav/nav_logout.png" style="vertical-align: bottom">&nbsp;Log
                         Out</a></li>
                 <img src='<?php echo $data['profilePic']; ?>' class="profilePic"

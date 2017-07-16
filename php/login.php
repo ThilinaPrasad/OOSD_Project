@@ -19,10 +19,8 @@
             <ul class="nav">
                 <li><a href="../index.php"><img src="../img/nav/nav_yureka_logo.png"></a></li>
                 <li><a href="courses.php">Courses</a></li>
-
-                <li class="dropdown"><a href="#">Site 3</a></li>
-
-                <li><a href="#">Site 2</a></li>
+                <li><a href="about.html">About Us</a></li>
+                <li><a href="#">Contact Us</a></li>
                 <li><a href="signup.php"><img src="../img/nav/nav_signup.png" style="vertical-align: bottom">&nbsp;Sign Up</a>
                 </li>
                 <li class="active"><a href="login.php"><img src="../img/nav/nav_login.png" style="vertical-align: bottom">&nbsp;Log
@@ -45,7 +43,7 @@
                     <input type="password" id="login_password" placeholder="Password" name="loginPassword" value="<?php if (isset($_COOKIE['password_log'])) {
                         echo $_COOKIE['password_log'];
                     }?>"> <br>
-                    <input type="checkbox" id="keepMeLogin" name="keepMeLogin"  checked><label for="keepMeLogin">Remember me</label>
+                    <input type="checkbox" id="keepMeLogin" name="keepMeLogin"><label for="keepMeLogin">Remember me</label>
                     <a href="#" class="forgetpsw" title="Frogot your password ?" name="forgetPassword" onclick="document.getElementById('frgt').style.display='block'">Forget Password?</a><br>
                     <input type="submit" value="Log In" name="loginBtn" ><br>
                 </form>

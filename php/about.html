@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Yurekha | Login</title>
+    <link rel="icon" href="../img/favicon.png">
+    <link href="../css/main.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Lemonada" rel="stylesheet">
+    <style>
+        .aboutContainer{
+            width:84vw;
+            height: auto;
+            margin: 5vh 5vw;
+            background-color: #cccccc;
+            border-radius: 30px;
+            padding: 50px;
+        }
+
+        .sections{
+            width: auto;
+            height: auto;
+            border-radius: 30px;
+            background-color: gray;
+            padding: 1px 20px 20px 20px;
+            position: relative;
+            margin-bottom: 20px;
+        }
+
+        .header{
+            color: white;
+            font-size: 50px;
+            text-shadow: 3px 3px 8px #cccccc ;
+        }
+
+        .inner{
+            margin-top: -25px;
+            color: white;
+            padding: 0 100px;
+            font-size: large;
+            text-indent: 80px;
+        }
+
+        .inner::first-letter{
+            font-size: xx-large;
+        }
+
+        .imageContainer{
+            margin-left:230px;
+            margin-bottom: 25px;
+        }
+
+        .innerImages{
+            width: 300px;
+            height: 200px;
+            border-radius: 30px;
+            margin: 10px;
+            box-shadow: 0px 0px 20px #ccc;
+        }
+
+        .vmImage{
+            margin-left: 30%;
+        }
+
+        .vmfinalImage{
+            margin-left: 19%;
+            margin-top: 60px;
+        }
+    </style>
+</head>
+<body bgcolor="#e3e6ea"  class="container demo-1">
+<div class="content">
+    <div id="large-header" class="large-header">
+        <canvas id="demo-canvas"></canvas>
+        <!--header section-->
+        <header>
+            <center><img src="../img/Yureka%20logo.png" id="mainLogo"></center>
+            <!--navigation bar start-->
+            <ul class="nav">
+                <li><a href="../index.php"><img src="../img/nav/nav_yureka_logo.png"></a></li>
+                <li><a href="courses.php">Courses</a></li>
+                <li class="active"><a href="about.html">About Us</a></li>
+                <li><a href="#">Contact Us</a></li>
+                <li><a href="signup.php"><img src="../img/nav/nav_signup.png" style="vertical-align: bottom">&nbsp;Sign Up</a>
+                </li>
+                <li><a href="login.php"><img src="../img/nav/nav_login.png" style="vertical-align: bottom">&nbsp;Log
+                    In</a></li>
+            </ul>
+            <!--navigation bar end-->
+        </header>
+
+        <!--body content section-->
+        <section class="bodyInner">
+            <div class="aboutContainer">
+                <div class="sections">
+            <h1 class="header">&#9672;&nbsp;About Yureka Institute</h1>
+                    <p class="inner">Yureka Educational institute stands today as one of the most success education provider in Galle district for nearly 10 years. We always giving our contribution toward education to uplift the knowledge of students and also to promote the rich culture of education despite being a profit oriented institute.  We are currently having all the major courses focusing for Advanced Level and Ordinary Level examinations and also we are having brilliant and qualified panel of teachers who gives their best for the knowledge of students.</p>
+                    <div class="imageContainer">
+                    <img class="innerImages" src="../img/aboutus/classImg1.jpg">
+                    <img class="innerImages" src="../img/aboutus/classImg1.jpg">
+                    </div>
+                    <p class="inner">We are also providing good facilities for the students to make a better learning environment and concentrating on quality of teaching methods. Our aim is to develop knowledge, skills and attitude of our students by providing required educational background. As a result of that, currently we have over 1000 students who have joined to be a part of our family to get knowledge and to be winners.  By providing quality services and good teaching methods with the support of our committed staff we are always willing to shape the knowledge of our students.</p>
+                </div>
+
+                <div class="sections">
+                    <h1 class="header">&#9672;&nbsp;Our Mission </h1>
+                    <p class="inner">Provide students with quality education and guide them towards the success to reach their highest potential.</p>
+                    <div class="imageContainer">
+                        <img class="vmImage" src="../img/aboutus/mission.png">
+                    </div>
+                </div>
+
+                <div class="sections">
+                    <h1 class="header">&#9672;&nbsp;Our Vision</h1>
+                    <p class="inner">To be a leader in preparing qualified and exemplary educated students to the society.</p>
+                    <div class="imageContainer">
+                        <img  class="vmImage" src="../img/aboutus/vision.png">
+                    </div>
+                </div>
+
+                <div class="sections">
+                  <div class="imageContainer">
+                        <img  class="vmfinalImage" src="../img/aboutus/vision-mission.png">
+                    </div>
+                </div>
+
+            </div>
+        </section>
+        <!--footer section-->
+        <footer>
+            <hr class="hr1">
+            <hr class="hr2">
+            <p align="center" style="font-size: small;" title="Yureka Higher Education Institute"><a href="../index.php" >Yureka Higher Education Institute</a> All Rights Reserved.</p>
+        </footer>
+    </div>
+</div>
+
+<script src="../javascript/backgroundCanvas/TweenLite.min.js"></script>
+<script src="../javascript/backgroundCanvas/EasePack.min.js"></script>
+<script src="../javascript/backgroundCanvas/particles.js"></script>
+<script src="../javascript/backgroundCanvas/rAF.js"></script>
+
+
+
+</body>
+</html>

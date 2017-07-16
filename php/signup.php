@@ -20,11 +20,8 @@
             <ul class="nav">
                 <li><a href="../index.php"><img src="../img/nav/nav_yureka_logo.png"></a></li>
                 <li><a href="courses.php">Courses</a></li>
-
-                <li><a href="#">Site 3</a>        </li>
-
-
-                <li><a href="#">Site 2</a></li>
+                <li><a href="about.html">About Us</a>        </li>
+                <li><a href="#">Contact Us</a></li>
                 <li class="active"><a href="#"><img src="../img/nav/nav_signup.png" style="vertical-align: bottom">&nbsp;Sign Up</a>
                 </li>
                 <li><a href="login.php"><img src="../img/nav/nav_login.png" style="vertical-align: bottom">&nbsp;Log In</a>
