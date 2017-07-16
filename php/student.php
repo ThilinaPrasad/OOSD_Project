@@ -161,6 +161,23 @@ if (mysqli_num_rows($result) == 1 && $_SESSION['logged']) {
 
 
     ///////////////////////////////Load Tutorials////////////////////////////////////////////////////////////
+
+    ///////////////////////////////Delete Account////////////////////////////////////////////////////////////
+    if(isset($_POST['deleteAccBtn'])){
+        $dpass = sha1($_POST['deleteAccPass']);
+        if ($_SESSION['password'] ==$dpass ) {
+            $query_delete_acc = "DELETE FROM student WHERE indexNumber='{$_SESSION['username']}' AND password='{$dpass}'";
+            runQuery($query_delete_acc);
+            echo "<script type='text/javascript'>alert('Successfully Deleted your account!');</script>";
+            echo '<script>window.location.href = "login.php";</script>';
+            exit();
+        }else{
+            echo "<script type='text/javascript'>alert('Invalid password!');</script>";
+        }
+
+    }
+    ///////////////////////////////Delete Account////////////////////////////////////////////////////////////
+
 }
 ?>
 
@@ -303,7 +320,12 @@ if (mysqli_num_rows($result) == 1 && $_SESSION['logged']) {
                     <div class="updateDetails_panel" style="display:none;">
                         <div class="formContainer">
                             <form id="supdateDetails" action="student.php" method="post">
-                                <h1 align="center">Update Details</h1>
+                                <h1 align="center">Update Details</h1><br>
+                                <Lable>Index Number</Lable>
+                                <br>
+                                <input type="text"
+                                      <?php echo "value='{$data["indexNumber"]}'"; ?> disabled>
+
                                 <Lable>Name</Lable>
                                 <font size="2" class="warning" color="red"></font>          <!--name warning 0-->
                                 <br>
@@ -370,10 +392,11 @@ if (mysqli_num_rows($result) == 1 && $_SESSION['logged']) {
                                     </div>
                                 </div>
                                 <!---->
-                                <a href="#" style="margin-left:350px;"
+                                <a href="#"
                                    onclick="document.getElementById('changePassword').style.display='block';return false;">Change
                                     Password</a>
-
+                                <a href="#" class="deleteAccount"
+                                   onclick="document.getElementById('deleteAccPass').style.display='block';return false;">Delete My Account</a>
                             </form>
 
                             <form action="student.php" method="post">
@@ -400,6 +423,25 @@ if (mysqli_num_rows($result) == 1 && $_SESSION['logged']) {
                                 </div>
                                 <!---->
                             </form>
+                            <!--Delete Account-->
+                            <form action="student.php" method="post">
+                            <!--Password container -->
+                            <div id="deleteAccPass" class="modal">
+                                <div class="modal-content animate">
+                                    <div class="imgcontainer" ">
+                                            <span onclick="document.getElementById('deleteAccPass').style.display='none'"
+                                                  class="close" title="Close Modal">&times;</span>
+                                    </div>
+                                    <div class="container">
+                                        <label><b>Are you sure about this decision ?</b></label>
+                                        <input type="password" placeholder="Password" name="deleteAccPass" class="resetFields" required>
+                                        <input type="submit" name="deleteAccBtn" value="Delete Account" >
+                                    </div>
+                                </div>
+                            </div>
+                            <!---->
+                            </form>
+                            <!--Delete Account-->
                         </div>
                     </div>
 

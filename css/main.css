@@ -53,7 +53,7 @@ input:hover,textarea:hover,select:hover,input:focus , textarea:focus,select:focu
 
 
 /* buttons  */
-input[type="submit"] , button{
+input[type="submit"] , button,input[type="reset"]{
     color: white;
     width: 100%;
     text-align: center;
@@ -73,13 +73,22 @@ input[type="submit"]:hover ,button:hover{
     cursor: pointer;
 }
 
-.clr{
+.clr,input[type="reset"],#deleteAccPass input[type='submit']{
     background-color:#ff3a28;
 }
 
-.clr:hover{
+.clr:hover,input[type="reset"]:hover,#deleteAccPass input[type='submit']:hover{
     background-color: #db1a08;
+    cursor: pointer;
 }
+
+.resetFields:hover,.resetFields:focus{
+    border-color: #e01f1f;
+    box-shadow: 0 0 2px rgba(224, 31, 31, 1);
+    outline: 0 none;
+}
+
+
 
 /*buttons */
 
@@ -336,4 +345,12 @@ ul{
     height: 200px;
     border: solid 4px gray;
     border-radius: 50%;
+}
+
+.deleteAccount{
+    margin-left:228px;
+}
+
+.deleteAccount:hover{
+    color: red;
 }
