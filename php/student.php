@@ -12,12 +12,32 @@ if (mysqli_num_rows($result) == 1 && $_SESSION['logged']) {
 ///////Load user data//////////////////////////////////////////////////////////////////////////////////////////
 
     ///////Load available results//////////////////////////////////////////////////////////////////////////////////////////
-    $query_results = "SELECT * FROM results WHERE indexNumber='{$_SESSION["username"]}'";
-    $result_data = runQuery($query_results);
-    if ($result_data != null && mysqli_num_rows($result_data) == 1 && $_SESSION['logged']) {
-        $data_result = mysqli_fetch_assoc($result_data);
-    } else {
-        $data_result = array('indexNumber' => $_SESSION['username'], 'studentName' => $data['firstName'] . " " . $data['lastName'], 'subject' => 'Not Added', 'marks' => 'Not Added');
+    $query_modules = "SELECT subject FROM courses";
+    $moduleResult = runQuery($query_modules);
+    $result_panel="";
+    while ($subject_r = mysqli_fetch_assoc($moduleResult)){
+        $query_results = "SELECT * FROM results WHERE indexNumber='{$_SESSION["username"]}' AND subject='{$subject_r['subject']}'";
+        $result_data = runQuery($query_results);
+        $result_data = mysqli_fetch_assoc($result_data);
+        $result_sub="";
+        if(sizeof($result_data)>0) {
+            $result_sub.='<h1 align="center">Your Result for '.$subject_r['subject'].'</h1>';
+            $result_sub .= '<table>
+                             <tr>
+                                <td>Subject</td>
+                                <td>' . $result_data['subject'] . '</td>
+                            </tr>
+                            <tr>
+                                <td>Marks</td>';
+            if (strlen($result_data['marks']) > 3) {
+                $result_sub .= '<td>' . $result_data['marks'] . '</td>';
+            } else {
+                $result_sub .= '<td>' . $result_data['marks'] . '%</td>';
+            };
+            $result_sub .= '</tr>
+                        </table>';
+        }
+        $result_panel= $result_sub.$result_panel;
     }
 
 ///////Load available results//////////////////////////////////////////////////////////////////////////////////////////
@@ -66,10 +86,10 @@ if (mysqli_num_rows($result) == 1 && $_SESSION['logged']) {
     ///////////////////////////////Change Profile pic////////////////////////////////////////////////////////////
 
     ///////////////////////////////load Tutorials////////////////////////////////////////////////////////////
-    $tutorial_panel = '';
-    $query_tu = "SELECT * FROM tutorials";
     $query_modules = "SELECT subject FROM courses";
     $moduleResult = runQuery($query_modules);
+    $tutorial_panel = '';
+    $query_tu = "SELECT * FROM tutorials";
     $i = 0;
     while ($module = mysqli_fetch_assoc($moduleResult)) {
         $tutorialResult = runQuery($query_tu);
@@ -193,12 +213,9 @@ if (mysqli_num_rows($result) == 1 && $_SESSION['logged']) {
     <link href="../css/owner.css" rel="stylesheet">
     <link href="../css/student.css" rel="stylesheet">
     <link href="../css/notification_panel.css" rel="stylesheet">
-
 </head>
-<body bgcolor="#e3e6ea" class="container demo-1">
+<body bgcolor="#e3e6ea">
 <div class="content">
-    <div id="large-header" class="large-header">
-        <canvas id="demo-canvas"></canvas>
         <!--header section-->
         <header>
             <center><img src="../img/Yureka%20logo.png" id="mainLogo"></center>
@@ -290,31 +307,8 @@ if (mysqli_num_rows($result) == 1 && $_SESSION['logged']) {
                     </div>
 
                     <div class="results_panel" style="display: none;">
-                        <h1 align="center">Your Results</h1>
-                        <table>
-                            <tr>
-                                <td>Student Name</td>
-                                <td><?php echo $fullName; ?></td>
-                            </tr>
-                            <tr>
-                                <td>Index Number</td>
-                                <td><?php echo $data_result['indexNumber']; ?></td>
-                            </tr>
-                            <tr>
-                                <td>Subject</td>
-                                <td><?php echo $data_result['subject']; ?></td>
-                            </tr>
-                            <tr>
-                                <td>Marks</td>
-                                <td><?php $temp = $data_result['marks'];
-                                    if (strlen($temp) > 3) {
-                                        echo $temp;
-                                    } else {
-                                        echo $temp . "%";
-                                    }; ?></td>
-                            </tr>
-                        </table>
-                    </div>
+                        <?php echo $result_panel;?>
+                        </div>
 
                     <div class="updateDetails_panel" style="display:none;">
                         <div class="formContainer">
@@ -323,7 +317,7 @@ if (mysqli_num_rows($result) == 1 && $_SESSION['logged']) {
                                 <Lable>Index Number</Lable>
                                 <br>
                                 <input type="text"
-                                      <?php echo "value='{$data["indexNumber"]}'"; ?> disabled>
+                                    <?php echo "value='{$data["indexNumber"]}'"; ?> disabled>
 
                                 <Lable>Name</Lable>
                                 <font size="2" class="warning" color="red"></font>          <!--name warning 0-->
@@ -424,12 +418,12 @@ if (mysqli_num_rows($result) == 1 && $_SESSION['logged']) {
                             </form>
                             <!--Delete Account-->
                             <form action="student.php" method="post">
-                            <!--Password container -->
-                            <div id="deleteAccPass" class="modal">
-                                <div class="modal-content animate">
-                                    <div class="imgcontainer" ">
-                                            <span onclick="document.getElementById('deleteAccPass').style.display='none'"
-                                                  class="close" title="Close Modal">&times;</span>
+                                <!--Password container -->
+                                <div id="deleteAccPass" class="modal">
+                                    <div class="modal-content animate">
+                                        <div class="imgcontainer" ">
+                                        <span onclick="document.getElementById('deleteAccPass').style.display='none'"
+                                              class="close" title="Close Modal">&times;</span>
                                     </div>
                                     <div class="container">
                                         <label><b>Are you sure about this decision ?</b></label>
@@ -437,17 +431,17 @@ if (mysqli_num_rows($result) == 1 && $_SESSION['logged']) {
                                         <input type="submit" name="deleteAccBtn" value="Delete Account" >
                                     </div>
                                 </div>
-                            </div>
-                            <!---->
-                            </form>
-                            <!--Delete Account-->
                         </div>
+                        <!---->
+                        </form>
+                        <!--Delete Account-->
                     </div>
-
                 </div>
-            </div>
 
-        </section>
+            </div>
+    </div>
+
+    </section>
         <!--footer section-->
         <footer>
             <hr class="hr1">
@@ -455,7 +449,6 @@ if (mysqli_num_rows($result) == 1 && $_SESSION['logged']) {
             <p align="center" style="font-size: small;" title="Yureka Higher Education Institute"><a
                         href="../index.php">Yureka Higher Education Institute</a> All Rights Reserved.</p>
         </footer>
-    </div>
 </div>
 
 <script src="../javascript/dayTimeSelector.js"></script>
@@ -463,11 +456,6 @@ if (mysqli_num_rows($result) == 1 && $_SESSION['logged']) {
 <script src="../javascript/Layers.js"></script>
 <script src="../javascript/validations/studentValidations.js"></script>
 <script src="../javascript/validations/Validations.js"></script>
-<script src="../javascript/backgroundCanvas/TweenLite.min.js"></script>
-<script src="../javascript/backgroundCanvas/EasePack.min.js"></script>
-<script src="../javascript/backgroundCanvas/particles.js"></script>
-<script src="../javascript/backgroundCanvas/rAF.js"></script>
-
 <?php
 ///////update details code//////////////////////////////////////////////////////////////////////////////////////////
 function updateData()

@@ -28,6 +28,14 @@ if (mysqli_num_rows($result) == 1 && $_SESSION['logged']) {
         if (sha1($_POST['uploadResultPass']) == $_SESSION['password']) {
             $file_path = $_FILES['resultfile']['tmp_name'];
             if (saveToDB($file_path, $_POST['filesubject'])) {
+                $msg = $_POST['filesubject']." result added !";
+                $sql="INSERT INTO notifications (notice,receiver,sender,sendDate)  VALUE ('{$msg}','Students','{$fullName}',CURDATE())";
+                runQuery($sql);
+                $query_email = "SELECT email FROM student";
+                $result_mail=runQuery($query_email);
+                while ($smail = mysqli_fetch_assoc($result_mail)){
+                    sendMail($smail['email'],"Yureka notification from",$msg. "<br><br><br><a href='#'>Yureka Higher Education Institute</a> All Rights Reserved!",$fullName);
+                }
                 echo "<script>alert('Successfully Added Results !');</script>";
             } else {
                 echo "<script>alert('Error happened uploading !');</script>";
@@ -42,17 +50,14 @@ if (mysqli_num_rows($result) == 1 && $_SESSION['logged']) {
 
 /////////////////////////////////////////////////////////////////// result upload row by row /////////////////////////////////////
     if (isset($_POST['resultupload_one'])) {
-        if (!$_SESSION['oneadded']) {
-            runQuery($query_truncate_results);
-        }
-        $query_one = "INSERT INTO results (indexNumber,subject, marks) VALUES ('{$_POST['resultIndex_one']}','{$_POST['resultSub_one']}','{$_POST['resultMark_one']}')";
+        deleteResultfromDB($_POST['resultIndex_one'],$_POST['resultSub_one']);
+       $query_one = "INSERT INTO results (indexNumber,subject, marks) VALUES ('{$_POST['resultIndex_one']}','{$_POST['resultSub_one']}','{$_POST['resultMark_one']}')";
         if (runQuery($query_one)) {
             echo "<script>alert('Successfully Added Results !');</script>";
         } else {
             echo "<script>alert('Error happened uploading !');</script>";
         }
         echo '<script>window.location.href = "teacher.php";</script>';
-        $_SESSION['oneadded'] = true;
         exit();
     }
 /////////////////////////////////////////////////////////////////// result upload row by row /////////////////////////////////////
@@ -180,11 +185,9 @@ if (mysqli_num_rows($result) == 1 && $_SESSION['logged']) {
     <link href="../css/teacher.css" rel="stylesheet">
 
 </head>
-<body bgcolor="#e3e6ea" class="container demo-1">
+<body bgcolor="#e3e6ea">
 <div class="content">
-    <div id="large-header" class="large-header">
-        <canvas id="demo-canvas"></canvas>
-        <!--header section-->
+            <!--header section-->
         <header>
             <center><img src="../img/Yureka%20logo.png" id="mainLogo"></center>
             <!--navigation bar start-->
@@ -271,9 +274,9 @@ if (mysqli_num_rows($result) == 1 && $_SESSION['logged']) {
                 </div>
 
                 <div id="right_container">
-
                     <div class="tutorial_panel" style="display: block;">
                         <form action="teacher.php" method="post" enctype="multipart/form-data">
+                            <h1 align="center">Upload Tutorials</h1>
                             <select name="tutorialSub" id="tutorialSub">
                                 <option selected hidden>Select Subject</option>
                                 <?php echo $availableSubjects_DD; ?>
@@ -360,6 +363,7 @@ if (mysqli_num_rows($result) == 1 && $_SESSION['logged']) {
 
                     <div class="notification_panel" style="display: none;">
                         <form action="teacher.php" method="post">
+                            <h1 align="center">Send Notifications</h1>
                             <select name="receiver" id="tnotReceiver">
                                 <option>All</option>
                                 <option>Students</option>
@@ -531,17 +535,13 @@ if (mysqli_num_rows($result) == 1 && $_SESSION['logged']) {
                         href="../index.php">Yureka Higher Education Institute</a> All Rights Reserved.</p>
         </footer>
     </div>
-</div>
+
 
 <script src="../javascript/dayTimeSelector.js"></script>
 <script src="../javascript/notificationPanel.js"></script>
 <script src="../javascript/Layers.js"></script>
 <script src="../javascript/validations/teacherValidations.js"></script>
 <script src="../javascript/validations/Validations.js"></script>
-<script src="../javascript/backgroundCanvas/TweenLite.min.js"></script>
-<script src="../javascript/backgroundCanvas/EasePack.min.js"></script>
-<script src="../javascript/backgroundCanvas/particles.js"></script>
-<script src="../javascript/backgroundCanvas/rAF.js"></script>
 <?php
 ///////update details code//////////////////////////////////////////////////////////////////////////////////////////
 function updateData()

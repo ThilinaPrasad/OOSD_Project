@@ -24,6 +24,11 @@
             padding: 1px 20px 20px 20px;
             position: relative;
             margin-bottom: 20px;
+            transition: transform 0.5s ease;
+        }
+
+        .sections:hover{
+            transform: scale(1.02);
         }
 
         .header{
@@ -55,22 +60,27 @@
             border-radius: 30px;
             margin: 10px;
             box-shadow: 0px 0px 20px #ccc;
+            transition: transform 0.5s ease;
+        }
+
+        .innerImages:hover,.vmImage:hover,.vmfinalImage:hover{
+            transform: scale(1.05);
         }
 
         .vmImage{
             margin-left: 30%;
+            transition: transform 0.5s ease;
         }
 
         .vmfinalImage{
             margin-left: 19%;
             margin-top: 60px;
+            transition: transform 0.5s ease;
         }
     </style>
 </head>
 <body bgcolor="#e3e6ea"  class="container demo-1">
 <div class="content">
-    <div id="large-header" class="large-header">
-        <canvas id="demo-canvas"></canvas>
         <!--header section-->
         <header>
             <center><img src="../img/Yureka%20logo.png" id="mainLogo"></center>
@@ -132,14 +142,5 @@
             <p align="center" style="font-size: small;" title="Yureka Higher Education Institute"><a href="../index.php" >Yureka Higher Education Institute</a> All Rights Reserved.</p>
         </footer>
     </div>
-</div>
-
-<script src="../javascript/backgroundCanvas/TweenLite.min.js"></script>
-<script src="../javascript/backgroundCanvas/EasePack.min.js"></script>
-<script src="../javascript/backgroundCanvas/particles.js"></script>
-<script src="../javascript/backgroundCanvas/rAF.js"></script>
-
-
-
 </body>
 </html>

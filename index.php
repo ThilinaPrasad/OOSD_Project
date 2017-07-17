@@ -7,11 +7,8 @@
     <link href="css/main.css" rel="stylesheet">
     <link href="css/advertiesments.css" rel="stylesheet">
 </head>
-<body bgcolor="#e3e6ea"  class="container demo-1">
+<body bgcolor="#e3e6ea">
 <div class="content">
-    <div id="large-header" class="large-header">
-        <canvas id="demo-canvas"></canvas>
-
         <!--header section-->
         <header>
             <center><img src="img/Yureka%20logo.png" id="mainLogo"></center>
@@ -105,10 +102,5 @@
             <p align="center" style="font-size: small;" title="Yureka Higher Education Institute"><a href="../index.php" >Yureka Higher Education Institute</a> All Rights Reserved.</p>
         </footer>
     </div>
-</div>
-<script src="javascript/backgroundCanvas/TweenLite.min.js"></script>
-<script src="javascript/backgroundCanvas/EasePack.min.js"></script>
-<script src="javascript/backgroundCanvas/particles.js"></script>
-<script src="javascript/backgroundCanvas/rAF.js"></script>
 </body>
 </html>

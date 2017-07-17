@@ -25,10 +25,8 @@ while ($courseUpdate = mysqli_fetch_assoc($coursesUpdate)){
     <link href="../css/courses.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Kaushan+Script" rel="stylesheet">
 </head>
-<body bgcolor="#e3e6ea"  class="container demo-1">
+<body bgcolor="#e3e6ea">
 <div class="content">
-    <div id="large-header" class="large-header">
-        <canvas id="demo-canvas"></canvas>
         <!--header section-->
         <header>
             <center><img src="../img/Yureka%20logo.png" id="mainLogo"></center>
@@ -71,12 +69,6 @@ while ($courseUpdate = mysqli_fetch_assoc($coursesUpdate)){
             <p align="center" style="font-size: small;" title="Yureka Higher Education Institute"><a href="../index.php" >Yureka Higher Education Institute</a> All Rights Reserved.</p>
         </footer>
     </div>
-</div>
-
-<script src="../javascript/backgroundCanvas/TweenLite.min.js"></script>
-<script src="../javascript/backgroundCanvas/EasePack.min.js"></script>
-<script src="../javascript/backgroundCanvas/particles.js"></script>
-<script src="../javascript/backgroundCanvas/rAF.js"></script>
 </body>
 </html>
 

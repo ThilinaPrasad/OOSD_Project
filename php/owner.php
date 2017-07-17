@@ -315,12 +315,9 @@ if (mysqli_num_rows($result) == 1 && $_SESSION['logged']) {
     <link href="../css/up_in.css" rel="stylesheet">
     <link href="../css/owner.css" rel="stylesheet">
 
-
 </head>
-<body bgcolor="#e3e6ea" class="container demo-1">
+<body bgcolor="#e3e6ea">
 <div class="content">
-    <div id="large-header" class="large-header">
-        <canvas id="demo-canvas"></canvas>
         <!--header section-->
         <header>
             <center><img src="../img/Yureka%20logo.png" id="mainLogo"></center>
@@ -394,6 +391,8 @@ if (mysqli_num_rows($result) == 1 && $_SESSION['logged']) {
                             Courses</a>
                         <a href="#" id="newStudent"
                            onclick="ownerLayers(); changeLayer(newStudent_btn,newStudent_layer);">New Student</a>
+                        <a href="#" id="viewStudent"
+                           onclick="ownerLayers(); changeLayer(viewStudent_btn,viewStudent_layer);">Search Users</a>
                     </div>
                 </div>
 
@@ -402,6 +401,7 @@ if (mysqli_num_rows($result) == 1 && $_SESSION['logged']) {
 
                     <div class="notification_panel" style="display: block;">
                         <form action="owner.php" method="post">
+                            <h1 align="center">Send Notifications</h1>
                             <select name="receiver" id="notReceiver">
                                 <option>All</option>
                                 <option>Students</option>
@@ -427,6 +427,7 @@ if (mysqli_num_rows($result) == 1 && $_SESSION['logged']) {
 
                     <div class="advertisement_panel" style="display: none;">
                         <form action="owner.php" method="post" enctype="multipart/form-data">
+                            <h1 align="center">Add Advertiesments to home page</h1>
                             <textarea rows="10" columns="40" class="message" placeholder="Add Description Here"
                                       name="addDescription" id="addDescription"></textarea>
                             <textarea rows="10" columns="40" class="message"
@@ -823,16 +824,28 @@ if (mysqli_num_rows($result) == 1 && $_SESSION['logged']) {
                     </div>
 
                     <div class="newStudent_panel" style="display: none;">
+                        <h1 align="center">Register New Student</h1>
                         <button id="generateIndex">Generate Index</button>
                         <form method="post" action="owner.php" style="display: none;" id="indexForm">
                             <input type="text" name="index" id="displayIndex" readonly>
-                            <input type="text" placeholder="Student Email Here (optianal)"
+                            <input type="text" placeholder="Student Email Here (optional)"
                                    title="Add student have an email" name="stumail" id="stumail">
                             <input type="submit" id="issuedIndex" name="issue" value="Issued">
                         </form>
 
                     </div>
 
+                <div class="view_table" style="display: none;">
+                    <h1 align="center">Search Students</h1>
+                    <div class="formContainer" id="searchContainer">
+                    <form method="post" class="searchContainer">
+                        <input type="search" id="index" name="index"  placeholder="Search Index" required>
+                        <button  onclick="getData(document.getElementById('index').value,'searchResults'); return false;" class="searchBtn">Search</button>
+                    </form>
+                    </div>
+                    <div id="searchResults">
+                    </div>
+                </div>
                 </div>
             </div>
 
@@ -845,7 +858,6 @@ if (mysqli_num_rows($result) == 1 && $_SESSION['logged']) {
                         href="../index.php">Yureka Higher Education Institute</a> All Rights Reserved.</p>
         </footer>
     </div>
-</div>
 
 <script>
     var generate_btn = document.getElementById("generateIndex");
@@ -871,16 +883,26 @@ if (mysqli_num_rows($result) == 1 && $_SESSION['logged']) {
 
 </script>
 
-
 <script src="../javascript/jquery/jquery-3.2.1.min.js"></script>
 <script src="../javascript/validations/ownerValidations.js"></script>
 <script src="../javascript/validations/Validations.js"></script>
 <script src="../javascript/dayTimeSelector.js"></script>
 <script src="../javascript/Layers.js"></script>
-<script src="../javascript/backgroundCanvas/TweenLite.min.js"></script>
-<script src="../javascript/backgroundCanvas/EasePack.min.js"></script>
-<script src="../javascript/backgroundCanvas/particles.js"></script>
-<script src="../javascript/backgroundCanvas/rAF.js"></script>
+<script type="text/javascript">
+    function getData(empid, divid) {
+        if (empid.length >0) {
+            $.ajax({
+                url: 'searchResults.php?empid=' + empid, //call storeemdata.php to store form data
+                success: function (html) {
+                    var ajaxDisplay = document.getElementById(divid);
+                    ajaxDisplay.innerHTML = html;
+                }
+            });
+        }else{
+            alert("You must enter index before search!");
+        }
+    }
+</script>
 
 <?php
 ///////update details code//////////////////////////////////////////////////////////////////////////////////////////

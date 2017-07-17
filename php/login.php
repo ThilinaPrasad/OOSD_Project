@@ -8,10 +8,8 @@
     <link href="../css/main.css" rel="stylesheet">
     <link href="../css/up_in.css" rel="stylesheet">
 </head>
-<body bgcolor="#e3e6ea"  class="container demo-1">
+<body bgcolor="#e3e6ea">
 <div class="content">
-    <div id="large-header" class="large-header">
-        <canvas id="demo-canvas"></canvas>
         <!--header section-->
         <header>
             <center><img src="../img/Yureka%20logo.png" id="mainLogo"></center>
@@ -74,15 +72,6 @@
             <p align="center" style="font-size: small;" title="Yureka Higher Education Institute"><a href="../index.php" >Yureka Higher Education Institute</a> All Rights Reserved.</p>
         </footer>
     </div>
-</div>
-
-<script src="../javascript/validations/Validations.js"></script>
-<script src="../javascript/backgroundCanvas/TweenLite.min.js"></script>
-<script src="../javascript/backgroundCanvas/EasePack.min.js"></script>
-<script src="../javascript/backgroundCanvas/particles.js"></script>
-<script src="../javascript/backgroundCanvas/rAF.js"></script>
-
-
 
 <?php
 
@@ -181,7 +170,7 @@ if (isset($_POST['forgot'])) {
         $num=sha1($number);     
         $sql="UPDATE student SET password='$num' WHERE indexNumber='$indexNo'"; 
         runQuery($sql); 
-        sendMail($email,'Forgot Password',"This is the recovery password issued by the Yureka Institute Online System <br><br><h1 align='center' style='background-color:lightgray; color:#4CAF50; width:400px; padding:20px; border:solid 4px gray; border-radius:50px; margin-left:20%; margin-top: 50px; margin-bottom: 50px;'>New Password : ".$number."</h1><br>If you want to change this, do it after you logged your account.", "Yureka Institute");
+        sendMail($email,'Your Password reset by',"As your request on ".date("Y/m/d")." at ".date("h:i:sa")." to password reset, we have reset your password.Therefore this is the recovery password issued by the Yureka Institute Online System <br><br><h1 align='center' style='background-color:lightgray; color:#4CAF50; width:400px; padding:20px; border:solid 4px gray; border-radius:50px; margin-left:20%; margin-top: 50px; margin-bottom: 50px;'>New Password : ".$number."</h1><br>If you want to change this, do it after you logged your account.", "Yureka Institute");
 
         echo "<script>alert('Successfully sent the recovery  password to your email address!'); </script>";
         
