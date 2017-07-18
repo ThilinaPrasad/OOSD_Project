@@ -36,7 +36,11 @@ while ($courseUpdate = mysqli_fetch_assoc($coursesUpdate)){
                 <li class="active"><a href="courses.php">Courses</a></li>
                 <li><a href="about.html">About Us</a></li>
 <<<<<<< HEAD
+<<<<<<< HEAD
                 <li><a href="contact.html">Contact Us</a></li>
+=======
+                <li><a href="#">Contact Us</a></li>
+>>>>>>> d16f7e303373f7aa06afeff3a1c36aeb8d5b1a6a
 =======
                 <li><a href="#">Contact Us</a></li>
 >>>>>>> d16f7e303373f7aa06afeff3a1c36aeb8d5b1a6a
