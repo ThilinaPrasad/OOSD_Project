@@ -19,9 +19,12 @@
                 <li><a href="courses.php">Courses</a></li>
                 <li><a href="about.html">About Us</a>        </li>
 <<<<<<< HEAD
+<<<<<<< HEAD
                 <li><a href="contact.html">Contact Us</a></li>
 =======
 <<<<<<< HEAD
+=======
+>>>>>>> d184dd4cfc38c1e43d2aeda89f18e2bc678ed50a
 <<<<<<< HEAD
                 <li><a href="contact.html">Contact Us</a></li>
 =======
@@ -30,6 +33,9 @@
 =======
                 <li><a href="#">Contact Us</a></li>
 >>>>>>> d16f7e303373f7aa06afeff3a1c36aeb8d5b1a6a
+<<<<<<< HEAD
+>>>>>>> d184dd4cfc38c1e43d2aeda89f18e2bc678ed50a
+=======
 >>>>>>> d184dd4cfc38c1e43d2aeda89f18e2bc678ed50a
                 <li class="active"><a href="#"><img src="../img/nav/nav_signup.png" style="vertical-align: bottom">&nbsp;Sign Up</a>
                 </li>
@@ -56,15 +62,21 @@
                     <Lable>Address</Lable><br>
                     <textarea rows="4" columns="40" id="address" name="address" placeholder="Address"></textarea>
 <<<<<<< HEAD
+<<<<<<< HEAD
                     <br>
                     <Lable>Birthday</Lable>
                     <font size="2" id="BDwarning" color="red"></font>
                     <br>
 =======
+=======
+>>>>>>> d184dd4cfc38c1e43d2aeda89f18e2bc678ed50a
                     <br>
                     <Lable>Birthday</Lable>
                     <font size="2" id="BDwarning" color="red"></font>
                     <br>
+<<<<<<< HEAD
+>>>>>>> d184dd4cfc38c1e43d2aeda89f18e2bc678ed50a
+=======
 >>>>>>> d184dd4cfc38c1e43d2aeda89f18e2bc678ed50a
                     <input type="date" id="bDay" name="bday" min="1990-01-01" max="2007-12-31">
 

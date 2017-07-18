@@ -80,7 +80,11 @@ function validate_general(fname,lname,useraddress,userbday,gender,usermail,tel,f
     }
 
 <<<<<<< HEAD
+<<<<<<< HEAD
    /* var bDayYear = parseInt(userbday.value.substr(0,4));
+=======
+    var bDayYear = parseInt(userbday.value.substr(0,4));
+>>>>>>> d184dd4cfc38c1e43d2aeda89f18e2bc678ed50a
 =======
     var bDayYear = parseInt(userbday.value.substr(0,4));
 >>>>>>> d184dd4cfc38c1e43d2aeda89f18e2bc678ed50a
@@ -90,7 +94,11 @@ function validate_general(fname,lname,useraddress,userbday,gender,usermail,tel,f
         bDayCheck_1 = true;
     }else{
 <<<<<<< HEAD
+<<<<<<< HEAD
         document.getElementById('BDwarning').innerText= 'Oops! just a child';
+=======
+        document.getElementById('BDwarning').innerText= 'You are a just child';
+>>>>>>> d184dd4cfc38c1e43d2aeda89f18e2bc678ed50a
 =======
         document.getElementById('BDwarning').innerText= 'You are a just child';
 >>>>>>> d184dd4cfc38c1e43d2aeda89f18e2bc678ed50a
@@ -101,7 +109,11 @@ function validate_general(fname,lname,useraddress,userbday,gender,usermail,tel,f
         bDayCheck_2 = true;
     }else{
 <<<<<<< HEAD
+<<<<<<< HEAD
         document.getElementById('BDwarning').innerText= 'Oops! too old';
+=======
+        document.getElementById('BDwarning').innerText= 'You are too old';
+>>>>>>> d184dd4cfc38c1e43d2aeda89f18e2bc678ed50a
 =======
         document.getElementById('BDwarning').innerText= 'You are too old';
 >>>>>>> d184dd4cfc38c1e43d2aeda89f18e2bc678ed50a
@@ -112,9 +124,15 @@ function validate_general(fname,lname,useraddress,userbday,gender,usermail,tel,f
     if(bDayCheck_1 && bDayCheck_2){
         bDayCheck = true;
 <<<<<<< HEAD
+<<<<<<< HEAD
     }*/
 
     return fill &&fnameCheck && lnameCheck && mailCheck && telCheck ;
+=======
+    }
+
+    return fill &&fnameCheck && lnameCheck && mailCheck && telCheck && bDayCheck;
+>>>>>>> d184dd4cfc38c1e43d2aeda89f18e2bc678ed50a
 =======
     }
 
