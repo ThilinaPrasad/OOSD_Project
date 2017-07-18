@@ -111,3 +111,48 @@ function atValidationOnclick() {
         innerJump(document.getElementsByClassName('nav'));
     }
 }
+
+/////////////////////// Advertiesment//////////////////////////////
+var addfile = document.getElementById('addFileSelect');
+var addhoverDesc=document.getElementById('addImageDesc');
+var addDesc =document.getElementById('addDescription') ;
+
+function addAddOnClick(){
+    fieldColorChange(addDesc,'');
+    fieldColorChange(addhoverDesc,'');
+    addfile.style.color = '';
+
+    var addfileCheck = false;
+    if(addfile.files.length>0){
+        addfileCheck = true;
+    }else{
+        addfileCheck = false;
+        addfile.style.color = 'red';
+    }
+
+    var addImageDescCheck = false;
+    if(addhoverDesc.value.trim().length>0){
+        addImageDescCheck = true;
+    }else{
+        addImageDescCheck = false;
+        fieldColorChange(addhoverDesc,'red');
+    }
+
+    var addDescCheck = false;
+    if(addDesc.value.trim().length>0){
+        addDescCheck = true;
+    }else{
+        addDescCheck = false;
+        fieldColorChange(addDesc,'red');
+    }
+
+    if(addfileCheck && addImageDescCheck && addDescCheck){
+        document.getElementById('addpasswordSection').style.display = 'block';
+    }
+}
+
+function addClrOncilck(){
+    addfile.value = addfile.defaultValue;
+    addhoverDesc.value = "";
+    addDesc.value = "";
+}

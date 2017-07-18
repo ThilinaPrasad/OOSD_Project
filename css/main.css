@@ -1,3 +1,4 @@
+
 .bodyInner{
     min-height: 500px;
 }
@@ -32,7 +33,7 @@ ul li{
     float:left;
 }
 
-input[type=text], input[type=password] , input[type=date],input[type=email],input[type=tel] , textarea,select, input[type=time],input[type=number]{
+input[type=text], input[type=password] , input[type=date],input[type=email],input[type=tel] , textarea,select, input[type=time],input[type=number],input[type=url],input[type='search']{
     width: 100%;
     padding: 12px 20px;
     margin: 8px 0;
@@ -44,7 +45,7 @@ input[type=text], input[type=password] , input[type=date],input[type=email],inpu
     font-size: medium;
 }
 
-input:hover,textarea:hover,select:hover,input:focus , textarea:focus,select:focus{
+input:hover,textarea:hover,select:hover,input[type='search']:hover,input:focus , textarea:focus,select:focus,input[type='search']:focus{
     border-color: #0FAF42;
     box-shadow: 0 0 2px rgba(15, 175, 66, 1);
     outline: 0 none;
@@ -52,7 +53,7 @@ input:hover,textarea:hover,select:hover,input:focus , textarea:focus,select:focu
 
 
 /* buttons  */
-input[type="submit"] , button{
+input[type="submit"] , button,input[type="reset"],input[type='button']{
     color: white;
     width: 100%;
     text-align: center;
@@ -67,18 +68,27 @@ input[type="submit"] , button{
 
 }
 
-input[type="submit"]:hover ,button:hover{
+input[type="submit"]:hover ,button:hover,input[type='button']:hover{
     background-color: #0FAF42;
     cursor: pointer;
 }
 
-.clr{
+.clr,input[type="reset"],#deleteAccPass input[type='submit']{
     background-color:#ff3a28;
 }
 
-.clr:hover{
+.clr:hover,input[type="reset"]:hover,#deleteAccPass input[type='submit']:hover{
     background-color: #db1a08;
+    cursor: pointer;
 }
+
+.resetFields:hover,.resetFields:focus{
+    border-color: #e01f1f;
+    box-shadow: 0 0 2px rgba(224, 31, 31, 1);
+    outline: 0 none;
+}
+
+
 
 /*buttons */
 
@@ -315,3 +325,32 @@ ul{
     margin-left: 40%;
 }
 
+.profilePic{
+    width: 40px;
+    height: 40px;
+    margin-top: 5px;
+    border-radius: 50%;
+    border: solid 2px white;
+}
+
+
+.profilePic:hover{
+    transform: scale(1.1);
+    cursor: pointer;
+}
+
+.displayProfilepic{
+    margin-left: 80px;
+    width: 200px;
+    height: 200px;
+    border: solid 4px gray;
+    border-radius: 50%;
+}
+
+.deleteAccount{
+    margin-left:228px;
+}
+
+.deleteAccount:hover{
+    color: red;
+}

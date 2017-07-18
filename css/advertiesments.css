@@ -2,12 +2,14 @@
     position: relative;
     width: 50%;
     margin-left: 30px;
+    margin-top: 20px;
+    margin-bottom: 20px;
 }
 
 .image {
     display: block;
-    width: 45vw;
-    height: 250px;
+    width: 615px;
+    height: 300px;
     border-radius: 80px 15px;
     box-shadow: gray 7px 7px 6px;
 }

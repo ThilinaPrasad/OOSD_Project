@@ -25,10 +25,8 @@ while ($courseUpdate = mysqli_fetch_assoc($coursesUpdate)){
     <link href="../css/courses.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Kaushan+Script" rel="stylesheet">
 </head>
-<body bgcolor="#e3e6ea"  class="container demo-1">
+<body bgcolor="#e3e6ea">
 <div class="content">
-    <div id="large-header" class="large-header">
-        <canvas id="demo-canvas"></canvas>
         <!--header section-->
         <header>
             <center><img src="../img/Yureka%20logo.png" id="mainLogo"></center>
@@ -36,10 +34,12 @@ while ($courseUpdate = mysqli_fetch_assoc($coursesUpdate)){
             <ul class="nav">
                 <li><a href="../index.php"><img src="../img/nav/nav_yureka_logo.png"></a></li>
                 <li class="active"><a href="courses.php">Courses</a></li>
-
-                <li class="dropdown"><a href="#">Site 3</a></li>
-
-                <li><a href="#">Site 2</a></li>
+                <li><a href="about.html">About Us</a></li>
+<<<<<<< HEAD
+                <li><a href="contact.html">Contact Us</a></li>
+=======
+                <li><a href="#">Contact Us</a></li>
+>>>>>>> d16f7e303373f7aa06afeff3a1c36aeb8d5b1a6a
                 <li><a href="signup.php"><img src="../img/nav/nav_signup.png" style="vertical-align: bottom">&nbsp;Sign Up</a>
                 </li>
                 <li ><a href="login.php"><img src="../img/nav/nav_login.png" style="vertical-align: bottom">&nbsp;Log
@@ -73,12 +73,6 @@ while ($courseUpdate = mysqli_fetch_assoc($coursesUpdate)){
             <p align="center" style="font-size: small;" title="Yureka Higher Education Institute"><a href="../index.php" >Yureka Higher Education Institute</a> All Rights Reserved.</p>
         </footer>
     </div>
-</div>
-
-<script src="../javascript/backgroundCanvas/TweenLite.min.js"></script>
-<script src="../javascript/backgroundCanvas/EasePack.min.js"></script>
-<script src="../javascript/backgroundCanvas/particles.js"></script>
-<script src="../javascript/backgroundCanvas/rAF.js"></script>
 </body>
 </html>
 

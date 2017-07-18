@@ -76,9 +76,8 @@ function uploadResults_oneOnclick(){
         fieldColorChange(oBoMark,'red');
     }
 
-    if(oBoSubCheck && oBoIndexCheck && oBoNameCheck && oBoMarkCheck){
-        document.getElementById('resultUploadPassword').style.display = 'block';
-    }
+    return oBoSubCheck && oBoIndexCheck && oBoNameCheck && oBoMarkCheck;
+
 }
 
 
@@ -93,4 +92,18 @@ var formWarnings = document.getElementsByClassName('warning');
 
 function updateValidationOnclick() {
     validate_update(validate_general(fname,lname,useraddress,userbday,gender,usermail,tel,formWarnings),"tupdateDetails");
+}
+
+var tuSub = document.getElementById('tutorialSub');
+var tuMsg = document.getElementById('tutorialMessage');
+var tuName= document.getElementById('tutorialName');
+var tuUrl = document.getElementById('tutorialUrl');
+var tuFile = document.getElementById('tutorialFile');
+
+function tuClrOnClick(){
+    tuSub.selectedIndex = 0;
+    tuMsg.value = "";
+    tuName.value = '';
+    tuUrl.value = '';
+    tuFile.value = tuFile.defaultValue;
 }

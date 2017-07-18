@@ -1,6 +1,14 @@
 <?php
 require 'Classes/PHPExcel/IOFactory.php';
-$query_truncate_results = "TRUNCATE TABLE results";
+
+function deleteResultfromDB($index,$subject){
+    $qery_search = "SELECT * FROM results WHERE indexNumber='{$index}' AND subject='{$subject}'";
+    if(runQuery($qery_search)) {
+        $query_delete = "DELETE FROM results WHERE indexNumber='{$index}' AND subject='{$subject}'";
+        runQuery($query_delete);
+    }
+}
+
 function saveToDB($file_tmp,$subject){
     $inputfilename = $file_tmp;
     global $connection;
@@ -23,14 +31,13 @@ function saveToDB($file_tmp,$subject){
 
 //  Loop through each row of the worksheet in turn
     $allDone = true;
-    global $query_truncate_results;
-    runQuery($query_truncate_results);
     for ($row = 2; $row <= $highestRow; $row++)
     {
         //  Read a row of data into an array
         $rowData = $sheet->rangeToArray('A' . $row . ':' . $highestColumn . $row, NULL, TRUE, FALSE);
         //  Insert row data array into your database of choice here
-        $query_excelSend = "INSERT INTO results (indexNumber, studentName, subject, marks) VALUES ('{$rowData[0][0]}','{$rowData[0][1]}','{$subject}','{$rowData[0][2]}')";
+        deleteResultfromDB($rowData[0][0],$subject);
+        $query_excelSend = "INSERT INTO results (indexNumber, subject, marks) VALUES ('{$rowData[0][0]}','{$subject}','{$rowData[0][1]}')";
         $test = runQuery($query_excelSend);
 
         if(!$test){

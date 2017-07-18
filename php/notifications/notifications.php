@@ -1,8 +1,19 @@
 <?php
 require ("phpmail.php");
 
-$qry="DELETE FROM notification WHERE sendDate < NOW() - INTERVAL 7 DAY";
+$qry="DELETE FROM notifications WHERE sendDate < NOW() - INTERVAL 7 DAY";
 runQuery($qry);
+
+$query_re_che = "SELECT * FROM notications";
+if(strval(date('d')) == '1')  {
+    $query_re="INSERT INTO notifications (notice,receiver,sender,sendDate)  VALUE ('This is the reminder to pay your tution fees within first two weeks','Students','Yureka Institute',CURDATE())";
+    runQuery($query_re);
+    $query_re_s = "SELECT email FROM student";
+    $mails = runQuery($query_re_s);
+    while ($mail=mysqli_fetch_assoc($mails)){
+        sendMail($mail['email'],"Yureka notification from",'This is the reminder to pay your tution fees within first two weeks  <br><br><br><a href=\'#\'>Yureka Higher Education Institute</a> All Rights Reserved!',"Yureka Institute");
+    }
+}
 
 function loadData($user){
     $sql = "SELECT * FROM notifications WHERE receiver='{$user}' OR receiver='All'";
@@ -20,11 +31,13 @@ function loadData($user){
     }
     $notices=array_reverse($notices);
     $sender=array_reverse($sender);
+    $sendDates = array_reverse($sendDates);
     $details[1]=$notices;
     $details[0]=$sender;
     $details[2] = $sendDates;
     return $details;
 }
+
 
 $notifiLogo = "../img/nav/notifiIcon_1.png";
 function loadNotifiPanel($notifiArray){
@@ -40,6 +53,7 @@ function loadNotifiPanel($notifiArray){
         }
         $notification.= '<h3 class="notifiSender">'.$notifiArray[0][$i].'</h3>';
         $notification.='<p class="notifiContent">'.$notifiArray[1][$i].'</p>';
+        $notification.='<lable style="margin-left:85%; color: lightgray;">Received '.$notifiArray[2][$i].'</lable>';
         $notification.='</div>';
         $notifyPanel.=$notification;
     }

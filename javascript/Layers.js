@@ -24,6 +24,8 @@ var tutorials_layer = document.getElementsByClassName("tutorial_panel")[0];
 var results_btn = document.getElementById("results");
 var results_layer = document.getElementsByClassName("results_panel")[0];
 
+var viewStudent_btn = document.getElementById("viewStudent");
+var viewStudent_layer = document.getElementsByClassName("view_table")[0];
 
 function ownerLayers(){
     sendNotifi_layer.style.display = "none";
@@ -32,12 +34,14 @@ function ownerLayers(){
     updateCourses_layer.style.display = "none";
     newStudent_layer.style.display = "none";
     updateDetails_layer.style.display = "none";
+    viewStudent_layer.style.display = "none";
 
     sendNotifi_btn.className = "";
     advertisement_btn.className ="";
     addTeacher_btn.className = "";
     updateCourses_btn.className ="";
     newStudent_btn.className ="";
+    viewStudent_btn.className ="";
 }
 
 function studentLayers(){

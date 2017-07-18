@@ -1,5 +1,5 @@
 
-#uploadResultBtn , #uploadResultOneByOne{
+#uploadResultBtn {
     width:300px;
     margin: auto 34%;
 }
@@ -20,12 +20,14 @@ margin: auto 30% auto 39%;
 }
 
 #marksDataRow{
-    margin-left: 6.8%;
+    margin-left: 11%;
 }
 
 #uploadResultOneByOne{
     margin-top: 20px;
     margin-bottom: 20px;
+    margin-left: -20px;
+    width: 300px;
 }
 
 #fileWarning{
