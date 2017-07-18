@@ -3,7 +3,7 @@ function validate_general(fname,lname,useraddress,userbday,gender,usermail,tel,f
 
     var fill = fname.value.length !=0 && lname.value.length !=0 && useraddress.value.length !=0 && userbday.value.length !=0 && usermail.value.length !=0
         && tel.value.length !=0 && gender.selectedIndex !=0;
-    console.log(fname.value);
+   // console.log(fname.value);
 
     if(!fill){
         alert("Please fill all the details !");
@@ -30,12 +30,24 @@ function validate_general(fname,lname,useraddress,userbday,gender,usermail,tel,f
         formWarnings[0].innerText = "last name only contain letters";
     }
 
+    if(!fnameCheck && !lnameCheck){
+        fieldColorChange(lname,"red");
+        fieldColorChange(fname,"red");
+        formWarnings[0].innerText = "first & last name only contain letters";
+    }
 
     //Email Validate
     var mailCheck = false;
     if(usermail.value.indexOf('@')>-1){
         if(usermail.value.indexOf('gmail.com')>-1){
-            mailCheck = true;
+            if((usermail.value.replace('@gmail.com','')).length>0){
+                mailCheck = true;
+            }else {
+                mailCheck = false;
+                fieldColorChange(usermail,"red");
+                formWarnings[1].innerText = "invalid email address!";
+            }
+
         }else if(fill){
             mailCheck = false;
             fieldColorChange(usermail,"red");
@@ -67,27 +79,79 @@ function validate_general(fname,lname,useraddress,userbday,gender,usermail,tel,f
        // alert("Invalid Telephone Number !");
     }
 
+<<<<<<< HEAD
+   /* var bDayYear = parseInt(userbday.value.substr(0,4));
+=======
+    var bDayYear = parseInt(userbday.value.substr(0,4));
+>>>>>>> d184dd4cfc38c1e43d2aeda89f18e2bc678ed50a
+    //console.log(bDayYear<1990);
+    var bDayCheck_1 =false;
+    if(bDayYear<=2007){
+        bDayCheck_1 = true;
+    }else{
+<<<<<<< HEAD
+        document.getElementById('BDwarning').innerText= 'Oops! just a child';
+=======
+        document.getElementById('BDwarning').innerText= 'You are a just child';
+>>>>>>> d184dd4cfc38c1e43d2aeda89f18e2bc678ed50a
+        fieldColorChange(userbday,"red");
+    }
+    var bDayCheck_2 =false;
+    if(bDayYear>=1990) {
+        bDayCheck_2 = true;
+    }else{
+<<<<<<< HEAD
+        document.getElementById('BDwarning').innerText= 'Oops! too old';
+=======
+        document.getElementById('BDwarning').innerText= 'You are too old';
+>>>>>>> d184dd4cfc38c1e43d2aeda89f18e2bc678ed50a
+        fieldColorChange(userbday,"red");
+    }
 
-
-    return fill &&fnameCheck && lnameCheck && mailCheck && telCheck;
-
-    /*if(fill &&fnameCheck && lnameCheck && mailCheck && telCheck && passCheck && agreeCheck){
-        document.getElementById('id01').style.display='block';
-    }else {
-        pass.value = "";
-        cmfpass.value = "";
-        agree.checked = false;
-        innerJump("signup");
+    var bDayCheck = false;
+    if(bDayCheck_1 && bDayCheck_2){
+        bDayCheck = true;
+<<<<<<< HEAD
     }*/
+
+    return fill &&fnameCheck && lnameCheck && mailCheck && telCheck ;
+=======
+    }
+
+    return fill &&fnameCheck && lnameCheck && mailCheck && telCheck && bDayCheck;
+>>>>>>> d184dd4cfc38c1e43d2aeda89f18e2bc678ed50a
+
 
 }
 
-function validate_signup(validated,pass,cmfpass,agree,agreeStatement){
+function validate_signup(validated,userbday,pass,cmfpass,agree,agreeStatement){
     normalizeFields_signup();
     var fill = validated && pass.value.length !=0 && cmfpass.value.length !=0;
     if(fill && pass.value.length ==0 && cmfpass.value.length ==0){
         alert("Please fill all the details !");
         return false;
+    }
+
+    var bDayYear = parseInt(userbday.value.substr(0,4));
+    //console.log(bDayYear<1990);
+    var bDayCheck_1 =false;
+    if(bDayYear<=2007){
+        bDayCheck_1 = true;
+    }else{
+        document.getElementById('BDwarning').innerText= 'Oops! just a child';
+        fieldColorChange(userbday,"red");
+    }
+    var bDayCheck_2 =false;
+    if(bDayYear>=1990) {
+        bDayCheck_2 = true;
+    }else{
+        document.getElementById('BDwarning').innerText= 'Oops! too old';
+        fieldColorChange(userbday,"red");
+    }
+
+    var bDayCheck = false;
+    if(bDayCheck_1 && bDayCheck_2){
+        bDayCheck = true;
     }
 
     // Password == Con Pass
@@ -119,7 +183,7 @@ function validate_signup(validated,pass,cmfpass,agree,agreeStatement){
         agreeStatement.style.color = '#ff0000';
     }
 
-    if(fill && passCheck && agreeCheck){
+    if(fill && passCheck && agreeCheck && bDayCheck){
         document.getElementById('id01').style.display='block';
     }else {
         pass.value = "";

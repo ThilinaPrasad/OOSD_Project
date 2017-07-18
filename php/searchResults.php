@@ -50,6 +50,9 @@ require("connection/dbConnection.php");
 $empid = $_GET['empid'];
 $empIDLastLetter = strtoupper(substr($empid, -1));
 $teacherCheck = false;
+$teacher = false;
+$validUser = true;
+$searchResult = '<h1 align="center" style="margin-top: 120px;">Search Result</h1><div class="searchResult">';
 if (isset($empid)) {
     $query = '';
     switch ($empIDLastLetter) {
@@ -61,15 +64,25 @@ if (isset($empid)) {
             $teacherCheck= true;
             break;
         case "O":
-            $query = " SELECT * FROM owner WHERE indexNumber = '$empid'";
+            if(isset($_GET['teacher'])){
+                $teacher = true;
+            }
+            else {
+                $query = " SELECT * FROM owner WHERE indexNumber = '$empid'";
+            }
+            break;
+        default:
+            $validUser = false;
+            $searchResult.='<b style="font-size: medium;">Invalid Index number !</b><br>';
             break;
     }
-    $result = runQuery($query);
-    $row = mysqli_fetch_object($result);
+    if($validUser && !$teacher) {
+        $result = runQuery($query);
+        $row = mysqli_fetch_object($result);
+    }
 }
 
-$searchResult = '<h1 align="center" style="margin-top: 120px;">Search Result</h1><div class="searchResult">';
-if(sizeof($row)>0) {
+if($validUser && !$teacher && sizeof($row)>0) {
             $searchResult.='<img src="' . $row->profilePic . '"
                  class="resultImage"><p id="searchedData">';
             $searchResult.='Name : '.$row->firstName.' '.$row->lastName.'<br>';

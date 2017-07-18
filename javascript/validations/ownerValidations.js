@@ -105,7 +105,28 @@ var attel= document.getElementById('attelephoneNo');
 var atformWarnings = document.getElementsByClassName('atwarning');
 
 function atValidationOnclick() {
-    if(validate_general(atfname,atlname,atuseraddress,atuserbday,atgender,atusermail,attel,atformWarnings)){
+    var bDayYear = parseInt(userbday.value.substr(0,4));
+    //console.log(bDayYear<1990);
+    var bDayCheck_1 =false;
+    if(bDayYear<=2007){
+        bDayCheck_1 = true;
+    }else{
+        document.getElementById('BDwarning').innerText= 'Oops! just a child';
+        fieldColorChange(userbday,"red");
+    }
+    var bDayCheck_2 =false;
+    if(bDayYear>=1960) {
+        bDayCheck_2 = true;
+    }else{
+        document.getElementById('BDwarning').innerText= 'Oops! too old';
+        fieldColorChange(userbday,"red");
+    }
+
+    var bDayCheck = false;
+    if(bDayCheck_1 && bDayCheck_2){
+        bDayCheck = true;
+    }
+    if(validate_general(atfname,atlname,atuseraddress,atuserbday,atgender,atusermail,attel,atformWarnings)&&bDayCheck){
         document.getElementById('atdatasection').style.display = 'none';
         document.getElementById('atindex').style.display = 'block';
         innerJump(document.getElementsByClassName('nav'));

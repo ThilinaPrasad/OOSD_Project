@@ -4,14 +4,16 @@ require ("phpmail.php");
 $qry="DELETE FROM notifications WHERE sendDate < NOW() - INTERVAL 7 DAY";
 runQuery($qry);
 
-$query_re_che = "SELECT * FROM notications";
-if(strval(date('d')) == '1')  {
-    $query_re="INSERT INTO notifications (notice,receiver,sender,sendDate)  VALUE ('This is the reminder to pay your tution fees within first two weeks','Students','Yureka Institute',CURDATE())";
+$remainder = 'This is the reminder to pay your tution fees within first two weeks';
+$query_fees_check = "SELECT * FROM notifications WHERE notice='$remainder'";
+$remainder_result = runQuery($query_fees_check);
+if((strval(date('d')) == '1') && (mysqli_num_rows($remainder_result)<1))  {
+    $query_re="INSERT INTO notifications (notice,receiver,sender,sendDate)  VALUE ('{$remainder}','Students','Yureka Institute',CURDATE())";
     runQuery($query_re);
     $query_re_s = "SELECT email FROM student";
     $mails = runQuery($query_re_s);
     while ($mail=mysqli_fetch_assoc($mails)){
-        sendMail($mail['email'],"Yureka notification from",'This is the reminder to pay your tution fees within first two weeks  <br><br><br><a href=\'#\'>Yureka Higher Education Institute</a> All Rights Reserved!',"Yureka Institute");
+        sendMail($mail['email'],"Yureka notification from",$remainder.'<br><br><br><a href=\'#\'>Yureka Higher Education Institute</a> All Rights Reserved!',"Yureka Institute");
     }
 }
 

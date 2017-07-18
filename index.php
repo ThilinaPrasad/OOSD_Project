@@ -34,6 +34,8 @@
             <table width="100%" id="advTable">
             <?php
             require "php/connection/dbConnection.php";
+            $qry="DELETE FROM advertisements WHERE uploadedDate < NOW() - INTERVAL 30 DAY";
+            runQuery($qry);
                 $query_show_adds="SELECT * FROM  advertisements";
                 $result = runQuery($query_show_adds);
                 $allAdds = "";

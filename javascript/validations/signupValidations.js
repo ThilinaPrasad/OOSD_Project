@@ -21,5 +21,5 @@ var agreeStatement = document.getElementById('agreementStatement');
 var formWarnings = document.getElementsByClassName('warning');
 
 function validateOnclick() {
-    validate_signup(validate_general(fname,lname,useraddress,userbday,gender,usermail,tel,formWarnings),pass,cmfpass,agree,agreeStatement);
+    validate_signup(validate_general(fname,lname,useraddress,userbday,gender,usermail,tel,formWarnings),userbday,pass,cmfpass,agree,agreeStatement);
 }

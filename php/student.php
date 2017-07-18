@@ -224,7 +224,19 @@ if (mysqli_num_rows($result) == 1 && $_SESSION['logged']) {
                 <li><a href="../index.php"><img src="../img/nav/nav_yureka_logo.png"></a></li>
                 <li><a href="courses.php" target="_blank">Courses</a></li>
                 <li><a href="about.html">About Us</a></li>
+<<<<<<< HEAD
+                <li><a href="contact.html">Contact Us</a></li>
+=======
+<<<<<<< HEAD
+<<<<<<< HEAD
+                <li><a href="contact.html">Contact Us</a></li>
+=======
                 <li><a href="#">Contact Us</a></li>
+>>>>>>> d16f7e303373f7aa06afeff3a1c36aeb8d5b1a6a
+=======
+                <li><a href="#">Contact Us</a></li>
+>>>>>>> d16f7e303373f7aa06afeff3a1c36aeb8d5b1a6a
+>>>>>>> d184dd4cfc38c1e43d2aeda89f18e2bc678ed50a
                 <li id="nav_noti"><a href="#" onclick="openNav()" style="color: white;"><img
                                 src='<?php echo $notifiLogo; ?>'></a></li>
                 <li><a href="logout.php"><img src="../img/nav/nav_logout.png" style="vertical-align: bottom">&nbsp;Log

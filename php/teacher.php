@@ -170,6 +170,32 @@ if (mysqli_num_rows($result) == 1 && $_SESSION['logged']) {
 
     }
     ///////////////////////////////Delete Account////////////////////////////////////////////////////////////
+
+    //////////////////////////////////////////////// Add Advertiesment /////////////////////////////
+    if (isset($_POST['adddone'])) {
+        if (sha1($_POST['addPass']) == $_SESSION['password']) {
+            $query_last_id = "SELECT addId FROM advertisements ORDER BY addId DESC LIMIT 1";
+            $result_lid = runQuery($query_last_id);
+            $result_lid = mysqli_fetch_assoc($result_lid);
+            $result_lid = $result_lid['addId'];
+            $result_lid = sha1($result_lid);
+            $file = $_FILES['addimg'];
+            $path_move = "../img/advertiesments/" . $result_lid . ".jpg";
+            if (move_uploaded_file($file['tmp_name'], $path_move)) {
+                $path_load = "img/advertiesments/" . $result_lid . ".jpg";
+                $query_add = "INSERT INTO  advertisements (imagePath , hoverDescription, description,uploadedDate) VALUES ('{$path_load}','{$_POST['addImageDesc']}','{$_POST['addDescription']}',CURDATE())";
+                runQuery($query_add);
+                echo "<script type='text/javascript'>alert('Successfully Added!');</script>";
+            } else {
+                echo "<script type='text/javascript'>alert('Failed uploading please try again!');</script>";
+            }
+        } else {
+            echo "<script type='text/javascript'>alert('Invalid Password!');</script>";
+        }
+        echo '<script>window.location.href = "teacher.php";</script>';
+        exit();
+    }
+//////////////////////////////////////////////// Add Advertiesment /////////////////////////////
 }
 ?>
 <!DOCTYPE html>
@@ -195,7 +221,19 @@ if (mysqli_num_rows($result) == 1 && $_SESSION['logged']) {
                 <li><a href="../index.php"><img src="../img/nav/nav_yureka_logo.png"></a></li>
                 <li><a href="courses.php" target="_blank">Courses</a></li>
                 <li><a href="about.html">About Us</a></li>
+<<<<<<< HEAD
+                <li><a href="contact.html">Contact Us</a></li>
+=======
+<<<<<<< HEAD
+<<<<<<< HEAD
+                <li><a href="contact.html">Contact Us</a></li>
+=======
                 <li><a href="#">Contact Us</a></li>
+>>>>>>> d16f7e303373f7aa06afeff3a1c36aeb8d5b1a6a
+=======
+                <li><a href="#">Contact Us</a></li>
+>>>>>>> d16f7e303373f7aa06afeff3a1c36aeb8d5b1a6a
+>>>>>>> d184dd4cfc38c1e43d2aeda89f18e2bc678ed50a
                 <li id="nav_noti"><a href="#" onclick="openNav()" style="color: white;"><img
                                 src='<?php echo $notifiLogo; ?>'></a></li>
                 <li><a href="logout.php"><img src="../img/nav/nav_logout.png" style="vertical-align: bottom">&nbsp;Log
@@ -270,6 +308,10 @@ if (mysqli_num_rows($result) == 1 && $_SESSION['logged']) {
                         <a href="#" id="sendNotification"
                            onclick="teacherLayers(); changeLayer(sendNotifi_btn,sendNotifi_layer);">Send
                             Notifications</a>
+                        <a href="#" id="viewStudent"
+                           onclick="teacherLayers(); changeLayer(viewStudent_btn,viewStudent_layer);">View Users</a>
+                        <a href="#" id="addAdvertiesmentsT"
+                           onclick="teacherLayers(); changeLayer(addvertiesmetsT_btn,addvertiesmetsT_layer);">Add Advertiesments</a>
                     </div>
                 </div>
 
@@ -290,7 +332,7 @@ if (mysqli_num_rows($result) == 1 && $_SESSION['logged']) {
                             <label><b>Or</b></label>
                             <br><br>
                             <input type="file" name="tutorialFile" id="tutorialFile"><br>
-                            <font size="2" color="red">(*max file size is 50MB)</font><br>
+                            <font size="2">(*max file size is 50MB)</font><br>
                             <ul>
                                 <li>
                                     <button class="clr" onclick="tuClrOnClick(); return false;">Clear</button>
@@ -352,7 +394,7 @@ if (mysqli_num_rows($result) == 1 && $_SESSION['logged']) {
                                     <li><input type="text" placeholder="Index Number" name="resultIndex_one"
                                                id="resultIndex_one"></li>
                                     <li><input type="number" placeholder="Marks" name="resultMark_one"
-                                               id="resultMark_one"></li>
+                                               id="resultMark_one" min="00" max="100"></li>
                                 </ul>
                                 <input type="submit" name="resultupload_one" value="Upload Results"
                                        id="uploadResultOneByOne" onclick="return uploadResults_oneOnclick();">
@@ -522,9 +564,57 @@ if (mysqli_num_rows($result) == 1 && $_SESSION['logged']) {
                         </div>
                     </div>
 
+                <div class="view_table" style="display: none;">
+                    <h1 align="center">Search Students</h1>
+                    <div class="formContainer" id="searchContainer">
+                        <form method="post" class="searchContainer">
+                            <input type="search" id="indext" name="index"  placeholder="Search Index" required>
+                            <button  onclick="getData(document.getElementById('indext').value,'searchResultst'); return false;" class="searchBtn">Search</button>
+                        </form>
+                    </div>
+                    <div id="searchResultst">
+                    </div>
+                </div>
+
+                <div class="advertisementT_panel" style="display: none;">
+                    <form action="teacher.php" method="post" enctype="multipart/form-data">
+                        <h1 align="center">Add Advertiesments to home page</h1>
+                        <textarea rows="10" columns="40" class="message" placeholder="Add Description Here"
+                                  name="addDescription" id="addDescription"></textarea>
+                        <textarea rows="10" columns="40" class="message"
+                                  placeholder="Add Description Here for Image" name="addImageDesc"
+                                  id="addImageDesc"></textarea>
+                        <input type="file" name="addimg" id="addFileSelect"><br>
+                        <font size="2">(*615px X 300px image size recommended)</font><br>
+                        <ul>
+                            <li>
+                                <button class="clr" onclick="addClrOncilck();">Clear All</button>
+                            </li>
+                            <li>
+                                <button class="" onclick="addAddOnClick();return false;">Add</button>
+                            </li>
+                        </ul>
+
+                        <div id="addpasswordSection" class="modal">
+                            <div class="modal-content animate">
+                                <div class="imgcontainer">
+                                        <span onclick="document.getElementById('addpasswordSection').style.display='none';"
+                                              class="close" title="Close Modal">&times;</span>
+                                </div>
+                                <div class="container">
+                                    <label><b>Enter Your Password</b></label>
+                                    <input type="password" placeholder="Password" name="addPass" required>
+                                    <input type="submit" name="adddone" value="Done">
+                                </div>
+                            </div>
+                        </div>
+
+                    </form>
+                </div>
+
+            </div>
 
                 </div>
-            </div>
 
         </section>
         <!--footer section-->
@@ -536,12 +626,30 @@ if (mysqli_num_rows($result) == 1 && $_SESSION['logged']) {
         </footer>
     </div>
 
-
+<script src="../javascript/jquery/jquery-3.2.1.min.js"></script>
 <script src="../javascript/dayTimeSelector.js"></script>
 <script src="../javascript/notificationPanel.js"></script>
 <script src="../javascript/Layers.js"></script>
+<script src="../javascript/validations/ownerValidations.js"></script>
 <script src="../javascript/validations/teacherValidations.js"></script>
 <script src="../javascript/validations/Validations.js"></script>
+
+<script type="text/javascript">
+    function getData(empid, divid) {
+        if (empid.length >0) {
+            $.ajax({
+                url: 'searchResults.php?empid=' + empid+'&teacher', //call storeemdata.php to store form data
+                success: function (html) {
+                    var ajaxDisplay = document.getElementById(divid);
+                    ajaxDisplay.innerHTML = html;
+                }
+            });
+        }else{
+            alert("You must enter index before search!");
+        }
+    }
+</script>
+
 <?php
 ///////update details code//////////////////////////////////////////////////////////////////////////////////////////
 function updateData()

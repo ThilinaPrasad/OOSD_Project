@@ -70,8 +70,7 @@ if (mysqli_num_rows($result) == 1 && $_SESSION['logged']) {
     $availableSubjects_DD = "";
 
     if (isset($_POST['doneAdd'])) {
-        //if($_POST['upPass'] == $_SESSION['password']) { *************************************** complete this line **************
-        if (true) {
+        if($_POST['upPass'] == $_SESSION['password']) {
             $query_courseAdd = "INSERT INTO courses (subject, teacher, classDay, classTime, hall) VALUES ('{$_POST["subject"]}','{$_POST["teacher"]}','{$_POST["classDay"]}','{$_POST["classTime"]}','{$_POST["hall"]}')";
             runQuery($query_courseAdd);
             echo "<script type='text/javascript'>alert('Course Successfully Added !');</script>";
@@ -249,7 +248,7 @@ if (mysqli_num_rows($result) == 1 && $_SESSION['logged']) {
             $path_move = "../img/advertiesments/" . $result_lid . ".jpg";
             if (move_uploaded_file($file['tmp_name'], $path_move)) {
                 $path_load = "img/advertiesments/" . $result_lid . ".jpg";
-                $query_add = "INSERT INTO  advertisements (imagePath , hoverDescription, description) VALUES ('{$path_load}','{$_POST['addImageDesc']}','{$_POST['addDescription']}')";
+                $query_add = "INSERT INTO  advertisements (imagePath , hoverDescription, description,uploadedDate) VALUES ('{$path_load}','{$_POST['addImageDesc']}','{$_POST['addDescription']}',CURDATE())";
                 runQuery($query_add);
                 echo "<script type='text/javascript'>alert('Successfully Added!');</script>";
             } else {
@@ -326,7 +325,19 @@ if (mysqli_num_rows($result) == 1 && $_SESSION['logged']) {
                 <li><a href="../index.php"><img src="../img/nav/nav_yureka_logo.png"></a></li>
                 <li><a href="courses.php" target="_blank">Courses</a></li>
                 <li><a href="about.html">About Us</a></li>
+<<<<<<< HEAD
+                <li><a href="contact.html">Contact Us</a></li>
+=======
+<<<<<<< HEAD
+<<<<<<< HEAD
+                <li><a href="contact.html">Contact Us</a></li>
+=======
                 <li><a href="#">Contact Us</a></li>
+>>>>>>> d16f7e303373f7aa06afeff3a1c36aeb8d5b1a6a
+=======
+                <li><a href="#">Contact Us</a></li>
+>>>>>>> d16f7e303373f7aa06afeff3a1c36aeb8d5b1a6a
+>>>>>>> d184dd4cfc38c1e43d2aeda89f18e2bc678ed50a
                 </li>
                 <li><a href="logout.php"><img src="../img/nav/nav_logout.png" style="vertical-align: bottom">&nbsp;Log
                         Out</a></li>
@@ -434,7 +445,7 @@ if (mysqli_num_rows($result) == 1 && $_SESSION['logged']) {
                                       placeholder="Add Description Here for Image" name="addImageDesc"
                                       id="addImageDesc"></textarea>
                             <input type="file" name="addimg" id="addFileSelect"><br>
-                            <font size="2" color="red">(*615px X 300px image size recommended)</font><br>
+                            <font size="2">(*615px X 300px image size recommended)</font><br>
                             <ul>
                                 <li>
                                     <button class="clr" onclick="addClrOncilck();">Clear All</button>
@@ -473,11 +484,35 @@ if (mysqli_num_rows($result) == 1 && $_SESSION['logged']) {
                                     <input type="text" id="atlastName" placeholder="Last Name" name="atlastName"><br>
                                     <Lable>Address</Lable>
                                     <br>
-                                    <textarea rows="4" columns="40" id="ataddress" name="ataddress"></textarea>
+<<<<<<< HEAD
+                                    <textarea rows="4" columns="40" id="ataddress" name="ataddress" placeholder="Address"></textarea>
+=======
+<<<<<<< HEAD
+<<<<<<< HEAD
+                                    <textarea rows="4" columns="40" id="ataddress" name="ataddress" placeholder="Address"></textarea>
                                     <br>
                                     <Lable>Birthday</Lable>
+                                    <font size="2" id="BDwarning" color="red"></font>
                                     <br>
+                                    <input type="date" id="atbDay" name="atbDay" min="1990-01-01" max="2007-12-31">
+=======
+=======
+>>>>>>> d16f7e303373f7aa06afeff3a1c36aeb8d5b1a6a
+                                    <textarea rows="4" columns="40" id="ataddress" name="ataddress"></textarea>
+>>>>>>> d184dd4cfc38c1e43d2aeda89f18e2bc678ed50a
+                                    <br>
+                                    <Lable>Birthday</Lable>
+                                    <font size="2" id="BDwarning" color="red"></font>
+                                    <br>
+<<<<<<< HEAD
+                                    <input type="date" id="atbDay" name="atbDay" min="1990-01-01" max="2007-12-31">
+=======
                                     <input type="date" id="atbDay" name="atbDay">
+<<<<<<< HEAD
+>>>>>>> d16f7e303373f7aa06afeff3a1c36aeb8d5b1a6a
+=======
+>>>>>>> d16f7e303373f7aa06afeff3a1c36aeb8d5b1a6a
+>>>>>>> d184dd4cfc38c1e43d2aeda89f18e2bc678ed50a
 
                                     <br>
                                     <Lable>Gender</Lable>
@@ -492,19 +527,55 @@ if (mysqli_num_rows($result) == 1 && $_SESSION['logged']) {
                                     <Lable>Email</Lable>
                                     <font size="2" class="atwarning" color="red"></font>  <!--email warning 1-->
                                     <br>
+<<<<<<< HEAD
+                                    <input type="email" id="atemail" name="atemail" placeholder="someone@gmail.com">
+=======
+<<<<<<< HEAD
+<<<<<<< HEAD
+                                    <input type="email" id="atemail" name="atemail" placeholder="someone@gmail.com">
+=======
                                     <input type="email" id="atemail" name="atemail">
+>>>>>>> d16f7e303373f7aa06afeff3a1c36aeb8d5b1a6a
+=======
+                                    <input type="email" id="atemail" name="atemail">
+>>>>>>> d16f7e303373f7aa06afeff3a1c36aeb8d5b1a6a
+>>>>>>> d184dd4cfc38c1e43d2aeda89f18e2bc678ed50a
 
                                     <br>
                                     <Lable>Telephone</Lable>
                                     <font size="2" class="atwarning">(*Must contain 10 digits)</font><br>
                                     <!--tel warning 2-->
                                     <br>
+<<<<<<< HEAD
+                                    <input type="tel" id="attelephoneNo" name="attelephone" placeholder="07xxxxxxxx">
+=======
+<<<<<<< HEAD
+<<<<<<< HEAD
+                                    <input type="tel" id="attelephoneNo" name="attelephone" placeholder="07xxxxxxxx">
+=======
                                     <input type="tel" id="attelephoneNo" name="attelephone">
+>>>>>>> d16f7e303373f7aa06afeff3a1c36aeb8d5b1a6a
+=======
+                                    <input type="tel" id="attelephoneNo" name="attelephone">
+>>>>>>> d16f7e303373f7aa06afeff3a1c36aeb8d5b1a6a
+>>>>>>> d184dd4cfc38c1e43d2aeda89f18e2bc678ed50a
 
                                     <br>
                                     <Lable>Educational Qualifications</Lable>
                                     <br>
+<<<<<<< HEAD
+                                    <input type="text" id="ateduQualifications" name="ateducationalQualifi" placeholder="Bsc(Eng)">
+=======
+<<<<<<< HEAD
+<<<<<<< HEAD
+                                    <input type="text" id="ateduQualifications" name="ateducationalQualifi" placeholder="Bsc(Eng)">
+=======
                                     <input type="text" id="ateduQualifications" name="ateducationalQualifi">
+>>>>>>> d16f7e303373f7aa06afeff3a1c36aeb8d5b1a6a
+=======
+                                    <input type="text" id="ateduQualifications" name="ateducationalQualifi">
+>>>>>>> d16f7e303373f7aa06afeff3a1c36aeb8d5b1a6a
+>>>>>>> d184dd4cfc38c1e43d2aeda89f18e2bc678ed50a
 
 
                                     <button onclick="atValidationOnclick(); return false;">Add Teacher</button>
@@ -717,7 +788,19 @@ if (mysqli_num_rows($result) == 1 && $_SESSION['logged']) {
                                 <br>
                                 <Lable>Birthday</Lable>
                                 <br>
+<<<<<<< HEAD
+                                <input type="date" id="obDay" name="obday" <?php echo "value='{$data["birthDay"]}'"; ?> min="1990-01-01" max="2007-12-31">
+=======
+<<<<<<< HEAD
+<<<<<<< HEAD
+                                <input type="date" id="obDay" name="obday" <?php echo "value='{$data["birthDay"]}'"; ?> min="1990-01-01" max="2007-12-31">
+=======
                                 <input type="date" id="obDay" name="obday" <?php echo "value='{$data["birthDay"]}'"; ?>>
+>>>>>>> d16f7e303373f7aa06afeff3a1c36aeb8d5b1a6a
+=======
+                                <input type="date" id="obDay" name="obday" <?php echo "value='{$data["birthDay"]}'"; ?>>
+>>>>>>> d16f7e303373f7aa06afeff3a1c36aeb8d5b1a6a
+>>>>>>> d184dd4cfc38c1e43d2aeda89f18e2bc678ed50a
 
                                 <br>
                                 <Lable>Gender</Lable>
@@ -828,7 +911,19 @@ if (mysqli_num_rows($result) == 1 && $_SESSION['logged']) {
                         <button id="generateIndex">Generate Index</button>
                         <form method="post" action="owner.php" style="display: none;" id="indexForm">
                             <input type="text" name="index" id="displayIndex" readonly>
+<<<<<<< HEAD
+                            <input type="text" placeholder="someone@gmail.com (optional)"
+=======
+<<<<<<< HEAD
+<<<<<<< HEAD
+                            <input type="text" placeholder="someone@gmail.com (optional)"
+=======
                             <input type="text" placeholder="Student Email Here (optional)"
+>>>>>>> d16f7e303373f7aa06afeff3a1c36aeb8d5b1a6a
+=======
+                            <input type="text" placeholder="Student Email Here (optional)"
+>>>>>>> d16f7e303373f7aa06afeff3a1c36aeb8d5b1a6a
+>>>>>>> d184dd4cfc38c1e43d2aeda89f18e2bc678ed50a
                                    title="Add student have an email" name="stumail" id="stumail">
                             <input type="submit" id="issuedIndex" name="issue" value="Issued">
                         </form>
