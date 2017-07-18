@@ -331,6 +331,7 @@ if (mysqli_num_rows($result) == 1 && $_SESSION['logged']) {
 =======
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
                 <li><a href="contact.html">Contact Us</a></li>
 =======
                 <li><a href="#">Contact Us</a></li>
@@ -342,6 +343,13 @@ if (mysqli_num_rows($result) == 1 && $_SESSION['logged']) {
 =======
 <<<<<<< HEAD
                 <li><a href="contact.html">Contact Us</a></li>
+=======
+                <li><a href="#">Contact Us</a></li>
+>>>>>>> d16f7e303373f7aa06afeff3a1c36aeb8d5b1a6a
+=======
+                <li><a href="#">Contact Us</a></li>
+>>>>>>> d16f7e303373f7aa06afeff3a1c36aeb8d5b1a6a
+>>>>>>> d184dd4cfc38c1e43d2aeda89f18e2bc678ed50a
 =======
                 <li><a href="#">Contact Us</a></li>
 >>>>>>> d16f7e303373f7aa06afeff3a1c36aeb8d5b1a6a
@@ -498,12 +506,15 @@ if (mysqli_num_rows($result) == 1 && $_SESSION['logged']) {
 <<<<<<< HEAD
 <<<<<<< HEAD
                                     <textarea rows="4" columns="40" id="ataddress" name="ataddress" placeholder="Address"></textarea>
+<<<<<<< HEAD
 =======
 <<<<<<< HEAD
 =======
 >>>>>>> d184dd4cfc38c1e43d2aeda89f18e2bc678ed50a
 <<<<<<< HEAD
                                     <textarea rows="4" columns="40" id="ataddress" name="ataddress" placeholder="Address"></textarea>
+=======
+>>>>>>> d184dd4cfc38c1e43d2aeda89f18e2bc678ed50a
                                     <br>
                                     <Lable>Birthday</Lable>
                                     <font size="2" id="BDwarning" color="red"></font>
@@ -527,6 +538,9 @@ if (mysqli_num_rows($result) == 1 && $_SESSION['logged']) {
 =======
 >>>>>>> d16f7e303373f7aa06afeff3a1c36aeb8d5b1a6a
 <<<<<<< HEAD
+<<<<<<< HEAD
+>>>>>>> d184dd4cfc38c1e43d2aeda89f18e2bc678ed50a
+=======
 >>>>>>> d184dd4cfc38c1e43d2aeda89f18e2bc678ed50a
 =======
 >>>>>>> d184dd4cfc38c1e43d2aeda89f18e2bc678ed50a
@@ -550,13 +564,17 @@ if (mysqli_num_rows($result) == 1 && $_SESSION['logged']) {
 =======
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
                                     <input type="email" id="atemail" name="atemail" placeholder="someone@gmail.com">
 =======
+=======
+>>>>>>> d184dd4cfc38c1e43d2aeda89f18e2bc678ed50a
                                     <input type="email" id="atemail" name="atemail">
 >>>>>>> d16f7e303373f7aa06afeff3a1c36aeb8d5b1a6a
 =======
                                     <input type="email" id="atemail" name="atemail">
 >>>>>>> d16f7e303373f7aa06afeff3a1c36aeb8d5b1a6a
+<<<<<<< HEAD
 >>>>>>> d184dd4cfc38c1e43d2aeda89f18e2bc678ed50a
 =======
 <<<<<<< HEAD
@@ -567,6 +585,8 @@ if (mysqli_num_rows($result) == 1 && $_SESSION['logged']) {
 =======
                                     <input type="email" id="atemail" name="atemail">
 >>>>>>> d16f7e303373f7aa06afeff3a1c36aeb8d5b1a6a
+>>>>>>> d184dd4cfc38c1e43d2aeda89f18e2bc678ed50a
+=======
 >>>>>>> d184dd4cfc38c1e43d2aeda89f18e2bc678ed50a
 
                                     <br>
@@ -580,6 +600,7 @@ if (mysqli_num_rows($result) == 1 && $_SESSION['logged']) {
 =======
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
                                     <input type="tel" id="attelephoneNo" name="attelephone" placeholder="07xxxxxxxx">
 =======
                                     <input type="tel" id="attelephoneNo" name="attelephone">
@@ -592,11 +613,16 @@ if (mysqli_num_rows($result) == 1 && $_SESSION['logged']) {
 <<<<<<< HEAD
                                     <input type="tel" id="attelephoneNo" name="attelephone" placeholder="07xxxxxxxx">
 =======
+=======
+>>>>>>> d184dd4cfc38c1e43d2aeda89f18e2bc678ed50a
                                     <input type="tel" id="attelephoneNo" name="attelephone">
 >>>>>>> d16f7e303373f7aa06afeff3a1c36aeb8d5b1a6a
 =======
                                     <input type="tel" id="attelephoneNo" name="attelephone">
 >>>>>>> d16f7e303373f7aa06afeff3a1c36aeb8d5b1a6a
+<<<<<<< HEAD
+>>>>>>> d184dd4cfc38c1e43d2aeda89f18e2bc678ed50a
+=======
 >>>>>>> d184dd4cfc38c1e43d2aeda89f18e2bc678ed50a
 
                                     <br>
@@ -607,17 +633,23 @@ if (mysqli_num_rows($result) == 1 && $_SESSION['logged']) {
                                     <input type="text" id="ateduQualifications" name="ateducationalQualifi" placeholder="Bsc(Eng)">
 =======
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 >>>>>>> d184dd4cfc38c1e43d2aeda89f18e2bc678ed50a
 <<<<<<< HEAD
                                     <input type="text" id="ateduQualifications" name="ateducationalQualifi" placeholder="Bsc(Eng)">
 =======
+=======
+>>>>>>> d184dd4cfc38c1e43d2aeda89f18e2bc678ed50a
                                     <input type="text" id="ateduQualifications" name="ateducationalQualifi">
 >>>>>>> d16f7e303373f7aa06afeff3a1c36aeb8d5b1a6a
 =======
                                     <input type="text" id="ateduQualifications" name="ateducationalQualifi">
 >>>>>>> d16f7e303373f7aa06afeff3a1c36aeb8d5b1a6a
 <<<<<<< HEAD
+<<<<<<< HEAD
+>>>>>>> d184dd4cfc38c1e43d2aeda89f18e2bc678ed50a
+=======
 >>>>>>> d184dd4cfc38c1e43d2aeda89f18e2bc678ed50a
 =======
 >>>>>>> d184dd4cfc38c1e43d2aeda89f18e2bc678ed50a
@@ -838,17 +870,23 @@ if (mysqli_num_rows($result) == 1 && $_SESSION['logged']) {
                                 <input type="date" id="obDay" name="obday" <?php echo "value='{$data["birthDay"]}'"; ?> min="1990-01-01" max="2007-12-31">
 =======
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 >>>>>>> d184dd4cfc38c1e43d2aeda89f18e2bc678ed50a
 <<<<<<< HEAD
                                 <input type="date" id="obDay" name="obday" <?php echo "value='{$data["birthDay"]}'"; ?> min="1990-01-01" max="2007-12-31">
 =======
+=======
+>>>>>>> d184dd4cfc38c1e43d2aeda89f18e2bc678ed50a
                                 <input type="date" id="obDay" name="obday" <?php echo "value='{$data["birthDay"]}'"; ?>>
 >>>>>>> d16f7e303373f7aa06afeff3a1c36aeb8d5b1a6a
 =======
                                 <input type="date" id="obDay" name="obday" <?php echo "value='{$data["birthDay"]}'"; ?>>
 >>>>>>> d16f7e303373f7aa06afeff3a1c36aeb8d5b1a6a
 <<<<<<< HEAD
+<<<<<<< HEAD
+>>>>>>> d184dd4cfc38c1e43d2aeda89f18e2bc678ed50a
+=======
 >>>>>>> d184dd4cfc38c1e43d2aeda89f18e2bc678ed50a
 =======
 >>>>>>> d184dd4cfc38c1e43d2aeda89f18e2bc678ed50a
@@ -967,17 +1005,23 @@ if (mysqli_num_rows($result) == 1 && $_SESSION['logged']) {
                             <input type="text" placeholder="someone@gmail.com (optional)"
 =======
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 >>>>>>> d184dd4cfc38c1e43d2aeda89f18e2bc678ed50a
 <<<<<<< HEAD
                             <input type="text" placeholder="someone@gmail.com (optional)"
 =======
+=======
+>>>>>>> d184dd4cfc38c1e43d2aeda89f18e2bc678ed50a
                             <input type="text" placeholder="Student Email Here (optional)"
 >>>>>>> d16f7e303373f7aa06afeff3a1c36aeb8d5b1a6a
 =======
                             <input type="text" placeholder="Student Email Here (optional)"
 >>>>>>> d16f7e303373f7aa06afeff3a1c36aeb8d5b1a6a
 <<<<<<< HEAD
+<<<<<<< HEAD
+>>>>>>> d184dd4cfc38c1e43d2aeda89f18e2bc678ed50a
+=======
 >>>>>>> d184dd4cfc38c1e43d2aeda89f18e2bc678ed50a
 =======
 >>>>>>> d184dd4cfc38c1e43d2aeda89f18e2bc678ed50a
